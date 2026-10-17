@@ -62,7 +62,7 @@ Statický web (`npm run build` → `dist/`), Node 22.22+ (`.node-version` = 24).
 **Ukázková verze (zdarma, bez vlastní domény):**
 
 - **Vercel:** Add New → Project → importovat repozitář `kolobezky` → framework Astro se rozpozná sám → Deploy. Adresa: `kolobezky.vercel.app` (nebo podobná).
-- **Cloudflare Pages:** Workers & Pages → Create → Pages → Connect to Git → `kolobezky`, preset Astro (build `npm run build`, výstup `dist`). Adresa: `kolobezky.pages.dev`.
+- **Cloudflare Workers:** Workers & Pages → Create → Import a repository → `kolobezky`; build `npm run build`, deploy `npx wrangler deploy` (nastavení je v `wrangler.jsonc`). Adresa: `kolobezky.<účet>.workers.dev`.
 
 Ukázková verze má `noindex`, aby ji Google neindexoval (nekonkurovala současnému webu). Kontaktní formulář je připravený pro Netlify Forms – na Vercelu/Cloudflare zatím neodešle (pro ostrý provoz přepnout např. na Web3Forms).
 

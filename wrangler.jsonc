@@ -1,0 +1,10 @@
+// Cloudflare Workers – statický web (výstup `npm run build` ve složce dist/).
+{
+  "name": "kolobezky",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
