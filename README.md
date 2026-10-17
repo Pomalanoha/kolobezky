@@ -57,8 +57,17 @@ public/
 
 ## Nasazení
 
-Statický web (`npm run build` → `dist/`). Doporučeno **Netlify** nebo **Cloudflare Pages**:
+Statický web (`npm run build` → `dist/`), Node 22.22+ (`.node-version` = 24).
 
-- kontaktní formulář je připravený pro **Netlify Forms** (`data-netlify="true"`); jinde nahradit např. Web3Forms,
-- soubor `public/_redirects` zajistí 301 přesměrování starých URL z Webnode,
+**Ukázková verze (zdarma, bez vlastní domény):**
+
+- **Vercel:** Add New → Project → importovat repozitář `kolobezky` → framework Astro se rozpozná sám → Deploy. Adresa: `kolobezky.vercel.app` (nebo podobná).
+- **Cloudflare Pages:** Workers & Pages → Create → Pages → Connect to Git → `kolobezky`, preset Astro (build `npm run build`, výstup `dist`). Adresa: `kolobezky.pages.dev`.
+
+Ukázková verze má `noindex`, aby ji Google neindexoval (nekonkurovala současnému webu). Kontaktní formulář je připravený pro Netlify Forms – na Vercelu/Cloudflare zatím neodešle (pro ostrý provoz přepnout např. na Web3Forms).
+
+**Ostrý provoz (s doménou):**
+
+- proměnná prostředí `PUBLIC_INDEXABLE=true` (zruší `noindex`),
+- `public/_redirects` zajistí 301 přesměrování starých URL z Webnode (funguje na Netlify a Cloudflare Pages; na Vercelu je potřeba `vercel.json`),
 - po spuštění: Google Search Console → odeslat `sitemap-index.xml`.
