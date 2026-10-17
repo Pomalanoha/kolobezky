@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import Todo from '../components/Todo.astro';
+import { site } from '../config';
+import { t } from '../i18n/ui';
+import { breadcrumbSchema, businessSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Kontakt', href: '/contact/' }];
+const subjects = [
+  { value: 'proefrit', label: 'Zkušební jízda' },
+  { value: 'workshop', label: 'Workshop' },
+  { value: 'prive', label: 'Soukromá lekce' },
+  { value: 'sportstep', label: 'Koupě koloběžky / doplňku' },
+  { value: 'club', label: 'Klub / klubové jízdy' },
+  { value: 'anders', label: 'Něco jiného' },
+];
+---
+<BaseLayout
+  title="Kontakt & rezervace – sportsteppen Hoofddorp"
+  description="Rezervuj zkušební jízdu nebo se zeptej na sportovní koloběžky. Kontakt na Lindu: WhatsApp, telefon, e-mail. Kickbike Club Hille, Hoofddorp."
+  jsonLd={[breadcrumbSchema(crumbs), businessSchema()]}
+>
+  <PageHero eyebrow="Kontakt" title="Chceš vědět víc nebo rezervovat?" lead="Vyplň krátký formulář nebo mi rovnou napiš na WhatsApp. Ozvu se ti co nejdřív." crumbs={crumbs} />
+
+  <section class="section" style="padding-top:0">
+    <div class="container contact">
+      <form class="card form" name="contact" method="POST" action="/bedankt/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="visually-hidden"><label>Nevyplňovat: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="field">
+          <label for="onderwerp">Co tě zajímá?</label>
+          <select id="onderwerp" name="onderwerp" required>
+            {subjects.map((s) => <option value={s.value}>{s.label}</option>)}
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="naam">Jméno a příjmení</label>
+            <input id="naam" name="naam" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
+            <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="bericht">Zpráva</label>
+          <textarea id="bericht" name="bericht" rows="5" placeholder="Např. kdy se ti hodí, kolik vás bude, máš-li zdravotní omezení…"></textarea>
+        </div>
+        <label class="consent">
+          <input type="checkbox" name="toestemming" required />
+          <span>Souhlasím se zpracováním údajů podle <a href="/privacybeleid/">zásad ochrany osobních údajů</a>.</span>
+        </label>
+        <button class="btn btn--primary" type="submit">Odeslat zprávu <Icon name="arrow" size={18} /></button>
+      </form>
+
+      <aside class="contact__aside">
+        <a class="card contact__wa" href={site.whatsapp} target="_blank" rel="noopener">
+          <span class="contact__wa-icon"><Icon name="whatsapp" size={28} /></span>
+          <span>
+            <strong>{t('cta.whatsapp')}</strong>
+            <span>Nejrychlejší cesta k termínu</span>
+          </span>
+        </a>
+        <div class="card">
+          <ul class="contact__list">
+            <li><Icon name="phone" /><a href={site.phoneHref}>{site.phone}</a></li>
+            <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+            <li><Icon name="pin" /><span>{site.city} a okolí<br /><small>{site.areaServed.join(', ')}</small></span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Kde se potkáme?</h2>
+          <p>Místo srazu domlouváme individuálně – většinou v Hoofddorpu (Haarlemmermeerse Bos), u výletů v dunách v Zandvoortu nebo okolí. <a href="/routes/">Kde jezdíme →</a></p>
+          <Todo>Doplnit konkrétní místa srazu, příp. vložit mapu (OpenStreetMap kvůli GDPR).</Todo>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Předvyplní „Co tě zajímá?“ a zprávu podle odkazu (např. /contact/?onderwerp=sportstep&model=Cobra).
+  const params = new URLSearchParams(location.search);
+  const subject = params.get('onderwerp');
+  const model = params.get('model');
+  const select = document.getElementById('onderwerp') as HTMLSelectElement | null;
+  if (select && subject && [...select.options].some((o) => o.value === subject)) select.value = subject;
+  const msg = document.getElementById('bericht') as HTMLTextAreaElement | null;
+  if (msg && model) msg.value = `Mám zájem o: ${model}\n`;
+</script>
+
+<style>
+  .contact {
+    display: grid;
+    gap: 28px;
+  }
+  @media (min-width: 900px) {
+    .contact {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: start;
+    }
+  }
+  .form {
+    display: grid;
+    gap: 18px;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  .field-row {
+    display: grid;
+    gap: 18px;
+  }
+  @media (min-width: 640px) {
+    .field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--forest-900);
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  input,
+  select,
+  textarea {
+    font: inherit;
+    width: 100%;
+    padding: 0.8em 1em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+    color: var(--ink);
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex: none;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+  .contact__aside {
+    display: grid;
+    gap: 16px;
+  }
+  .contact__aside h2 {
+    font-size: 1.3rem;
+  }
+  .contact__wa {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    background: #e9fbef;
+    border-color: #bfeccc;
+  }
+  .contact__wa strong {
+    display: block;
+    color: #0b5a2b;
+    font-size: 1.1rem;
+  }
+  .contact__wa span span {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .contact__wa-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #25d366;
+    color: #062d16;
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+  .contact__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .contact__list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .contact__list :global(svg) {
+    color: var(--orange-600);
+    flex: none;
+    margin-top: 2px;
+  }
+  .contact__list small {
+    color: var(--muted);
+  }
+</style>

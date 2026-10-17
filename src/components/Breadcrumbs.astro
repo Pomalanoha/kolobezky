@@ -1,0 +1,42 @@
+---
+import { t } from '../i18n/ui';
+interface Props {
+  items: { name: string; href: string }[];
+}
+const { items } = Astro.props;
+const all = [{ name: t('breadcrumb.home'), href: '/' }, ...items];
+---
+<nav class="crumbs" aria-label="Drobečková navigace">
+  <ol>
+    {all.map((item, i) => (
+      <li>
+        {i < all.length - 1 ? <a href={item.href}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .crumbs li + li::before {
+    content: '/';
+    margin-right: 6px;
+    opacity: 0.5;
+  }
+  .crumbs a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--orange-600);
+  }
+</style>

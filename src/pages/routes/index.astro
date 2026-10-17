@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [{ name: 'Kde jezdíme', href: '/routes/' }];
+const locations = (await getCollection('locations')).sort((a, b) => a.data.order - b.data.order);
+const tones = ['forest', 'sand', 'orange'] as const;
+---
+<BaseLayout
+  title="Kde jezdíme – trasy pro sportsteppen v Haarlemmermeer a v dunách"
+  description="Trasy pro sportsteppen v okolí Hoofddorpu: Haarlemmermeerse Bos, Spaarnwoude a duny Zuid-Kennemerland až k moři v Zandvoortu."
+  jsonLd={breadcrumbSchema(crumbs)}
+>
+  <PageHero eyebrow="Trasy & lokality" title="Kde jezdíme" lead="Holandsko je pro steppen jako stvořené. Začínáme v klidu v parku a postupně vyrážíme dál – do lesa, polderů a dun." crumbs={crumbs} />
+  <section class="section" style="padding-top:0">
+    <div class="container routes">
+      {locations.map((l, i) => (
+        <a class="route card" href={`/routes/${l.id}/`}>
+          <Photo src={l.data.image} alt={l.data.title} hint={l.data.imageHint} ratio="16 / 10" tone={tones[i % 3]} sizes="(min-width: 900px) 40vw, 100vw" />
+          <div>
+            <span class="route__place"><Icon name="pin" size={16} /> {l.data.place}</span>
+            <h2>{l.data.title}</h2>
+            <p>{l.data.description}</p>
+            <ul class="route__facts">
+              {l.data.distance && <li><strong>Délka:</strong> {l.data.distance}</li>}
+              {l.data.surface && <li><strong>Povrch:</strong> {l.data.surface}</li>}
+              <li><strong>Úroveň:</strong> {l.data.level}</li>
+            </ul>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .routes {
+    display: grid;
+    gap: 24px;
+  }
+  .route {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .route:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  @media (min-width: 900px) {
+    .route {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+  }
+  .route h2 {
+    font-size: 1.7rem;
+    margin: 6px 0 10px;
+  }
+  .route p {
+    color: var(--muted);
+  }
+  .route__place {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--orange-600);
+  }
+  .route__facts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 0.92rem;
+  }
+</style>

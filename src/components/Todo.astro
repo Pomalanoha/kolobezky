@@ -1,0 +1,31 @@
+---
+// Poznámka k doplnění – zobrazí se jen při vývoji (npm run dev), v produkčním buildu se nevykreslí.
+import { t } from '../i18n/ui';
+interface Props {
+  inline?: boolean;
+}
+const { inline = false } = Astro.props;
+const show = import.meta.env.DEV;
+---
+{show && (
+  <span class:list={['todo', { 'todo--block': !inline }]} role="note">
+    <strong>{t('todo')}:</strong> <slot />
+  </span>
+)}
+
+<style>
+  .todo {
+    display: inline;
+    background: #fff4b8;
+    color: #5c4700;
+    border: 1px dashed #c9a600;
+    border-radius: 6px;
+    padding: 0.1em 0.45em;
+    font: 500 0.82rem/1.5 var(--font-body);
+  }
+  .todo--block {
+    display: block;
+    margin: 0.75rem 0;
+    padding: 0.55em 0.8em;
+  }
+</style>

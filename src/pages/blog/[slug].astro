@@ -1,0 +1,78 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Photo from '../../components/Photo.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site } from '../../config';
+import { breadcrumbSchema, businessId } from '../../lib/schema';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const crumbs = [
+  { name: 'Tipy & články', href: '/blog/' },
+  { name: d.title, href: `/blog/${post.id}/` },
+];
+const dateFmt = new Intl.DateTimeFormat(site.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { dateStyle: 'long' });
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.description,
+  datePublished: d.date.toISOString(),
+  dateModified: (d.updated ?? d.date).toISOString(),
+  author: { '@type': 'Person', name: site.owner },
+  publisher: { '@id': businessId },
+  mainEntityOfPage: `${site.url}/blog/${post.id}/`,
+  inLanguage: site.lang,
+};
+---
+<BaseLayout title={d.title} description={d.description} type="article" jsonLd={[breadcrumbSchema(crumbs), articleSchema]}>
+  <article class="section post">
+    <div class="container post__inner">
+      <Breadcrumbs items={crumbs} />
+      <header>
+        <p class="post__meta">
+          <time datetime={d.date.toISOString()}>{dateFmt.format(d.date)}</time> · {site.owner}
+        </p>
+        <h1>{d.title}</h1>
+        <p class="lead">{d.description}</p>
+      </header>
+      <Photo src={d.image} alt={d.title} hint={d.imageHint} ratio="16 / 9" priority sizes="(min-width: 900px) 800px, 100vw" />
+      <div class="prose post__body">
+        <Content />
+      </div>
+    </div>
+  </article>
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .post {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+  .post__inner {
+    max-width: 860px;
+  }
+  .post h1 {
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+  }
+  .post__meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .post header {
+    margin-bottom: 32px;
+  }
+  .post__body {
+    margin-top: 40px;
+  }
+</style>

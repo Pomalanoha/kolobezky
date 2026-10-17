@@ -1,0 +1,111 @@
+---
+// Fotka – pokud ještě nemáme vlastní fotku, vykreslí se stylový zástupný blok s popisem, co tam patří.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  src?: ImageMetadata;
+  alt: string;
+  hint?: string;
+  ratio?: string;
+  tone?: 'forest' | 'sand' | 'orange';
+  class?: string;
+  priority?: boolean;
+  widths?: number[];
+  sizes?: string;
+  /** cover = ořez do poměru stran, contain = celý obrázek (produkty na bílém pozadí) */
+  fit?: 'cover' | 'contain';
+  /** object-position, např. '40% 50%' */
+  position?: string;
+}
+const {
+  src,
+  alt,
+  hint,
+  ratio = '4 / 3',
+  tone = 'forest',
+  class: cls,
+  priority = false,
+  widths = [480, 800, 1200],
+  sizes = '(min-width: 900px) 50vw, 100vw',
+  fit = 'cover',
+  position = '50% 50%',
+} = Astro.props;
+---
+{src ? (
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths}
+    sizes={sizes}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    class:list={['photo', { 'photo--contain': fit === 'contain' }, cls]}
+    style={`aspect-ratio:${ratio};object-position:${position}`}
+  />
+) : (
+  <div class:list={['photo', 'photo--placeholder', `photo--${tone}`, cls]} style={`aspect-ratio:${ratio}`} role="img" aria-label={alt}>
+    <svg class="photo__lines" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 230 C 80 190, 140 250, 220 210 S 340 170, 400 200 L400 300 L0 300Z" />
+      <path d="M0 260 C 100 230, 180 280, 260 250 S 360 230, 400 245 L400 300 L0 300Z" />
+    </svg>
+    <span class="photo__label">
+      <Icon name="sun" size={18} />
+      <span>{import.meta.env.DEV ? `FOTO: ${hint ?? alt}` : ''}</span>
+    </span>
+  </div>
+)}
+
+<style>
+  .photo {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .photo--contain {
+    object-fit: contain;
+    background: var(--white);
+    padding: 4%;
+  }
+  .photo--placeholder {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 18px;
+  }
+  .photo--forest {
+    background: linear-gradient(160deg, #2f8a68 0%, #1d5a46 55%, #12352b 100%);
+    color: var(--sand-100);
+  }
+  .photo--sand {
+    background: linear-gradient(160deg, #f5eee1 0%, #ebdfc8 60%, #cdb48a 100%);
+    color: var(--forest-900);
+  }
+  .photo--orange {
+    background: linear-gradient(160deg, #ffb48c 0%, #ff7a3d 60%, #e8622a 100%);
+    color: #3a1405;
+  }
+  .photo__lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    opacity: 0.12;
+  }
+  .photo__label {
+    position: relative;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.35;
+    opacity: 0.85;
+    max-width: 30ch;
+  }
+</style>

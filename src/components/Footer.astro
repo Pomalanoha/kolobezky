@@ -1,0 +1,144 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, nav } from '../config';
+import { t } from '../i18n/ui';
+
+const year = new Date().getFullYear();
+const explore = [
+  ...nav.filter((n) => n.href !== '/contact/').map((n) => ({ href: n.href, label: t(n.key) })),
+  { href: '/accessoires/', label: t('footer.accessories') },
+  { href: '/routes/', label: t('footer.routes') },
+  { href: '/ervaringen/', label: t('footer.reviews') },
+  { href: '/blog/', label: t('footer.blog') },
+  { href: '/veelgestelde-vragen/', label: t('footer.faq') },
+];
+---
+<footer class="footer on-dark">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <Logo inverted />
+      <p>{t('footer.tagline')}</p>
+      <div class="btn-row">
+        <a class="btn btn--whatsapp" href={site.whatsapp} rel="noopener" target="_blank">
+          <Icon name="whatsapp" size={20} />
+          {t('cta.whatsapp')}
+        </a>
+      </div>
+    </div>
+
+    <nav aria-label={t('footer.explore')}>
+      <h2 class="footer__title">{t('footer.explore')}</h2>
+      <ul class="footer__list footer__list--cols">
+        {explore.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="footer__title">{t('footer.contact')}</h2>
+      <ul class="footer__list footer__contact">
+        <li><Icon name="phone" size={18} /><a href={site.phoneHref}>{site.phone}</a></li>
+        <li><Icon name="mail" size={18} /><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><Icon name="pin" size={18} /><span>{site.city}, {site.region}</span></li>
+      </ul>
+      <h2 class="footer__title footer__title--sm">{t('footer.area')}</h2>
+      <p class="footer__area">{site.areaServed.join(' · ')}</p>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <p>© {year} {site.name} · {site.owner} · KvK {site.kvk}</p>
+    <p>
+      <a href="/algemene-voorwaarden/">{t('footer.legal')}</a>
+      <a href="/privacybeleid/">{t('footer.privacy')}</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--forest-950);
+    color: var(--sand-200);
+    padding-block: clamp(56px, 8vw, 88px) 24px;
+    font-size: 0.97rem;
+  }
+  .footer a {
+    color: var(--sand-100);
+    text-decoration: none;
+  }
+  .footer a:hover {
+    color: var(--orange-500);
+  }
+  .footer__grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 900px) {
+    .footer__grid {
+      grid-template-columns: 1.2fr 1.3fr 1fr;
+      gap: 56px;
+    }
+  }
+  .footer__brand p {
+    margin: 18px 0 22px;
+    max-width: 38ch;
+  }
+  .footer__brand .btn {
+    color: #062d16;
+  }
+  .footer__title {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange-500);
+    margin-bottom: 16px;
+  }
+  .footer__title--sm {
+    margin-top: 28px;
+  }
+  .footer__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .footer__list--cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+  .footer__contact li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .footer__contact :global(svg) {
+    color: var(--orange-500);
+    flex: none;
+  }
+  .footer__area {
+    margin: 0;
+    color: var(--sand-400);
+  }
+  .footer__bottom {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    font-size: 0.85rem;
+    color: var(--sand-400);
+  }
+  .footer__bottom p {
+    margin: 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .footer__bottom a {
+    color: var(--sand-400);
+  }
+</style>

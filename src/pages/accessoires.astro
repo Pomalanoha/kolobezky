@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Todo from '../components/Todo.astro';
+import Photo from '../components/Photo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { formatPrice, t } from '../i18n/ui';
+import { breadcrumbSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Doplňky', href: '/accessoires/' }];
+const items = await getCollection('accessories');
+---
+<BaseLayout
+  title="Doplňky pro sportovní koloběžky Crussis"
+  description="Stojánky, blatníky, držáky na láhev, helmy a rukavice pro sportovní koloběžky Crussis. Objednej spolu s koloběžkou nebo samostatně."
+  jsonLd={breadcrumbSchema(crumbs)}
+>
+  <PageHero eyebrow="Příslušenství" title="Doplňky pro tvou koloběžku" lead="Originální příslušenství Crussis a výbava pro bezpečnou a pohodlnou jízdu. Objednáš ho spolu s koloběžkou nebo samostatně." crumbs={crumbs} />
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <Todo>Fotky převzaté ze současného webu (Crussis). Ověřit dostupné velikosti helem a rukavic. Zvážit, zda doplňky prodávat online (Stripe/iDEAL), nebo jen na objednávku.</Todo>
+      <div class="grid grid--3">
+        {items.map((a) => (
+          <article class="card acc">
+            <Photo src={a.data.image} alt={a.data.title} ratio="4 / 3" fit="contain" tone="sand" class="acc__img" sizes="(min-width: 900px) 33vw, 100vw" widths={[400, 700]} />
+            <h2>{a.data.title}</h2>
+            {a.data.fits && <p class="acc__fits">Pasuje na: {a.data.fits}</p>}
+            {a.data.note && <Todo>{a.data.note}</Todo>}
+            <p class="acc__price">{formatPrice(a.data.price)} <span>{t('product.inclVat')}</span></p>
+            <a class="btn btn--secondary" href={`/contact/?onderwerp=sportstep&model=${encodeURIComponent(a.data.title)}`}>Objednat</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .acc {
+    display: flex;
+    flex-direction: column;
+  }
+  .acc :global(.acc__img) {
+    margin: -8px 0 16px;
+    border-radius: var(--radius-sm);
+  }
+  .acc h2 {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+  .acc__fits {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 8px;
+  }
+  .acc__price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--forest-900);
+    margin-top: auto;
+  }
+  .acc__price span {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .acc .btn {
+    align-self: flex-start;
+  }
+</style>

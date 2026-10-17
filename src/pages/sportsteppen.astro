@@ -1,0 +1,156 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import imgDetail from '../assets/photos/crussis-cross-detail-bos.jpg';
+import imgGroep from '../assets/photos/clubrit-groep.jpg';
+import Icon from '../components/Icon.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { bookingHref } from '../config';
+import { t } from '../i18n/ui';
+import { breadcrumbSchema, faqSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Sportsteppen', href: '/sportsteppen/' }];
+const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'zdravi' || f.id === 'wat-is').map((f) => f.data);
+
+const compare = [
+  { label: 'Zátěž kloubů', step: 'nízká – bez nárazů', run: 'vysoká – dopady', bike: 'nízká' },
+  { label: 'Zapojené svaly', step: 'celé tělo', run: 'hlavně nohy', bike: 'hlavně nohy' },
+  { label: 'Trénink rovnováhy', step: 'ano', run: 'málo', bike: 'málo' },
+  { label: 'Kondice', step: 'vysoká', run: 'vysoká', bike: 'střední–vysoká' },
+  { label: 'Vhodné pro začátečníky', step: 'ano', run: 'částečně', bike: 'ano' },
+];
+---
+<BaseLayout
+  title="Co je sportsteppen? Šetrný trénink celého těla"
+  description="Sportsteppen (kickbike, footbike) je účinný trénink celého těla bez nárazů. Zlepší kondici, šetří klouby a hodí se pro začátečníky, starší i po zranění."
+  jsonLd={[breadcrumbSchema(crumbs), faqSchema(faq)]}
+>
+  <PageHero eyebrow="Sportsteppen" title="Trénink celého těla, který šetří klouby" lead="Sportsteppen je jízda na sportovní koloběžce s velkým předním kolem. Odrážíš se střídavě oběma nohama, zapojuješ celé tělo – a jsi venku." crumbs={crumbs}>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a>
+    </div>
+    <Photo slot="aside" src={imgDetail} alt="Detail stupačky a předního kola terénní koloběžky Crussis v lese" ratio="4 / 3" priority />
+  </PageHero>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Co ti steppen dá</span>
+        <h2>Účinný pohyb s nízkou prahovou laťkou</h2>
+        <ul class="checklist">
+          <li>zlepšíš si kondici</li>
+          <li>zapojíš a zpevníš celé tělo</li>
+          <li>zatížíš klouby méně než při běhu</li>
+          <li>můžeš shodit nějaké to kilo navíc</li>
+          <li>trénuješ rovnováhu a koordinaci</li>
+          <li>a jsi při tom venku na čerstvém vzduchu</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Pro koho je steppen vhodné?</h3>
+        <ul class="checklist">
+          <li>začátečníky a „restartéry“</li>
+          <li>mladé i starší</li>
+          <li>lidi, kteří se chtějí hýbat bez přetížení</li>
+          <li>lidi po operaci nebo zranění (po konzultaci s lékařem)</li>
+          <li>ty, kdo chtějí zhubnout</li>
+          <li>každého, kdo chce být fit</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Srovnání</span>
+        <h2>Steppen vs. běh vs. kolo</h2>
+        <p class="lead">Steppen spojuje to nejlepší z obou světů: intenzitu běhu a šetrnost jízdy na kole.</p>
+      </div>
+      <div class="table-wrap card">
+        <table class="compare">
+          <thead>
+            <tr><th scope="col"></th><th scope="col">Steppen</th><th scope="col">Běh</th><th scope="col">Kolo</th></tr>
+          </thead>
+          <tbody>
+            {compare.map((row) => (
+              <tr><th scope="row">{row.label}</th><td class="hl">{row.step}</td><td>{row.run}</td><td>{row.bike}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:20px"><a href="/blog/steppen-vs-hardlopen/">Přečti si víc: Steppen vs. běh →</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split split--reverse">
+      <div>
+        <span class="eyebrow">Trocha historie</span>
+        <h2>Z tréninku biatlonistů do parků celé Evropy</h2>
+        <p>Sportsteppen vzniklo z potřeby profesionálních biatlonistů trénovat i v létě. V Česku je dnes velmi populární a čím dál víc ho doporučují i zdravotníci – kvůli přínosům pro zdraví a rehabilitaci.</p>
+        <p>Holandsko je pro steppen jako stvořené: rovinky, cyklostezky, parky a duny. Jen se tu na koloběžku trochu zapomnělo. Pojďme to změnit.</p>
+      </div>
+      <Photo src={imgGroep} alt="Společná jízda na sportovních koloběžkách po cyklostezce" ratio="4 / 5" position="50% 60%" />
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="eyebrow">Zdraví & časté dotazy</span>
+        <h2>Co lidi zajímá nejčastěji</h2>
+      </div>
+      <FaqList items={faq} />
+      <p style="margin-top:20px"><a href="/veelgestelde-vragen/">Všechny dotazy <Icon name="arrow" size={16} class="inline-icon" /></a></p>
+    </div>
+  </section>
+
+  <CtaBand title="Nemusíš být fit, abys začal/a." text="Začínáš proto, abys fit byl/a. Rezervuj si zkušební jízdu a zjisti, jestli je steppen tvůj pohyb." />
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 860px;
+  }
+  .table-wrap {
+    padding: 0;
+    overflow-x: auto;
+  }
+  .compare {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 520px;
+  }
+  .compare th,
+  .compare td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .compare thead th {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--forest-900);
+  }
+  .compare tbody th {
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .compare .hl {
+    background: var(--forest-100);
+    color: var(--forest-900);
+    font-weight: 600;
+  }
+  .compare tr:last-child th,
+  .compare tr:last-child td {
+    border-bottom: 0;
+  }
+  :global(.inline-icon) {
+    display: inline;
+    vertical-align: -3px;
+  }
+</style>

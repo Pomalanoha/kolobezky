@@ -1,0 +1,82 @@
+---
+// Tři kroky konceptu Try, Buy & Join.
+import Icon from './Icon.astro';
+const steps = [
+  {
+    icon: 'bolt',
+    label: 'Try',
+    title: 'Vyzkoušej',
+    text: 'Zkušební jízda s Lindou: naučíš se techniku a vyzkoušíš si různé typy koloběžek.',
+  },
+  {
+    icon: 'wrench',
+    label: 'Buy',
+    title: 'Vyber si svou',
+    text: 'Poradím s modelem, koloběžku ti nastavím na míru a vysvětlím údržbu.',
+  },
+  {
+    icon: 'users',
+    label: 'Join',
+    title: 'Jezdi s klubem',
+    text: 'Jako zákazník se zdarma přidáš ke klubovým jízdám a tréninkům.',
+  },
+] as const;
+---
+<ol class="tbj">
+  {steps.map((s, i) => (
+    <li class="tbj__step">
+      <div class="tbj__icon"><Icon name={s.icon} size={26} /></div>
+      <span class="tbj__label">{i + 1}. {s.label}</span>
+      <h3>{s.title}</h3>
+      <p>{s.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .tbj {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 20px;
+    counter-reset: step;
+  }
+  @media (min-width: 800px) {
+    .tbj {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .tbj__step {
+    position: relative;
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .tbj__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    margin-bottom: 18px;
+  }
+  .tbj__label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange-500);
+  }
+  .tbj h3 {
+    margin: 6px 0 8px;
+    color: var(--white);
+  }
+  .tbj p {
+    margin: 0;
+    color: var(--sand-200);
+  }
+</style>

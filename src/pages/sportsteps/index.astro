@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { bookingHref, site } from '../../config';
+import { t } from '../../i18n/ui';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [{ name: 'Koloběžky', href: '/sportsteps/' }];
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+
+const groups = [
+  { id: 'recreatief', title: 'Rekreační', text: 'Pro začátečníky a pohodové výlety. Pohodlný postoj, stabilita, lehké ovládání.', icon: 'sun' },
+  { id: 'sport', title: 'Sportovní', text: 'Pro trénink kondice a delší trasy. Lepší přenos síly, svižná jízda.', icon: 'bolt' },
+  { id: 'cross', title: 'Terénní', text: 'Do lesa, dun a na šotolinu. Robustní konstrukce pro výzvy.', icon: 'route' },
+] as const;
+
+const listSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: products.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    url: `${site.url}/sportsteps/${p.id}/`,
+    name: p.data.title,
+  })),
+};
+---
+<BaseLayout
+  title="Sportovní koloběžky Crussis – Road, Cobra, Cross"
+  description="Sportovní koloběžky Crussis s osobním poradenstvím: rekreační Road, sportovní Cobra a terénní Cross. Vyzkoušej si je nejdřív na zkušební jízdě v Hoofddorpu."
+  jsonLd={[breadcrumbSchema(crumbs), listSchema]}
+>
+  <PageHero eyebrow="Koloběžky Crussis" title="Najdi koloběžku, která sedí tobě" lead="Sportovní koloběžky českého výrobce Crussis jsou navržené pro dospělé jezdce – na rovné městské ulice i nezpevněné cesty. Kvalitní zpracování, pevná konstrukce, nízká hmotnost a pohodlná jízda." crumbs={crumbs}>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={bookingHref}>Nejdřív vyzkoušet</a>
+      <a class="btn btn--secondary" href="/blog/sportstep-kiezen/">Jak vybrat koloběžku?</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      {groups.map((g) => {
+        const items = products.filter((p) => p.data.category === g.id);
+        return items.length > 0 && (
+          <div class="group" id={g.id}>
+            <div class="group__head">
+              <div class="group__icon"><Icon name={g.icon} /></div>
+              <div>
+                <h2>{g.title}</h2>
+                <p>{g.text}</p>
+              </div>
+            </div>
+            <div class="grid grid--3">
+              {items.map((p) => <ProductCard product={p} />)}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Proč u nás</span>
+        <h2>Ne anonymní e-shop, ale osobní poradenství</h2>
+        <ul class="checklist">
+          <li>před nákupem si koloběžku vyzkoušíš</li>
+          <li>poradím s modelem podle tvých cílů a tras</li>
+          <li>koloběžku ti nastavím na míru</li>
+          <li>vysvětlím údržbu</li>
+          <li>jako zákazník jezdíš zdarma s klubem</li>
+        </ul>
+        <p>Kromě modelů v nabídce jsou k dispozici i další barevné varianty – <a href="/contact/?onderwerp=sportstep">zeptej se</a>.</p>
+      </div>
+      <div class="card">
+        <h3>Dobré vědět</h3>
+        <p>Koloběžky Crussis mají rám z hliníku, oceli nebo karbonu a klasické ráfkové brzdy Tektro – dokonce s integrovaným zvonkem. Jako většina sportovních koloběžek nejsou skládací.</p>
+        <p>Stojánek není součástí výbavy – dá se dokoupit spolu s dalším <a href="/accessoires/">příslušenstvím</a>.</p>
+        <a class="btn btn--secondary" href="/accessoires/">{t('footer.accessories')}</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Nevíš, který model je pro tebe?" text="Na zkušební jízdě si vyzkoušíš Road, Cobra i Cross a za hodinu budeš vědět, který ti sedí." />
+</BaseLayout>
+
+<style>
+  .group + .group {
+    margin-top: clamp(56px, 8vw, 96px);
+  }
+  .group__head {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .group__head h2 {
+    margin-bottom: 4px;
+  }
+  .group__head p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .group__icon {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--forest-900);
+    color: var(--orange-500);
+  }
+</style>

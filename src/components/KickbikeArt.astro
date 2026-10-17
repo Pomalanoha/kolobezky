@@ -1,0 +1,32 @@
+---
+// Ilustrace sportovní koloběžky v dunách (dekorativní).
+interface Props {
+  class?: string;
+}
+const { class: cls } = Astro.props;
+---
+<svg class:list={['art', cls]} viewBox="0 0 420 300" aria-hidden="true">
+  <circle cx="330" cy="70" r="38" fill="#ff7a3d" opacity="0.9" />
+  <path d="M0 230 C 70 190, 130 215, 200 200 S 330 170, 420 195 V300 H0Z" fill="#ebdfc8" opacity="0.25" />
+  <path d="M0 262 C 90 240, 170 270, 260 252 S 380 240, 420 248 V300 H0Z" fill="#ebdfc8" opacity="0.35" />
+  <g fill="none" stroke="#fbf8f2" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="300" cy="222" r="46" />
+    <circle cx="110" cy="240" r="28" />
+    <path d="M110 240 L130 246 H246 L282 120" />
+    <path d="M300 222 L282 120" />
+    <path d="M282 120 L272 70" />
+    <path d="M250 68 H292" />
+  </g>
+  <g stroke="#ff7a3d" stroke-width="5" stroke-linecap="round" opacity="0.9">
+    <path d="M30 150 H80" />
+    <path d="M10 180 H66" />
+    <path d="M44 210 H80" />
+  </g>
+</svg>
+
+<style>
+  .art {
+    width: 100%;
+    height: auto;
+  }
+</style>

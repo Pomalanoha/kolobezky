@@ -1,0 +1,46 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  crumbs: { name: string; href: string }[];
+}
+const { eyebrow, title, lead, crumbs } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+---
+<section class="page-hero">
+  <div class:list={['container', 'page-hero__inner', { 'page-hero__inner--split': hasAside }]}>
+    <div>
+      <Breadcrumbs items={crumbs} />
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+    {hasAside && <div class="page-hero__aside"><slot name="aside" /></div>}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(32px, 6vw, 72px) clamp(40px, 6vw, 80px);
+    background:
+      radial-gradient(1000px 400px at 100% 0%, var(--forest-100), transparent 60%),
+      var(--sand-50);
+  }
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    max-width: 18ch;
+  }
+  .page-hero__inner--split {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .page-hero__inner--split {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+</style>

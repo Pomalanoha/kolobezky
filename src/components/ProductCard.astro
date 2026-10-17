@@ -1,0 +1,115 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Photo from './Photo.astro';
+import Icon from './Icon.astro';
+import { formatPrice, t } from '../i18n/ui';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+}
+const { product } = Astro.props;
+const { title, price, priceFrom, summary, category, image, imageHint } = product.data;
+const labels = { recreatief: 'Rekreační', sport: 'Sportovní', cross: 'Terénní' } as const;
+const tones = { recreatief: 'sand', sport: 'forest', cross: 'orange' } as const;
+---
+<article class="product">
+  <a href={`/sportsteps/${product.id}/`} class="product__link">
+    <Photo src={image} alt={`Sportovní koloběžka ${title}`} hint={imageHint} ratio="4 / 3" fit="contain" tone={tones[category]} sizes="(min-width: 900px) 33vw, 100vw" />
+    <div class="product__body">
+      <span class={`badge badge--${category}`}>{labels[category]}</span>
+      <h3>{title}</h3>
+      <p>{summary}</p>
+      <div class="product__foot">
+        <span class="product__price">
+          {priceFrom && <small>{t('product.from')} </small>}{formatPrice(price)}
+        </span>
+        <span class="product__more">Detail <Icon name="arrow" size={18} /></span>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .product {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .product:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .product__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+  .product :global(.photo) {
+    border-radius: 0;
+  }
+  .product__body {
+    padding: 22px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .product h3 {
+    margin: 10px 0 6px;
+  }
+  .product p {
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+  .product__foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .product__price {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--forest-900);
+  }
+  .product__price small {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .product__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    color: var(--orange-600);
+  }
+  .badge {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3em 0.75em;
+    border-radius: 999px;
+  }
+  .badge--recreatief {
+    background: var(--sand-100);
+    color: #7a5b22;
+  }
+  .badge--sport {
+    background: var(--forest-100);
+    color: var(--forest-700);
+  }
+  .badge--cross {
+    background: var(--orange-100);
+    color: #9a3a0e;
+  }
+</style>

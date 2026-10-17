@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import imgLinda from '../assets/photos/linda-met-crussis-cobra.jpg';
+import Todo from '../components/Todo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../config';
+import { breadcrumbSchema, businessId } from '../lib/schema';
+
+const crumbs = [{ name: 'O Lindě', href: '/over-linda/' }];
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.owner,
+  jobTitle: 'Trenérka sportsteppen',
+  worksFor: { '@id': businessId },
+  knowsLanguage: ['nl', 'cs'],
+};
+---
+<BaseLayout
+  title="O Lindě – trenérka sportsteppen v Hoofddorpu"
+  description="Linda Pokorná přivezla sportsteppen z Česka do Holandska. Jejím posláním je dostat Holandsko na koloběžku – zábavně, zdravě a v každém věku."
+  jsonLd={[breadcrumbSchema(crumbs), personSchema]}
+>
+  <PageHero eyebrow="Kdo tě povede" title="Ahoj, jsem Linda" lead="Narodila jsem se v Česku a vyrostla v Holandsku. Po dlouhé době v Česku jsem zpátky – i se svou koloběžkou." crumbs={crumbs}>
+    <Photo slot="aside" src={imgLinda} alt="Linda Pokorná se svou koloběžkou Crussis Cobra" ratio="4 / 3" priority />
+  </PageHero>
+
+  <section class="section" style="padding-top:0">
+    <div class="container story">
+      <div class="prose">
+        <h2>Jak jsem se dostala ke steppen</h2>
+        <p>V Česku je steppen velmi populární a získává si stále víc příznivců – i mezi zdravotníky, kvůli mnoha přínosům pro zdraví a potenciálu v rehabilitaci. Sportsteppen se přitom původně zrodilo z potřeby profesionálních biatlonistů trénovat i v létě.</p>
+        <p>Svou koloběžku jsem samozřejmě vzala s sebou do Holandska. Brzy jsem zjistila, že Holandsko je pro steppen jako stvořené – jen se tu na něj trochu zapomnělo. Rozhodla jsem se to změnit. :)</p>
+        <p>Techniku sportsteppen jsem se naučila hlavně spoustou tréninku – s pomocí a radami předních českých jezdců. Sama jezdím už léta na své Crussis Cobra a ze steppen se postupně stala moje vášeň.</p>
+
+        <h2>Moje mise</h2>
+        <p>Chci zůstat zdravá a fit i ve vyšším věku – a k tomu chci pomoct i ostatním. Mým mottem je:</p>
+        <blockquote><p>„I will not let age change me, I will change the way I age.“</p></blockquote>
+        <p><strong>Mise: dostat Holandsko na koloběžku.</strong> Čas na novou výzvu? Uvidíme se na koloběžce!</p>
+        <p>— Linda</p>
+      </div>
+      <aside class="card quals">
+        <h3>Zkušenosti & vzdělání</h3>
+        <ul class="checklist">
+          <li>Kurz sportsteppen</li>
+          <li>Holistický životní styl & výživové poradenství</li>
+          <li>Roky vlastní praxe na koloběžce Crussis Cobra</li>
+        </ul>
+        <Todo>Doplnit přesný název a místo kurzu sportsteppen, rok, případné certifikáty (EHBO/první pomoc?). Dodat 3–6 dalších fotek Lindy (les, technika, s klienty) pro galerii.</Todo>
+        <h3>Jazyky</h3>
+        <p>Nederlands · Čeština</p>
+      </aside>
+    </div>
+  </section>
+
+  <CtaBand title="Čas na novou výzvu?" text="Rezervuj si zkušební jízdu – uvidíme se na koloběžce!" />
+</BaseLayout>
+
+<style>
+  .story {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 900px) {
+    .story {
+      grid-template-columns: 1.5fr 1fr;
+      align-items: start;
+    }
+    .quals {
+      position: sticky;
+      top: 96px;
+    }
+  }
+  .quals h3 {
+    font-size: 1.15rem;
+  }
+  .quals h3 + p {
+    margin: 0;
+  }
+</style>

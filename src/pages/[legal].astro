@@ -1,0 +1,27 @@
+---
+// Právní stránky (/algemene-voorwaarden/, /privacybeleid/) – text je v holandštině (originál ze současného webu).
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Todo from '../components/Todo.astro';
+
+export const getStaticPaths = (async () => {
+  const pages = await getCollection('legal');
+  return pages.map((page) => ({ params: { legal: page.id }, props: { page } }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const crumbs = [{ name: page.data.title, href: `/${page.id}/` }];
+---
+<BaseLayout title={page.data.title} description={`${page.data.title} van Kickbike Club Hille, Hoofddorp.`}>
+  <section class="section" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="container" style="max-width:860px">
+      <Breadcrumbs items={crumbs} />
+      <h1>{page.data.title}</h1>
+      <Todo>Text převzat 1:1 ze současného webu (NL). Před spuštěním nechat zkontrolovat – viz analýza, kap. 3.5.</Todo>
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import imgGroep from '../assets/photos/clubrit-groep.jpg';
+import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
+import Icon from '../components/Icon.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Todo from '../components/Todo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumbSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Klub', href: '/club/' }];
+const points = [
+  { icon: 'users', title: 'Společné jízdy', text: 'Pravidelné klubové vyjížďky v okolí Hoofddorpu, Haarlemu a v dunách.' },
+  { icon: 'bolt', title: 'Tréninky', text: 'Vyhlášené tréninky techniky a kondice pro všechny úrovně.' },
+  { icon: 'route', title: 'Nové trasy', text: 'Objevuj nová místa, kam by ses sám/sama nevydal/a.' },
+  { icon: 'heart', title: 'Parta', text: 'Potkáš další sportsteppers, sdílíš zkušenosti a motivuješ se navzájem.' },
+] as const;
+---
+<BaseLayout
+  title="Klub sportsteppen – společné jízdy v Haarlemmermeer"
+  description="Kickbike Club Hille: společné klubové jízdy a tréninky sportsteppen v okolí Hoofddorpu, Haarlemu a v dunách. Pro zákazníky zdarma."
+  jsonLd={breadcrumbSchema(crumbs)}
+>
+  <PageHero eyebrow="Kickbike Club Hille" title="Tvoje koloběžka. Tvoje tempo. Tvůj klub." lead="Koupí koloběžky to nekončí. Jako zákazník se můžeš zdarma přidat ke klubovým jízdám a vyhlášeným tréninkům – potkáš další sportsteppers, nasbíráš zkušenosti a objevíš nové trasy." crumbs={crumbs}>
+    <Photo slot="aside" src={imgGroep} alt="Klubová jízda na sportovních koloběžkách" ratio="4 / 5" position="50% 60%" priority />
+  </PageHero>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="grid grid--4">
+        {points.map((p) => (
+          <div class="card point">
+            <div class="point__icon"><Icon name={p.icon} /></div>
+            <h2>{p.title}</h2>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Jak se přidat</span>
+        <h2>Kdy a kde jezdíme</h2>
+        <Todo>Doplnit: jak často jsou klubové jízdy (např. 1× týdně / 2× měsíčně), den a čas, místo srazu, úrovně, jak se přihlásit (WhatsApp skupina?). Zvážit i placené členství pro ty, kdo koloběžku koupili jinde.</Todo>
+        <ul class="checklist">
+          <li>klubové jízdy a vyhlášené tréninky jsou pro zákazníky e-shopu zdarma</li>
+          <li>potkáš další sportsteppers a nasbíráš zkušenosti</li>
+          <li>objevíš nové trasy v okolí</li>
+        </ul>
+        <a class="btn btn--primary" href="/contact/?onderwerp=club">Chci se přidat</a>
+      </div>
+      <Photo src={imgDuinen} alt="Sportsteppen v dunách" ratio="4 / 3" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Ze sedla</span>
+        <h2>Zážitky členů a klientů</h2>
+      </div>
+      <Testimonials />
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .point h2 {
+    font-size: 1.25rem;
+    margin: 14px 0 6px;
+  }
+  .point p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .point__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--orange-100);
+    color: var(--orange-600);
+  }
+</style>

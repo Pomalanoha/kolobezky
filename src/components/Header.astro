@@ -1,0 +1,159 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav, bookingHref } from '../config';
+import { t } from '../i18n/ui';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="header">
+  <div class="container header__inner">
+    <Logo />
+    <nav class="nav" id="site-nav" aria-label="Hlavní navigace" data-open="false">
+      <ul class="nav__list">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} class="nav__link" aria-current={isActive(item.href) ? 'page' : undefined}>
+              {t(item.key)}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href={bookingHref} class="btn btn--primary nav__cta">{t('cta.bookShort')}</a>
+    </nav>
+    <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
+      <span class="nav-toggle__open"><Icon name="menu" /></span>
+      <span class="nav-toggle__close"><Icon name="close" /></span>
+      <span class="visually-hidden">{t('nav.menu')}</span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const navEl = document.getElementById('site-nav');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    navEl?.setAttribute('data-open', String(open));
+    document.documentElement.classList.toggle('nav-open', open);
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgb(227 220 205 / 0.7);
+  }
+  /* Rozmazané pozadí na pseudo-elementu, aby backdrop-filter nevytvořil containing block pro mobilní menu */
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgb(251 248 242 / 0.88);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+  }
+  .nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 4px;
+  }
+  .nav__link {
+    display: block;
+    padding: 0.5em 0.8em;
+    border-radius: 999px;
+    color: var(--ink);
+    font-weight: 550;
+    font-size: 0.97rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__link:hover {
+    background: var(--sand-100);
+    color: var(--forest-900);
+  }
+  .nav__link[aria-current='page'] {
+    color: var(--forest-700);
+    background: var(--forest-100);
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: 10px;
+    margin-right: -10px;
+    color: var(--forest-900);
+    cursor: pointer;
+  }
+  .nav-toggle__close {
+    display: none;
+  }
+
+  @media (min-width: 1100px) {
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .nav-toggle {
+      display: block;
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__open {
+      display: none;
+    }
+    .nav-toggle[aria-expanded='true'] .nav-toggle__close {
+      display: block;
+    }
+    .nav {
+      position: fixed;
+      inset: 72px 0 0 0;
+      background: var(--sand-50);
+      padding: 24px var(--gutter) 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform 0.25s ease, visibility 0.25s;
+    }
+    .nav[data-open='true'] {
+      transform: none;
+      visibility: visible;
+    }
+    .nav__list {
+      flex-direction: column;
+      gap: 2px;
+    }
+    .nav__link {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 650;
+      padding: 0.45em 0.2em;
+      border-radius: 10px;
+    }
+    .nav__cta {
+      width: 100%;
+    }
+  }
+  :global(html.nav-open) {
+    overflow: hidden;
+  }
+</style>

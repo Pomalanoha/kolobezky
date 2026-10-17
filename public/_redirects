@@ -1,0 +1,20 @@
+# 301 přesměrování ze starého webu (Webnode) – formát Netlify / Cloudflare Pages
+/diensten/                      /sportsteppen/                     301
+/try-buy/                       /proefrit-en-lessen/               301
+/online-winkel/                 /sportsteps/                       301
+/over-ons/                      /over-linda/                       301
+/getuigenissen/                 /ervaringen/                       301
+/cart/                          /sportsteps/                       301
+/p/road-4-2-1/                  /sportsteps/crussis-road-4-2/      301
+/p/road-4-2-2/                  /sportsteps/crussis-road-4-2/      301
+/p/cobra-sport-4-2-3/           /sportsteps/crussis-cobra-sport-4-2/ 301
+/p/cobra-sport-4-2-31/          /sportsteps/crussis-cobra-sport-4-2/ 301
+/p/cobra-one-4-2-4/             /sportsteps/crussis-one-cobra-4-2/ 301
+/p/eenvoudige-encyclopedie/     /sportsteps/crussis-one-cobra-4-2/ 301
+/p/one-road-4-2-1/              /sportsteps/crussis-one-road-4-2/  301
+/p/liter-van-langdurigheid/     /sportsteps/crussis-one-road-4-2/  301
+/p/diepe-doos/                  /sportsteps/crussis-one-road-4-2/  301
+/p/one-cross-9-2-1/             /sportsteps/crussis-one-cross-9-2/ 301
+/p/bewegende-boek/              /sportsteps/crussis-cross-6-2/     301
+/p/fijne-folder/                /sportsteps/crussis-cross-6-2/     301
+/p/*                            /accessoires/                      301

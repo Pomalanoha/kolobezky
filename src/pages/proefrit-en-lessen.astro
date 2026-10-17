@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
+import Icon from '../components/Icon.astro';
+import TryBuyJoin from '../components/TryBuyJoin.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FaqList from '../components/FaqList.astro';
+import Todo from '../components/Todo.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, bookingHref } from '../config';
+import { t } from '../i18n/ui';
+import { breadcrumbSchema, businessId } from '../lib/schema';
+
+const crumbs = [{ name: 'Zkušební jízda & lekce', href: '/proefrit-en-lessen/' }];
+const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'lekce').map((f) => f.data);
+
+// Nabídka služeb. Ceny (price) doplnit – null = zobrazí se „na dotaz“.
+const offers = [
+  {
+    id: 'proefrit',
+    title: 'Zkušební jízda',
+    tagline: 'Try – seznámení se steppen',
+    duration: '± 60 min',
+    price: null as number | null,
+    highlight: true,
+    features: ['vysvětlení koloběžky a techniky', 'nácvik v klidu v parku', 'vyzkoušení různých typů koloběžek', 'osobní rada k výběru modelu'],
+  },
+  {
+    id: 'workshop',
+    title: 'Workshop sportsteppen',
+    tagline: 'Technika + výjezd do přírody',
+    duration: '± 2–3 hod',
+    price: null,
+    highlight: false,
+    features: ['základy techniky v parku', 'vyjížďka např. přes duny k moři', 'přestávka a pitný režim', 'protažení na závěr'],
+  },
+  {
+    id: 'prive',
+    title: 'Soukromá lekce',
+    tagline: 'Individuálně podle tvých cílů',
+    duration: 'dle domluvy',
+    price: null,
+    highlight: false,
+    features: ['zdokonalení techniky', 'trénink kondice', 'pozvolný návrat po zranění', 'možnost i pro 2–4 osoby'],
+  },
+];
+
+const offerSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  itemListElement: offers.map((o, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Service',
+      name: o.title,
+      description: o.features.join(', '),
+      provider: { '@id': businessId },
+      areaServed: site.areaServed,
+      ...(o.price ? { offers: { '@type': 'Offer', price: o.price, priceCurrency: 'EUR' } } : {}),
+    },
+  })),
+};
+---
+<BaseLayout
+  title="Zkušební jízda & lekce sportsteppen v Hoofddorpu"
+  description="Vyzkoušej sportsteppen pod vedením Lindy: zkušební jízda, workshop v dunách nebo soukromá lekce v okolí Hoofddorpu. Koloběžku zapůjčíme."
+  jsonLd={[breadcrumbSchema(crumbs), offerSchema]}
+>
+  <PageHero eyebrow="Try, Buy & Join" title="Nejdřív vyzkoušej. Pak jezdi sám. A spolu s námi." lead="Než si koloběžku koupíš, doporučuji vyzkoušet si, jaký typ ti sedí. Na zkušební jízdě se zároveň naučíš jezdit bezpečně a efektivně – a zjistíš, jestli je to tvůj pohyb." crumbs={crumbs}>
+    <div class="btn-row">
+      <a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a>
+      <a class="btn btn--secondary" href="#nabidka">Nabídka a ceny</a>
+    </div>
+    <Photo slot="aside" src={imgDuinen} alt="Klientka na sportovní koloběžce během workshopu v dunách" ratio="4 / 3" priority />
+  </PageHero>
+
+  <section class="section" id="nabidka">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Nabídka</span>
+        <h2>Vyber si, jak začneš</h2>
+        <p class="lead">Koloběžku ti na lekce zapůjčíme. Stačí sportovní oblečení a dobrá nálada.</p>
+        <Todo>Ceny, délky lekcí a co přesně zahrnují – doplnit od Lindy.</Todo>
+      </div>
+      <div class="grid grid--3">
+        {offers.map((o) => (
+          <article class:list={['offer', 'card', { 'offer--highlight': o.highlight }]} id={o.id}>
+            {o.highlight && <span class="offer__flag">Nejoblíbenější start</span>}
+            <h3>{o.title}</h3>
+            <p class="offer__tagline">{o.tagline}</p>
+            <p class="offer__price">
+              {o.price ? `€ ${o.price}` : 'cena na dotaz'}
+              <span>{o.duration}</span>
+            </p>
+            <ul class="checklist">
+              {o.features.map((f) => <li>{f}</li>)}
+            </ul>
+            <a class:list={['btn', o.highlight ? 'btn--primary' : 'btn--secondary']} href={site.bookingUrl || `/contact/?onderwerp=${o.id}`}>
+              {o.highlight ? t('cta.book') : 'Mám zájem'}
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Jak to funguje</span>
+        <h2>Koupit sportovní koloběžku je teprve začátek</h2>
+        <p class="lead">Když si po zkušební jízdě koupíš koloběžku přes náš e-shop, získáš:</p>
+      </div>
+      <TryBuyJoin />
+      <ul class="perks">
+        <li><Icon name="wrench" /> osobní nastavení na míru</li>
+        <li><Icon name="check" /> vysvětlení údržby</li>
+        <li><Icon name="users" /> klubové jízdy a tréninky zdarma</li>
+      </ul>
+      <a class="btn btn--primary" href="/sportsteps/">Prohlédnout koloběžky <Icon name="arrow" size={18} /></a>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Zkušenosti</span>
+        <h2>Jak to vypadá v praxi</h2>
+      </div>
+      <Testimonials limit={3} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="eyebrow">Praktické</span>
+        <h2>Časté dotazy k lekcím</h2>
+      </div>
+      <FaqList items={faq} />
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .narrow {
+    max-width: 860px;
+  }
+  .offer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .offer h3 {
+    margin-bottom: 4px;
+  }
+  .offer__tagline {
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .offer__price {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--forest-900);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .offer__price span {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .offer .btn {
+    margin-top: auto;
+  }
+  .offer--highlight {
+    border: 2px solid var(--orange-500);
+    box-shadow: var(--shadow);
+  }
+  .offer__flag {
+    position: absolute;
+    top: -13px;
+    left: 24px;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35em 0.9em;
+    border-radius: 999px;
+  }
+  .perks {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    color: var(--sand-100);
+    font-weight: 550;
+  }
+  .perks li {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .perks :global(svg) {
+    color: var(--orange-500);
+  }
+</style>

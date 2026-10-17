@@ -1,0 +1,335 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
+import imgLinda from '../assets/photos/linda-met-crussis-cobra.jpg';
+import Icon from '../components/Icon.astro';
+import TryBuyJoin from '../components/TryBuyJoin.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FaqList from '../components/FaqList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, bookingHref } from '../config';
+import { t } from '../i18n/ui';
+import { businessSchema } from '../lib/schema';
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+// Jeden model z každé kategorie
+const featured = ['recreatief', 'sport', 'cross'].map((c) => products.find((p) => p.data.category === c)!).filter(Boolean);
+const locations = (await getCollection('locations')).sort((a, b) => a.data.order - b.data.order);
+const faq = (await getCollection('faq')).filter((f) => ['fit-zijn', 'eigen-step', 'knieen', 'welk-model'].includes(f.id));
+
+const pains = [
+  'posilovna ti nesedí',
+  'běh není úplně ono',
+  'chceš si vybudovat nebo udržet kondici',
+  'vracíš se k pohybu po zranění',
+  'rád/a se hýbeš venku',
+];
+
+const benefits = [
+  { icon: 'heart', title: 'Lepší kondice', text: 'Vytrvalostní trénink pro srdce a plíce – stejně účinný jako běh nebo kolo.' },
+  { icon: 'users', title: 'Celé tělo', text: 'Zapojuješ nohy, hýždě, střed těla i paže. Tělo se zpevní rovnoměrně.' },
+  { icon: 'joint', title: 'Šetrné ke kloubům', text: 'Žádné nárazy jako při běhu. Ideální pro kolena, kyčle i záda.' },
+  { icon: 'leaf', title: 'Venku v přírodě', text: 'Park, les, duny, pláž. Čerstvý vzduch místo klimatizované posilovny.' },
+] as const;
+---
+<BaseLayout
+  title="Sportsteppen v Hoofddorpu – zkušební jízda & koloběžky | Kickbike Club Hille"
+  fullTitle
+  description="Sportsteppen v Hoofddorpu a okolí (Haarlemmermeer, Haarlem, duny). Vyzkoušej sportovní koloběžku na zkušební jízdě s Lindou, vyber si model Crussis a jezdi s klubem."
+  jsonLd={businessSchema()}
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <span class="eyebrow">Sportsteppen v Hoofddorpu a okolí</span>
+        <h1>Fit venku. Na sportovní koloběžce.</h1>
+        <p class="lead">
+          Šetrný a zábavný trénink celého těla pro každého – od začátečníků po sportovce. Vyzkoušej si steppen s Lindou v parku, lese i dunách.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={bookingHref}>{t('cta.book')} <Icon name="arrow" size={18} /></a>
+          <a class="btn btn--secondary" href="/sportsteppen/">Co je sportsteppen?</a>
+        </div>
+        <ul class="hero__trust">
+          <li><Icon name="star" size={18} /> Nadšené reference</li>
+          <li><Icon name="check" size={18} /> Koloběžky Crussis</li>
+          <li><Icon name="users" size={18} /> Klubové jízdy zdarma</li>
+        </ul>
+      </div>
+      <div class="hero__media">
+        <Photo src={imgDuinen} alt="Sportsteppen v dunách na koloběžce Crussis" ratio="4 / 5" position="30% 50%" priority />
+        <div class="hero__badge card">
+          <span class="hero__badge-title">„Pohyb, který je k tělu přátelský.“</span>
+          <span class="hero__badge-sub">– Kirsten, workshop v dunách</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POZNÁVÁŠ SE? -->
+  <section class="section section--tint">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Poznáváš se?</span>
+        <h2>Hledáš účinný pohyb, který tě bude bavit?</h2>
+        <ul class="checklist">
+          {pains.map((p) => <li>{p}</li>)}
+        </ul>
+        <p class="lead">Pak je <a href="/sportsteppen/">sportsteppen</a> překvapivě dobré řešení. Nemusíš být fit, abys začal/a – začínáš proto, abys fit byl/a.</p>
+      </div>
+      <div class="grid grid--2 benefits">
+        {benefits.map((b) => (
+          <div class="card benefit">
+            <div class="benefit__icon"><Icon name={b.icon} size={24} /></div>
+            <h3>{b.title}</h3>
+            <p>{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TRY BUY JOIN -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Try, Buy &amp; Join</span>
+        <h2>Nejdřív vyzkoušej. Pak jezdi sám. A pak spolu.</h2>
+        <p class="lead">Žádný nákup naslepo. Koloběžku si nejdřív vyzkoušíš s osobním vedením – a po nákupu nejsi sám.</p>
+      </div>
+      <TryBuyJoin />
+      <div class="btn-row" style="margin-top:32px">
+        <a class="btn btn--primary" href="/proefrit-en-lessen/">Zkušební jízda & lekce <Icon name="arrow" size={18} /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KOLOBĚŽKY -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Koloběžky Crussis</span>
+        <h2>Pro pohodu, trénink i terén</h2>
+        <p class="lead">Kvalitní sportovní koloběžky českého výrobce Crussis. Poradím ti, která sedí tobě – a nastavím ji na míru.</p>
+      </div>
+      <div class="grid grid--3">
+        {featured.map((p) => <ProductCard product={p} />)}
+      </div>
+      <p style="margin-top:28px"><a href="/sportsteps/" class="btn btn--secondary">Všechny modely</a></p>
+    </div>
+  </section>
+
+  <!-- REFERENCE -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Zkušenosti</span>
+        <h2>Co říkají ti, kdo to zkusili</h2>
+      </div>
+      <Testimonials featuredOnly limit={3} />
+      <p style="margin-top:24px"><a href="/ervaringen/">Všechny reference →</a></p>
+    </div>
+  </section>
+
+  <!-- KDE JEZDÍME -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Kde jezdíme</span>
+        <h2>Od parku v Hoofddorpu až k moři</h2>
+        <p class="lead">Začínáme v klidu v parku. Když technika sedí, vyrazíme na delší trasy – třeba přes duny až na pláž v Zandvoortu.</p>
+      </div>
+      <div class="grid grid--3">
+        {locations.map((l, i) => (
+          <a class="loc" href={`/routes/${l.id}/`}>
+            <Photo src={l.data.image} alt={l.data.title} hint={l.data.imageHint} ratio="3 / 2" tone={(['forest', 'sand', 'orange'] as const)[i % 3]} sizes="(min-width: 900px) 33vw, 100vw" />
+            <div class="loc__body">
+              <span class="loc__meta"><Icon name="pin" size={16} /> {l.data.place} · {l.data.level}</span>
+              <h3>{l.data.name}</h3>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- O LINDĚ -->
+  <section class="section section--tint">
+    <div class="container split">
+      <Photo src={imgLinda} alt="Linda Pokorná se svou koloběžkou Crussis Cobra" ratio="4 / 3" />
+      <div>
+        <span class="eyebrow">Kdo tě povede</span>
+        <h2>Ahoj, jsem Linda</h2>
+        <p class="lead">Narodila jsem se v Česku, vyrostla v Holandsku. V Česku je steppen populární sport – a tak jsem svou koloběžku přivezla s sebou.</p>
+        <p>Brzy jsem zjistila, že Holandsko je pro steppen jako stvořené, jen se na něj tady trochu zapomnělo. Mým cílem je dostat Holandsko na koloběžku – zábavně, zdravě a v každém věku.</p>
+        <p class="motto">„I will not let age change me, I will change the way I age.“</p>
+        <a class="btn btn--secondary" href="/over-linda/">Můj příběh</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container faq-wrap">
+      <div class="section-head">
+        <span class="eyebrow">Časté dotazy</span>
+        <h2>Než vyrazíš</h2>
+        <p class="lead">Nenašel/la jsi odpověď? <a href={site.whatsapp} target="_blank" rel="noopener">Napiš mi na WhatsApp</a>.</p>
+        <a href="/veelgestelde-vragen/">Všechny dotazy →</a>
+      </div>
+      <FaqList items={faq.map((f) => f.data)} />
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: clamp(32px, 6vw, 80px) clamp(56px, 8vw, 100px);
+    background:
+      radial-gradient(900px 500px at 90% 10%, var(--forest-100), transparent 60%),
+      radial-gradient(700px 400px at 0% 100%, var(--orange-100), transparent 60%),
+      var(--sand-50);
+    overflow: hidden;
+  }
+  .hero__inner {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+  .hero h1 {
+    max-width: 14ch;
+  }
+  .hero .lead {
+    margin-bottom: 1.6em;
+  }
+  .hero__trust {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 550;
+    color: var(--forest-700);
+  }
+  .hero__trust li {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .hero__media {
+    position: relative;
+  }
+  .hero__badge {
+    position: absolute;
+    left: -16px;
+    bottom: 28px;
+    max-width: 260px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 899px) {
+    .hero__badge {
+      left: 12px;
+    }
+  }
+  .hero__badge-title {
+    font-family: var(--font-display);
+    font-weight: 650;
+    color: var(--forest-900);
+    line-height: 1.3;
+  }
+  .hero__badge-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .benefits {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  }
+  .benefit h3 {
+    margin: 14px 0 6px;
+    font-size: 1.2rem;
+  }
+  .benefit p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+  .benefit__icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: var(--forest-100);
+    color: var(--forest-700);
+  }
+
+  .loc {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .loc:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .loc :global(.photo) {
+    border-radius: 0;
+  }
+  .loc__body {
+    padding: 18px 22px 22px;
+  }
+  .loc__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .loc h3 {
+    margin: 6px 0 0;
+  }
+
+  .motto {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--forest-700);
+    border-left: 4px solid var(--orange-500);
+    padding-left: 16px;
+    margin: 24px 0 28px;
+  }
+
+  .faq-wrap {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .faq-wrap {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: start;
+    }
+  }
+</style>

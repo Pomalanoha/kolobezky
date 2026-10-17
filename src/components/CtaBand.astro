@@ -1,0 +1,64 @@
+---
+import KickbikeArt from './KickbikeArt.astro';
+import Icon from './Icon.astro';
+import { site, bookingHref } from '../config';
+import { t } from '../i18n/ui';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Vyzkoušej to. Zažij to. Pak jezdi dál.',
+  text = 'Na zkušební jízdě se naučíš správnou techniku, vyzkoušíš si různé typy koloběžek a zjistíš, jestli je steppen tvůj pohyb. Bez závazků.',
+} = Astro.props;
+---
+<section class="section">
+  <div class="container">
+    <div class="band on-dark">
+      <div class="band__text">
+        <h2>{title}</h2>
+        <p>{text}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={bookingHref}>
+            {t('cta.book')} <Icon name="arrow" size={18} />
+          </a>
+          <a class="btn btn--secondary" href={site.whatsapp} rel="noopener" target="_blank">
+            <Icon name="whatsapp" size={18} /> {t('cta.whatsapp')}
+          </a>
+        </div>
+      </div>
+      <KickbikeArt class="band__art" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: 24px;
+    align-items: center;
+    background: linear-gradient(135deg, var(--forest-700), var(--forest-900) 70%);
+    color: var(--sand-100);
+    border-radius: var(--radius-lg);
+    padding: clamp(28px, 5vw, 64px);
+  }
+  @media (min-width: 900px) {
+    .band {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+  .band h2 {
+    color: var(--white);
+  }
+  .band p {
+    color: var(--sand-200);
+    max-width: 52ch;
+    margin-bottom: 1.5em;
+  }
+  .band__art {
+    max-width: 420px;
+    justify-self: center;
+  }
+</style>

@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config';
+import { t } from '../i18n/ui';
+---
+<BaseLayout title="Děkujeme za zprávu" description="Tvoje zpráva dorazila." noindex>
+  <section class="section">
+    <div class="container" style="max-width:720px;text-align:center">
+      <span class="eyebrow">Odesláno</span>
+      <h1>Díky, zpráva dorazila!</h1>
+      <p class="lead" style="margin-inline:auto">Ozvu se ti co nejdřív. Spěcháš? Napiš mi rovnou na WhatsApp.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn--whatsapp" href={site.whatsapp} target="_blank" rel="noopener">{t('cta.whatsapp')}</a>
+        <a class="btn btn--secondary" href="/">Zpět na úvod</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

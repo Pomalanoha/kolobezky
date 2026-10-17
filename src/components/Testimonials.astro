@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+
+interface Props {
+  limit?: number;
+  featuredOnly?: boolean;
+}
+const { limit, featuredOnly = false } = Astro.props;
+let items = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+if (featuredOnly) items = items.filter((i) => i.data.featured);
+if (limit) items = items.slice(0, limit);
+---
+<div class="quotes">
+  {items.map((item, i) => (
+    <figure class:list={['quote', { 'quote--big': i === 0 }]}>
+      <div class="quote__stars" aria-hidden="true">
+        {Array.from({ length: 5 }).map(() => <Icon name="star" size={18} />)}
+      </div>
+      <blockquote>
+        <p>„{item.data.text}“</p>
+      </blockquote>
+      <figcaption>
+        <strong>{item.data.name}</strong>
+        {item.data.context && <span>{item.data.context}</span>}
+      </figcaption>
+    </figure>
+  ))}
+</div>
+
+<style>
+  .quotes {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 900px) {
+    .quotes {
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .quote--big {
+      grid-row: span 2;
+    }
+  }
+  .quote {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: clamp(22px, 3vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: var(--ink);
+  }
+  .quote blockquote {
+    margin: 0;
+  }
+  .quote blockquote p {
+    margin: 0;
+  }
+  .quote--big blockquote p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+  }
+  .quote__stars {
+    display: flex;
+    gap: 2px;
+    color: var(--orange-500);
+  }
+  .quote__stars :global(svg) {
+    fill: currentColor;
+  }
+  .quote figcaption {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .quote figcaption strong {
+    color: var(--forest-900);
+    font-size: 1rem;
+  }
+</style>

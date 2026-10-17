@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import Photo from '../../components/Photo.astro';
+import Todo from '../../components/Todo.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { breadcrumbSchema } from '../../lib/schema';
+
+export const getStaticPaths = (async () => {
+  const locations = await getCollection('locations');
+  return locations.map((location) => ({ params: { slug: location.id }, props: { location } }));
+}) satisfies GetStaticPaths;
+
+const { location } = Astro.props;
+const { Content } = await render(location);
+const d = location.data;
+const crumbs = [
+  { name: 'Kde jezdíme', href: '/routes/' },
+  { name: d.place, href: `/routes/${location.id}/` },
+];
+---
+<BaseLayout title={d.title} description={d.description} jsonLd={breadcrumbSchema(crumbs)}>
+  <PageHero eyebrow={d.place} title={d.title} lead={d.description} crumbs={crumbs}>
+    <ul class="facts">
+      {d.distance && <li><span>Délka</span><strong>{d.distance}</strong></li>}
+      {d.surface && <li><span>Povrch</span><strong>{d.surface}</strong></li>}
+      <li><span>Úroveň</span><strong>{d.level}</strong></li>
+    </ul>
+    <Photo slot="aside" src={d.image} alt={d.title} hint={d.imageHint} ratio="4 / 3" />
+  </PageHero>
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      {d.verify && <Todo>Trasa je zatím návrh – ověřit s Lindou místo srazu, délku a povrch, doplnit mapu (GPX / Komoot / Strava).</Todo>}
+      <div class="prose"><Content /></div>
+    </div>
+  </section>
+  <CtaBand title={`Vyzkoušej steppen – ${d.place}`} />
+</BaseLayout>
+
+<style>
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .facts li {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .facts span {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .facts strong {
+    color: var(--forest-900);
+  }
+</style>

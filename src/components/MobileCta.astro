@@ -1,0 +1,51 @@
+---
+// Lepivá lišta na mobilu – hlavní konverze vždy po ruce.
+import Icon from './Icon.astro';
+import { site, bookingHref } from '../config';
+import { t } from '../i18n/ui';
+---
+<div class="mobile-cta">
+  <a class="btn btn--primary mobile-cta__book" href={bookingHref}>
+    <Icon name="calendar" size={20} />
+    {t('cta.book')}
+  </a>
+  <a class="btn btn--whatsapp mobile-cta__wa" href={site.whatsapp} rel="noopener" target="_blank" aria-label={t('cta.whatsapp')}>
+    <Icon name="whatsapp" size={22} />
+  </a>
+</div>
+
+<style>
+  .mobile-cta {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    gap: 10px;
+    padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom));
+    background: rgb(251 248 242 / 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border);
+  }
+  .mobile-cta__book {
+    flex: 1;
+  }
+  .mobile-cta__wa {
+    width: 52px;
+    padding: 0;
+  }
+  @media (min-width: 900px) {
+    .mobile-cta {
+      display: none;
+    }
+  }
+  :global(body) {
+    padding-bottom: 76px;
+  }
+  @media (min-width: 900px) {
+    :global(body) {
+      padding-bottom: 0;
+    }
+  }
+</style>

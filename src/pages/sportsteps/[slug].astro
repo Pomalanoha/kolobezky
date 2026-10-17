@@ -1,0 +1,276 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import Todo from '../../components/Todo.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { site, bookingHref } from '../../config';
+import { formatPrice, t } from '../../i18n/ui';
+import { breadcrumbSchema, businessId } from '../../lib/schema';
+
+export const getStaticPaths = (async () => {
+  const products = await getCollection('products');
+  return products.map((product) => ({ params: { slug: product.id }, props: { product } }));
+}) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+const d = product.data;
+const labels = { recreatief: 'Rekreační koloběžka', sport: 'Sportovní koloběžka', cross: 'Terénní koloběžka' } as const;
+const tones = { recreatief: 'sand', sport: 'forest', cross: 'orange' } as const;
+
+const related = (await getCollection('products')).filter((p) => p.id !== product.id && p.data.category === d.category).slice(0, 3);
+
+const crumbs = [
+  { name: 'Koloběžky', href: '/sportsteps/' },
+  { name: d.title, href: `/sportsteps/${product.id}/` },
+];
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: d.title,
+  description: d.summary,
+  brand: { '@type': 'Brand', name: 'Crussis' },
+  category: 'Sportovní koloběžka',
+  ...(d.image ? { image: new URL(d.image.src, site.url).href } : {}),
+  offers: {
+    '@type': 'Offer',
+    url: `${site.url}/sportsteps/${product.id}/`,
+    priceCurrency: 'EUR',
+    price: d.price,
+    availability: d.availability === 'op-voorraad' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
+    seller: { '@id': businessId },
+  },
+};
+---
+<BaseLayout
+  title={`${d.title} – ${labels[d.category].toLowerCase()} Crussis`}
+  description={`${d.summary} Cena ${d.priceFrom ? 'od ' : ''}${d.price} € vč. DPH. Vyzkoušej si ji nejdřív na zkušební jízdě v Hoofddorpu.`}
+  type="product"
+  jsonLd={[breadcrumbSchema(crumbs), productSchema]}
+>
+  <section class="section product-page">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <div class="pp">
+        <div class="pp__media">
+          <Photo src={d.image} alt={`${d.title} – sportovní koloběžka Crussis`} hint={d.imageHint} ratio="4 / 3" fit="contain" tone={tones[d.category]} priority />
+          {d.gallery.length > 1 && (
+            <ul class="pp__gallery" aria-label="Varianty">
+              {d.gallery.map((g) => (
+                <li>
+                  <Photo src={g.src} alt={g.alt} ratio="4 / 3" fit="contain" sizes="200px" widths={[200, 400]} />
+                  <span>{g.alt.replace('Crussis ', '')}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div class="pp__info">
+          <span class="eyebrow">{labels[d.category]}</span>
+          <h1>{d.title}</h1>
+          <p class="lead">{d.summary}</p>
+
+          <div class="pp__price">
+            <span class="pp__amount">{d.priceFrom && <small>{t('product.from')} </small>}{formatPrice(d.price)}</span>
+            <span class="pp__vat">{t('product.inclVat')}</span>
+            <span class:list={['pp__stock', { 'pp__stock--in': d.availability === 'op-voorraad' }]}>
+              {d.availability === 'op-voorraad' ? t('product.inStock') : t('product.onOrder')}
+            </span>
+          </div>
+
+          {d.variants.length > 0 && (
+            <p class="pp__variants"><strong>Varianty:</strong> {d.variants.join(' · ')}</p>
+          )}
+
+          <div class="btn-row">
+            <a class="btn btn--primary" href={bookingHref}>Nejdřív vyzkoušet</a>
+            {d.paymentLink ? (
+              <a class="btn btn--secondary" href={d.paymentLink} rel="noopener">{t('product.buy')}</a>
+            ) : (
+              <a class="btn btn--secondary" href={`/contact/?onderwerp=sportstep&model=${encodeURIComponent(d.title)}`}>{t('product.ask')}</a>
+            )}
+          </div>
+
+          <div class="pp__box card">
+            <h2>Váháš, jestli je to ta pravá?</h2>
+            <ul class="checklist">
+              <li>Nemusíš vybírat naslepo – vyzkoušej si steppen nejdřív sám/sama.</li>
+              <li>Získáš osobní radu k výběru modelu.</li>
+              <li>Po nákupu tě rádi přivítáme na klubových jízdách.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="pp__details">
+        <div class="prose">
+          <h2>O modelu</h2>
+          <Content />
+        </div>
+        <aside>
+          {d.idealFor.length > 0 && (
+            <div class="card">
+              <h3>Ideální pro</h3>
+              <ul class="checklist">{d.idealFor.map((i) => <li>{i}</li>)}</ul>
+            </div>
+          )}
+          <div class="card">
+            <h3>Parametry</h3>
+            {Object.keys(d.specs).length > 0 ? (
+              <dl class="specs">
+                {Object.entries(d.specs).map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+              </dl>
+            ) : (
+              <Todo>Doplnit parametry: velikost kol, rám, hmotnost, brzdy, max. zatížení.</Todo>
+            )}
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section section--tint">
+      <div class="container">
+        <h2>Podobné modely</h2>
+        <div class="grid grid--3">
+          {related.map((p) => <ProductCard product={p} />)}
+        </div>
+        <p style="margin-top:24px"><a href="/sportsteps/">Všechny koloběžky <Icon name="arrow" size={16} class="inline-icon" /></a></p>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .product-page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+  .pp {
+    display: grid;
+    gap: clamp(28px, 5vw, 64px);
+  }
+  @media (min-width: 900px) {
+    .pp {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+    .pp__media {
+      position: sticky;
+      top: 96px;
+    }
+  }
+  .pp__media :global(.photo) {
+    border: 1px solid var(--border);
+  }
+  .pp__gallery {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .pp__gallery li {
+    display: grid;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+  }
+  .pp__gallery :global(.photo) {
+    border-radius: var(--radius-sm);
+  }
+  .pp h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  }
+  .pp__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    margin: 8px 0 18px;
+  }
+  .pp__amount {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 750;
+    color: var(--forest-900);
+  }
+  .pp__amount small {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .pp__vat {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .pp__stock {
+    font-size: 0.82rem;
+    font-weight: 650;
+    padding: 0.25em 0.8em;
+    border-radius: 999px;
+    background: var(--sand-100);
+    color: #7a5b22;
+  }
+  .pp__stock--in {
+    background: var(--forest-100);
+    color: var(--forest-700);
+  }
+  .pp__variants {
+    color: var(--muted);
+  }
+  .pp__box {
+    margin-top: 28px;
+    background: var(--sand-100);
+    border: 0;
+    box-shadow: none;
+  }
+  .pp__box h2 {
+    font-size: 1.3rem;
+  }
+  .pp__box .checklist {
+    margin: 0;
+  }
+  .pp__details {
+    margin-top: clamp(48px, 7vw, 88px);
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .pp__details {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+  .pp__details aside {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  .specs {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 16px;
+    margin: 0;
+  }
+  .specs dt {
+    color: var(--muted);
+  }
+  .specs dd {
+    margin: 0;
+    font-weight: 600;
+  }
+  :global(.inline-icon) {
+    display: inline;
+    vertical-align: -3px;
+  }
+</style>
