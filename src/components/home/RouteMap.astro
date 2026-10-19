@@ -1,94 +1,374 @@
 ---
-// Schematická ilustrovaná mapa okolí: Hoofddorp, Spaarnwoude, duny a Zandvoort.
+// Interaktivní ilustrovaná mapa tras. Karty vlevo a body v mapě jsou propojené:
+// výběr karty / bodu zvýrazní trasu, vykreslí ji a po ní pojede „koloběžka“ (tečka).
 import { getCollection } from 'astro:content';
 import Icon from '../Icon.astro';
 
-const locations = (await getCollection('locations')).sort((a, b) => a.data.order - b.data.order);
-const pins: Record<string, { x: number; y: number; label: string; dx?: number }> = {
-  'hoofddorp-haarlemmermeerse-bos': { x: 452, y: 318, label: 'Hoofddorp' },
-  spaarnwoude: { x: 440, y: 112, label: 'Spaarnwoude' },
-  'kennemerduinen-zandvoort': { x: 112, y: 214, label: 'Zandvoort', dx: -6 },
+// Souřadnice v mapě (viewBox 600 × 420). Trasy jsou schematické – upřesní se s Lindou.
+const geo: Record<string, { pin: [number, number]; path: string; label: string; labelSide?: 'left' | 'right' }> = {
+  // 1 – okruh kolem jezera v Haarlemmermeerse Bos
+  'hoofddorp-haarlemmermeerse-bos': {
+    pin: [398, 322],
+    path: 'M398 322 C 396 292, 436 280, 466 292 S 494 338, 462 352 S 400 352, 398 322',
+    label: 'Hoofddorp',
+  },
+  // 2 – okruh kolem jezer ve Spaarnwoude
+  spaarnwoude: {
+    pin: [412, 104],
+    path: 'M412 104 C 418 72, 470 60, 500 78 S 512 132, 476 142 S 410 134, 412 104',
+    label: 'Spaarnwoude',
+  },
+  // 3 – přes duny od Overveenu k pláži v Zandvoortu
+  'kennemerduinen-zandvoort': {
+    pin: [104, 236],
+    path: 'M238 172 C 214 146, 186 150, 178 178 S 160 214, 140 220 S 116 232, 104 236',
+    label: 'Zandvoort',
+    labelSide: 'right',
+  },
 };
----
-<div class="routes">
-  <div class="routes__list">
-    {locations.map((l, i) => (
-      <a class="route" href={`/routes/${l.id}/`}>
-        <span class="route__no">{i + 1}</span>
-        <span class="route__body">
-          <strong>{l.data.name}</strong>
-          <small>{l.data.place} · {l.data.distance} · {l.data.level}</small>
-        </span>
-        <Icon name="arrow" size={18} />
-      </a>
-    ))}
-  </div>
 
-  <figure class="map">
-    <svg viewBox="0 0 600 420" role="img" aria-labelledby="map-title">
-      <title id="map-title">Schematická mapa tras v okolí Hoofddorpu</title>
-      <!-- moře a pobřeží -->
-      <path class="sea" d="M0 0 H70 C 92 90, 66 170, 88 250 S 74 360, 96 420 H0Z" />
-      <path class="waves" d="M22 70 q8 -6 16 0 t16 0 M18 160 q8 -6 16 0 t16 0 M26 300 q8 -6 16 0 t16 0" />
-      <!-- duny -->
-      <path class="dunes" d="M88 40 C 140 60, 170 110, 160 170 S 190 300, 150 400 L 96 420 C 74 360, 92 250, 88 250 S 92 90, 70 0Z" />
-      <!-- Haarlemmermeer (polder) -->
-      <path class="polder" d="M300 250 C 380 220, 520 230, 570 290 S 540 410, 420 415 S 290 360, 300 250Z" />
-      <!-- města (orientace) -->
-      <circle class="town" cx="300" cy="172" r="7" />
-      <text class="town-label" x="314" y="177">Haarlem</text>
-      <text class="town-label town-label--far" x="500" y="200">Amsterdam →</text>
-      <!-- trasy -->
-      <path class="route-line" d="M452 318 C 400 270, 340 230, 300 172 S 200 170, 160 190 S 120 210, 112 214" />
-      <path class="route-line route-line--b" d="M452 318 C 470 250, 470 170, 440 112" />
-      <!-- špendlíky -->
-      {locations.map((l, i) => {
-        const p = pins[l.id];
-        return p && (
-          <a href={`/routes/${l.id}/`} aria-label={l.data.title} class="pin">
-            <circle class="pin__pulse" cx={p.x} cy={p.y} r="16" />
-            <circle class="pin__dot" cx={p.x} cy={p.y} r="13" />
-            <text class="pin__no" x={p.x} y={p.y + 5}>{i + 1}</text>
-            <text class="pin__label" x={p.x + (p.dx ?? 0) + 20} y={p.y + 5}>{p.label}</text>
-          </a>
-        );
-      })}
-      <text class="sea-label" x="18" y="400">Severní moře</text>
-    </svg>
-    <figcaption>Schematická mapa – trasy upřesníme na lekci.</figcaption>
+const levelClass = (level: string) => {
+  const l = level.toLowerCase();
+  if (l.includes('mírně') || l.includes('gemiddeld')) return 'mid';
+  if (l.includes('začáteč') || l.includes('beginner')) return 'easy';
+  return 'hard';
+};
+
+const locations = (await getCollection('locations'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .filter((l) => geo[l.id]);
+const routes = locations.map((l, i) => ({
+  id: l.id,
+  no: i + 1,
+  name: l.data.name,
+  place: l.data.place,
+  distance: l.data.distance ?? '',
+  level: l.data.level,
+  levelClass: levelClass(l.data.level),
+  href: `/routes/${l.id}/`,
+  ...geo[l.id],
+}));
+const first = routes[0]?.id;
+---
+<div class="routes" data-routemap data-active={first}>
+  <ul class="routes__list" role="list">
+    {routes.map((r) => (
+      <li class:list={['route', { 'is-active': r.id === first }]} data-route={r.id}>
+        <button type="button" class="route__select" aria-pressed={r.id === first ? 'true' : 'false'} aria-controls="route-map">
+          <span class="route__no">{r.no}</span>
+          <span class="route__body">
+            <strong>{r.name}</strong>
+            <small>{r.place}{r.distance && ` · ${r.distance}`}</small>
+          </span>
+          <span class={`level level--${r.levelClass}`}>{r.level}</span>
+        </button>
+        <a class="route__link" href={r.href} aria-label={`Detail trasy: ${r.name}`}><Icon name="arrow" size={18} /></a>
+      </li>
+    ))}
+  </ul>
+
+  <figure class="map" id="route-map">
+    <div class="map__canvas">
+      <svg viewBox="0 0 600 420" aria-label="Schematická mapa tras v okolí Hoofddorpu">
+        <defs>
+          <linearGradient id="sea-grad" x1="0" x2="1">
+            <stop offset="0" stop-color="#b9dbe7" />
+            <stop offset="1" stop-color="#d6ebf2" />
+          </linearGradient>
+          <pattern id="fields" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(28)">
+            <rect width="14" height="14" fill="#dcebd9" />
+            <line x1="0" y1="0" x2="0" y2="14" stroke="#cfe2cb" stroke-width="5" />
+          </pattern>
+          <g id="pine">
+            <path d="M0 -14 L7 -2 H3 L9 8 H-9 L-3 -2 H-7Z" fill="#2f6f55" />
+            <rect x="-1.5" y="8" width="3" height="4" fill="#7a5b3a" />
+          </g>
+          <g id="tree">
+            <circle r="7" fill="#5fa37f" />
+            <circle r="4" cx="-2" cy="-2" fill="#79b893" />
+          </g>
+          <g id="house">
+            <path d="M-6 0 V-7 L0 -12 L6 -7 V0Z" fill="#c9b79a" />
+            <path d="M-7 -6.5 L0 -13 L7 -6.5" fill="none" stroke="#a5523a" stroke-width="2" stroke-linejoin="round" />
+          </g>
+        </defs>
+
+        <!-- Polder Haarlemmermeer a okolí -->
+        <rect x="0" y="0" width="600" height="420" fill="#f3ecdc" />
+        <path d="M250 230 C 330 200, 520 200, 600 250 V420 H260 C 230 360, 220 280, 250 230Z" fill="url(#fields)" />
+        <path d="M360 40 C 420 20, 560 30, 600 70 V190 C 540 180, 440 170, 380 160 S 330 70, 360 40Z" fill="#e2efdc" />
+
+        <!-- Moře, vlny a pláž -->
+        <path d="M0 0 H72 C 94 90, 68 170, 90 250 S 76 360, 98 420 H0Z" fill="url(#sea-grad)" />
+        <g class="waves">
+          <path d="M14 60 q8 -6 16 0 t16 0 M30 120 q8 -6 16 0 t16 0 M10 190 q8 -6 16 0 t16 0 M28 270 q8 -6 16 0 t16 0 M12 340 q8 -6 16 0 t16 0" />
+        </g>
+        <path d="M72 0 C 94 90, 68 170, 90 250 S 76 360, 98 420 H112 C 90 360, 104 260, 84 250 S 108 90, 86 0Z" fill="#f6e7c1" />
+
+        <!-- Duny (Kennemerduinen) -->
+        <path d="M86 0 C 108 90, 84 170, 104 250 S 90 360, 112 420 H160 C 200 330, 170 260, 205 200 S 260 90, 220 0Z" fill="#ead9b4" />
+        <g fill="#e1cb9b">
+          <path d="M120 70 q14 -16 28 0Z" /><path d="M150 120 q18 -20 36 0Z" /><path d="M118 300 q16 -18 32 0Z" />
+          <path d="M140 360 q14 -15 28 0Z" /><path d="M170 60 q12 -14 24 0Z" />
+        </g>
+        <use href="#pine" x="168" y="92" /><use href="#pine" x="182" y="100" /><use href="#pine" x="196" y="140" />
+        <use href="#pine" x="150" y="270" /><use href="#pine" x="164" y="282" /><use href="#pine" x="182" y="236" />
+        <g class="grass"><path d="M128 150 l3 -9 M132 150 l0 -10 M136 150 l-3 -8 M124 330 l3 -9 M128 330 l0 -10 M132 330 l-3 -8" /></g>
+
+        <!-- Haarlem -->
+        <use href="#house" x="292" y="168" /><use href="#house" x="306" y="164" /><use href="#house" x="300" y="180" />
+        <text class="town-label" x="318" y="182">Haarlem</text>
+        <text class="town-label town-label--far" x="508" y="212">Amsterdam →</text>
+
+        <!-- Spaarnwoude: jezera a stromy -->
+        <ellipse cx="458" cy="98" rx="24" ry="12" fill="#bfdeea" />
+        <ellipse cx="478" cy="124" rx="14" ry="8" fill="#bfdeea" />
+        <use href="#tree" x="432" y="82" /><use href="#tree" x="494" y="96" /><use href="#tree" x="446" y="130" />
+
+        <!-- Haarlemmermeerse Bos: park s jezerem -->
+        <path d="M376 330 C 370 280, 440 262, 482 282 S 512 350, 470 368 S 382 372, 376 330Z" fill="#c4dfc6" />
+        <path d="M424 306 C 438 296, 462 300, 464 316 S 444 336, 430 330 S 414 314, 424 306Z" fill="#bfdeea" />
+        <use href="#tree" x="390" y="300" /><use href="#tree" x="480" y="318" /><use href="#tree" x="452" y="356" /><use href="#tree" x="410" y="352" />
+
+        <!-- Trasy -->
+        {routes.map((r) => (
+          <g class:list={['trace', { 'is-active': r.id === first }]} data-route={r.id}>
+            <path class="trace__base" d={r.path} />
+            <path class="trace__draw" d={r.path} />
+          </g>
+        ))}
+        <g class="rider" aria-hidden="true">
+          <circle r="9" class="rider__halo" />
+          <circle r="5.5" class="rider__dot" />
+        </g>
+
+        <!-- Body (klikatelné) -->
+        {routes.map((r) => (
+          <g
+            class:list={['pin', { 'is-active': r.id === first }]}
+            data-route={r.id}
+            role="button"
+            tabindex="0"
+            aria-label={`Trasa ${r.no}: ${r.name}`}
+            aria-pressed={r.id === first ? 'true' : 'false'}
+            transform={`translate(${r.pin[0]} ${r.pin[1]})`}
+          >
+            <circle class="pin__pulse" r="16" />
+            <g class="pin__body">
+              <circle class="pin__dot" r="13" />
+              <text class="pin__no" y="5">{r.no}</text>
+            </g>
+            <text class="pin__label" x={r.labelSide === 'right' ? 20 : 20} y="5">{r.label}</text>
+          </g>
+        ))}
+
+        <text class="sea-label" x="14" y="404">Severní moře</text>
+      </svg>
+
+      <!-- Vlastní popisek u aktivního bodu (místo systémového tooltipu) -->
+      {routes.map((r) => (
+        <div
+          class:list={['pop', { 'is-active': r.id === first, 'pop--below': r.pin[1] < 170 }, r.pin[0] < 200 ? 'pop--right' : r.pin[0] > 380 ? 'pop--left' : 'pop--center']}
+          data-route={r.id}
+          style={`left:${(r.pin[0] / 600) * 100}%;top:${(r.pin[1] / 420) * 100}%`}
+          aria-hidden={r.id === first ? 'false' : 'true'}
+        >
+          <strong>{r.name}</strong>
+          <span>{r.distance} · <span class={`level level--${r.levelClass}`}>{r.level}</span></span>
+          <a href={r.href} tabindex={r.id === first ? 0 : -1}>Detail trasy →</a>
+        </div>
+      ))}
+    </div>
+    <figcaption>Schematická mapa – trasy upřesníme na lekci. Vyber trasu v seznamu nebo klikni na bod v mapě.</figcaption>
   </figure>
 </div>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-routemap]').forEach((root) => {
+    const svg = root.querySelector<SVGSVGElement>('.map svg')!;
+    const rider = svg.querySelector<SVGGElement>('.rider')!;
+    let active = root.dataset.active ?? '';
+    let raf = 0;
+    let started = false;
+
+    const drawPath = (id: string) => svg.querySelector<SVGPathElement>(`.trace[data-route="${id}"] .trace__draw`);
+
+    // Připrav „vykreslovací“ čáry (délka pro stroke-dasharray)
+    svg.querySelectorAll<SVGPathElement>('.trace__draw').forEach((p) => {
+      const len = p.getTotalLength();
+      p.style.strokeDasharray = `${len}`;
+      p.style.strokeDashoffset = `${len}`;
+    });
+
+    function animateRide(path: SVGPathElement) {
+      cancelAnimationFrame(raf);
+      if (reduceMotion) {
+        rider.style.opacity = '0';
+        return;
+      }
+      const len = path.getTotalLength();
+      const duration = Math.max(4000, len * 22);
+      let startTime = 0;
+      const step = (now: number) => {
+        if (!startTime) startTime = now;
+        const p = path.getPointAtLength((((now - startTime) % duration) / duration) * len);
+        rider.setAttribute('transform', `translate(${p.x} ${p.y})`);
+        raf = requestAnimationFrame(step);
+      };
+      rider.style.opacity = '1';
+      raf = requestAnimationFrame(step);
+    }
+
+    function draw(id: string) {
+      svg.querySelectorAll<SVGPathElement>('.trace__draw').forEach((p) => {
+        p.style.transition = 'none';
+        p.style.strokeDashoffset = p.style.strokeDasharray;
+      });
+      const path = drawPath(id);
+      if (!path) return;
+      rider.style.opacity = '0';
+      void path.getBoundingClientRect(); // vynutí reflow, aby přechod začal znovu
+      path.style.transition = reduceMotion ? 'none' : 'stroke-dashoffset 1.4s ease-in-out';
+      path.style.strokeDashoffset = '0';
+      window.setTimeout(() => animateRide(path), reduceMotion ? 0 : 1400);
+    }
+
+    // Zvýraznění (náhled při najetí myší) bez spuštění animace
+    function highlight(id: string) {
+      root.dataset.highlight = id;
+      root.querySelectorAll('[data-route]').forEach((el) => el.classList.toggle('is-highlight', el.getAttribute('data-route') === id));
+    }
+    function clearHighlight() {
+      delete root.dataset.highlight;
+      root.querySelectorAll('.is-highlight').forEach((el) => el.classList.remove('is-highlight'));
+    }
+
+    function select(id: string) {
+      if (!id) return;
+      active = id;
+      root.dataset.active = id;
+      root.querySelectorAll<HTMLElement | SVGElement>('[data-route]').forEach((el) => {
+        const on = el.getAttribute('data-route') === id;
+        el.classList.toggle('is-active', on);
+        if (el.matches('.route__select, .pin')) el.setAttribute('aria-pressed', String(on));
+        if (el.classList.contains('pop')) {
+          el.setAttribute('aria-hidden', String(!on));
+          el.querySelector('a')?.setAttribute('tabindex', on ? '0' : '-1');
+        }
+      });
+      root.querySelectorAll<HTMLButtonElement>('.route').forEach((li) => {
+        const on = li.dataset.route === id;
+        li.classList.toggle('is-active', on);
+        li.querySelector('.route__select')?.setAttribute('aria-pressed', String(on));
+      });
+      draw(id);
+    }
+
+    root.querySelectorAll<HTMLElement>('.route').forEach((li) => {
+      const id = li.dataset.route!;
+      li.querySelector('.route__select')?.addEventListener('click', () => select(id));
+      li.addEventListener('mouseenter', () => highlight(id));
+      li.addEventListener('mouseleave', clearHighlight);
+    });
+    svg.querySelectorAll<SVGGElement>('.pin').forEach((pin) => {
+      const id = pin.getAttribute('data-route')!;
+      pin.addEventListener('click', () => select(id));
+      pin.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          select(id);
+        }
+      });
+      pin.addEventListener('mouseenter', () => highlight(id));
+      pin.addEventListener('mouseleave', clearHighlight);
+    });
+
+    // První vykreslení až když je mapa vidět
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting) && !started) {
+        started = true;
+        draw(active);
+        io.disconnect();
+      }
+    }, { threshold: 0.35 });
+    io.observe(svg);
+  });
+</script>
 
 <style>
   .routes {
     display: grid;
-    gap: 28px;
+    gap: 24px;
     align-items: center;
   }
   @media (min-width: 900px) {
     .routes {
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 32px;
     }
   }
+  @media (max-width: 899px) {
+    /* Na mobilu mapa nad kartami, aby byl výběr hned vidět */
+    .map {
+      order: -1;
+    }
+  }
+
+  /* Karty */
   .routes__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
     gap: 12px;
   }
   .route {
+    position: relative;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 18px;
+    align-items: stretch;
     border-radius: var(--radius);
     background: var(--surface);
     border: 1px solid var(--border);
-    color: inherit;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   }
-  .route:hover {
-    transform: translateX(4px);
-    box-shadow: var(--shadow);
+  .route::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--orange-500);
+    transform: scaleY(0);
+    transition: transform 0.25s ease;
+  }
+  .route.is-highlight {
+    transform: translateX(3px);
+  }
+  .route.is-active {
+    border-color: #f6c3a8;
+    box-shadow: 0 12px 28px -14px rgb(232 98 42 / 0.45);
+  }
+  .route.is-active::before {
+    transform: scaleY(1);
+  }
+  .route__select {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    padding: 16px 8px 16px 20px;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
   }
   .route__no {
     width: 36px;
@@ -97,12 +377,19 @@ const pins: Record<string, { x: number; y: number; label: string; dx?: number }>
     border-radius: 50%;
     display: grid;
     place-items: center;
+    background: var(--forest-900);
+    color: var(--white);
+    font-weight: 750;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .route.is-active .route__no {
     background: var(--orange-500);
     color: var(--accent-ink);
-    font-weight: 750;
+    transform: scale(1.08);
   }
   .route__body {
     flex: 1;
+    min-width: 150px;
     display: flex;
     flex-direction: column;
   }
@@ -114,18 +401,47 @@ const pins: Record<string, { x: number; y: number; label: string; dx?: number }>
   .route__body small {
     color: var(--muted);
   }
-  .route :global(svg) {
+  .route__link {
+    flex: none;
+    width: 52px;
+    display: grid;
+    place-items: center;
     color: var(--orange-600);
+    border-left: 1px solid var(--border);
+    transition: background 0.2s ease;
+  }
+  .route__link:hover {
+    background: var(--orange-100);
   }
 
+  /* Štítky obtížnosti */
+  .level {
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .level--easy { background: var(--forest-100); color: var(--forest-700); }
+  .level--mid { background: var(--orange-100); color: #9a3a0e; }
+  .level--hard { background: #fbd5c2; color: #7c2d12; }
+
+  /* Mapa */
   .map {
     margin: 0;
-    background: #f7f1e4;
+    background: #f3ecdc;
     border-radius: var(--radius-lg);
-    padding: 12px;
+    padding: 10px;
     box-shadow: var(--shadow-sm);
   }
+  .map__canvas {
+    position: relative;
+    border-radius: calc(var(--radius-lg) - 8px);
+    overflow: hidden;
+  }
   .map svg {
+    display: block;
     width: 100%;
     height: auto;
   }
@@ -133,35 +449,177 @@ const pins: Record<string, { x: number; y: number; label: string; dx?: number }>
     text-align: center;
     font-size: 0.82rem;
     color: var(--muted);
-    margin-top: 4px;
+    margin-top: 8px;
   }
-  .sea { fill: #cfe6ee; }
-  .waves { fill: none; stroke: #9cc9d8; stroke-width: 3; stroke-linecap: round; }
-  .dunes { fill: #ead9b4; }
-  .polder { fill: #dcebd9; }
-  .town { fill: var(--forest-700); }
-  .town-label { font: 600 15px var(--font-body); fill: var(--forest-700); }
-  .town-label--far { fill: var(--muted); font-weight: 500; }
-  .sea-label { font: italic 500 13px var(--font-body); fill: #5f8fa0; }
-  .route-line {
+  .waves {
+    fill: none;
+    stroke: #8fc0d1;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    animation: bob 4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5px, 2px); }
+  }
+  .grass {
+    fill: none;
+    stroke: #8aa36b;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .town-label { font: 600 14px var(--font-body); fill: var(--forest-700); }
+  .town-label--far { fill: var(--muted); font-weight: 500; font-size: 13px; }
+  .sea-label { font: italic 500 12px var(--font-body); fill: #4f8396; }
+
+  /* Trasy */
+  .trace__base {
+    fill: none;
+    stroke: var(--forest-500);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-dasharray: 2 10;
+    opacity: 0.45;
+    transition: opacity 0.25s ease, stroke 0.25s ease;
+  }
+  .trace__draw {
     fill: none;
     stroke: var(--orange-500);
-    stroke-width: 4;
+    stroke-width: 5;
     stroke-linecap: round;
-    stroke-dasharray: 2 12;
-    animation: dash 12s linear infinite;
+    stroke-linejoin: round;
   }
-  .route-line--b { stroke: var(--forest-500); }
-  @keyframes dash {
-    to { stroke-dashoffset: -280; }
+  .trace.is-active .trace__base {
+    opacity: 0;
   }
-  .pin__dot { fill: var(--forest-900); stroke: var(--white); stroke-width: 3; }
-  .pin__pulse { fill: var(--orange-500); opacity: 0.35; transform-box: fill-box; transform-origin: center; animation: pulse 2.4s ease-out infinite; }
-  .pin__no { font: 750 14px var(--font-body); fill: var(--white); text-anchor: middle; }
-  .pin__label { font: 700 16px var(--font-display); fill: var(--forest-900); paint-order: stroke; stroke: #f7f1e4; stroke-width: 5px; }
-  .pin:hover .pin__dot { fill: var(--orange-600); }
+  .trace.is-highlight:not(.is-active) .trace__base {
+    stroke: var(--orange-500);
+    opacity: 0.9;
+  }
+  .rider {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .rider__halo { fill: var(--white); opacity: 0.85; }
+  .rider__dot { fill: var(--forest-900); }
+
+  /* Body */
+  .pin {
+    cursor: pointer;
+    outline: none;
+  }
+  .pin__body {
+    transition: transform 0.25s ease;
+  }
+  .pin__dot {
+    fill: var(--forest-900);
+    stroke: var(--white);
+    stroke-width: 3;
+    transition: fill 0.2s ease;
+  }
+  .pin__no {
+    font: 750 13px var(--font-body);
+    fill: var(--white);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+  .pin__label {
+    font: 700 15px var(--font-display);
+    fill: var(--forest-900);
+    paint-order: stroke;
+    stroke: #f3ecdc;
+    stroke-width: 5px;
+    pointer-events: none;
+  }
+  .pin__pulse {
+    fill: var(--orange-500);
+    opacity: 0;
+  }
+  .pin.is-highlight .pin__body,
+  .pin:focus-visible .pin__body {
+    transform: scale(1.15);
+  }
+  .pin:focus-visible .pin__dot {
+    stroke: var(--orange-500);
+  }
+  .pin.is-active .pin__body {
+    transform: scale(1.3);
+  }
+  .pin.is-active .pin__dot {
+    fill: var(--orange-500);
+  }
+  .pin.is-active .pin__no {
+    fill: var(--accent-ink);
+  }
+  .pin.is-active .pin__pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse 2.2s ease-out infinite;
+  }
   @keyframes pulse {
-    0% { transform: scale(0.8); opacity: 0.5; }
-    100% { transform: scale(1.9); opacity: 0; }
+    0% { transform: scale(0.9); opacity: 0.45; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+  .routes:has(.route.is-highlight) .pin:not(.is-highlight):not(.is-active) {
+    opacity: 0.55;
+  }
+
+  /* Popisek u aktivního bodu: umístění přes proměnné --tx (vodorovně) a --ty (nad / pod bodem) */
+  .pop {
+    --tx: -50%;
+    --ty: calc(-100% - 26px);
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    gap: 2px;
+    min-width: 170px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    font-size: 0.85rem;
+    color: var(--muted);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(var(--tx), var(--ty)) scale(0.96);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .pop--right { --tx: -14px; }
+  .pop--left { --tx: calc(-100% + 14px); }
+  .pop--below { --ty: 26px; }
+  .pop.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(var(--tx), var(--ty));
+  }
+  .pop strong {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--forest-900);
+  }
+  .pop a {
+    font-weight: 650;
+    color: var(--orange-600);
+    text-decoration: none;
+  }
+  .pop::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: calc(50% - 6px);
+    width: 12px;
+    height: 12px;
+    background: var(--white);
+    transform: rotate(45deg);
+  }
+  .pop--right::after { left: 8px; }
+  .pop--left::after { left: auto; right: 8px; }
+  .pop--below::after { bottom: auto; top: -6px; }
+  @media (max-width: 600px) {
+    /* Na mobilu by popisek zakryl mapu – informace jsou v kartách pod ní */
+    .pop {
+      display: none;
+    }
   }
 </style>
