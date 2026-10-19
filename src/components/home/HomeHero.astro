@@ -1,0 +1,282 @@
+---
+// Úvodní blok: velká koloběžka na „slunci“ nad dunami, plovoucí štítky.
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import { bookingHref } from '../../config';
+import { t } from '../../i18n/ui';
+import heroStep from '../../assets/products/crussis-cross-hard-6-2.jpg';
+---
+<section class="hero">
+  <div class="hero__sky" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <span class="pill"><span class="pill__dot"></span> Sportsteppen · Hoofddorp &amp; duny</span>
+      <h1>
+        Odraz se k lepší{' '}
+        <span class="mark">kondici
+          <svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 60 6, 120 4, 180 9 S 270 18, 296 8" /></svg>
+        </span>
+      </h1>
+      <p class="lead">Sportovní koloběžka je trénink celého těla bez nárazů na klouby. Venku, v parku, lese i dunách – a s Lindou po boku.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={bookingHref}>{t('cta.book')} <Icon name="arrow" size={18} /></a>
+        <a class="btn btn--ghost" href="/sportsteps/">Prohlédnout koloběžky</a>
+      </div>
+      <ul class="hero__facts">
+        <li><strong>od 329 €</strong><span>koloběžky Crussis</span></li>
+        <li><strong>bez nárazů</strong><span>šetrné ke kloubům</span></li>
+        <li><strong>zdarma</strong><span>klubové jízdy</span></li>
+      </ul>
+    </div>
+
+    <div class="hero__visual">
+      <div class="sun" aria-hidden="true"></div>
+      <svg class="speed" viewBox="0 0 200 120" aria-hidden="true">
+        <path d="M10 30 H110" /><path d="M40 60 H150" /><path d="M0 90 H90" />
+      </svg>
+      <Image
+        src={heroStep}
+        alt="Oranžová terénní koloběžka Crussis Cross Hard 6.2"
+        widths={[480, 760, 1100]}
+        sizes="(min-width: 900px) 46vw, 92vw"
+        loading="eager"
+        fetchpriority="high"
+        class="hero__step"
+      />
+      <span class="chip chip--a"><Icon name="joint" size={18} /> Šetrné ke kloubům</span>
+      <span class="chip chip--b"><Icon name="leaf" size={18} /> Venku v přírodě</span>
+      <span class="chip chip--c"><Icon name="users" size={18} /> Pro každý věk</span>
+    </div>
+  </div>
+
+  <svg class="dunes" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+    <path class="dunes__back" d="M0 120 C 180 60, 320 70, 480 105 S 820 160, 980 110 S 1280 40, 1440 90 V220 H0Z" />
+    <path class="dunes__mid" d="M0 160 C 220 110, 380 130, 560 150 S 900 190, 1100 150 S 1340 120, 1440 140 V220 H0Z" />
+    <g class="dunes__grass">
+      <path d="M220 128 l6 -22 M228 128 l2 -26 M236 128 l-4 -20" />
+      <path d="M1180 132 l5 -20 M1188 132 l1 -24 M1196 132 l-5 -18" />
+      <path d="M760 165 l4 -18 M767 165 l1 -21 M774 165 l-4 -16" />
+    </g>
+  </svg>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(28px, 5vw, 64px);
+    background: var(--sand-50);
+  }
+  .hero__sky {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 70% at 85% 25%, #ffe9dc 0%, transparent 60%),
+      radial-gradient(50% 60% at 10% 10%, #e3f2ea 0%, transparent 60%),
+      linear-gradient(180deg, #f2f8f5 0%, var(--sand-50) 70%);
+  }
+  /* Bez z-indexu: koloběžka (mix-blend-mode) se musí prolnout s pozadím sekce, ne jen s vlastní skupinou. */
+  .hero__inner {
+    position: relative;
+    display: grid;
+    padding-bottom: clamp(16px, 3vw, 40px);
+    gap: 24px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1fr 1.05fr;
+      gap: 40px;
+    }
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.45em 1em;
+    border-radius: 999px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--forest-700);
+    margin-bottom: 20px;
+  }
+  .pill__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--orange-500);
+    box-shadow: 0 0 0 4px var(--orange-100);
+  }
+  h1 {
+    font-size: clamp(2.6rem, 6.4vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    max-width: 11ch;
+  }
+  .mark {
+    position: relative;
+    display: inline-block;
+    color: var(--orange-600);
+    white-space: nowrap;
+  }
+  .mark svg {
+    position: absolute;
+    left: -2%;
+    bottom: -0.12em;
+    width: 104%;
+    height: 0.32em;
+    fill: none;
+    stroke: var(--orange-500);
+    stroke-width: 6;
+    stroke-linecap: round;
+    opacity: 0.55;
+  }
+  .lead {
+    margin-bottom: 1.6em;
+  }
+  .btn--ghost {
+    background: var(--white);
+    color: var(--forest-900);
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn--ghost:hover {
+    border-color: var(--forest-900);
+    color: var(--forest-900);
+  }
+  .hero__facts {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+  }
+  .hero__facts li {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .hero__facts strong {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--forest-900);
+  }
+  .hero__facts span {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .hero__visual {
+    position: relative;
+    aspect-ratio: 1 / 0.82;
+    display: grid;
+    place-items: center;
+  }
+  .sun {
+    position: absolute;
+    width: 78%;
+    aspect-ratio: 1;
+    left: 14%;
+    top: 4%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff3ea 0%, #ffd9c2 55%, #ffc4a2 100%);
+    box-shadow: 0 40px 80px -30px rgb(232 98 42 / 0.45);
+  }
+  .speed {
+    position: absolute;
+    left: -2%;
+    top: 34%;
+    width: 30%;
+    fill: none;
+    stroke: var(--forest-500);
+    stroke-width: 6;
+    stroke-linecap: round;
+    opacity: 0.35;
+  }
+  .hero__step {
+    position: relative;
+    width: 108%;
+    max-width: none;
+    height: auto;
+    mix-blend-mode: multiply;
+    transform: rotate(-3deg) translateY(4%);
+    animation: ride 6s ease-in-out infinite;
+  }
+  @keyframes ride {
+    0%, 100% { transform: rotate(-3deg) translateY(4%); }
+    50% { transform: rotate(-2deg) translate(1.5%, 2.5%); }
+  }
+  .chip {
+    position: absolute;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.55em 1em;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.92);
+    backdrop-filter: blur(6px);
+    box-shadow: var(--shadow);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--forest-900);
+    white-space: nowrap;
+    animation: float 5s ease-in-out infinite;
+  }
+  .chip :global(svg) {
+    color: var(--orange-600);
+  }
+  .chip--a { top: 6%; right: 2%; }
+  .chip--b { bottom: 16%; left: 0; animation-delay: -1.6s; }
+  .chip--c { bottom: 2%; right: 10%; animation-delay: -3.2s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @media (max-width: 899px) {
+    /* Na mobilu koloběžka nahoře, aby byla vidět hned bez rolování */
+    .hero__visual {
+      order: -1;
+      width: 86%;
+      margin: -8px auto -12px;
+    }
+    .chip {
+      font-size: 0.75rem;
+      padding: 0.45em 0.8em;
+    }
+    .chip--c,
+    .speed {
+      display: none;
+    }
+    .pill {
+      margin-bottom: 14px;
+    }
+  }
+
+  .dunes {
+    position: relative;
+    pointer-events: none;
+    display: block;
+    width: 100%;
+    height: clamp(70px, 12vw, 180px);
+    margin-top: calc(clamp(70px, 12vw, 180px) * -0.55);
+    z-index: 0;
+  }
+  .dunes__back {
+    fill: var(--sand-200);
+  }
+  .dunes__mid {
+    fill: var(--sand-100);
+  }
+  .dunes__grass {
+    fill: none;
+    stroke: var(--forest-500);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.5;
+  }
+</style>

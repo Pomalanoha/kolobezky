@@ -1,0 +1,118 @@
+---
+// Tři styly koloběžek s fotkami na pastelových pozadích.
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import { formatPrice } from '../../i18n/ui';
+import road from '../../assets/products/crussis-road-4-2-1.jpg';
+import cobra from '../../assets/products/crussis-one-cobra-4-2-4.jpg';
+import cross from '../../assets/products/crussis-cross-hard-6-2.jpg';
+
+const models = [
+  { id: 'recreatief', name: 'Road', tag: 'Rekreační', text: 'Pohodlná a stabilní. Na cyklostezky a pohodové vyjížďky.', price: 329, img: road, bg: '#f4ead6', href: '/sportsteps/#recreatief' },
+  { id: 'sport', name: 'Cobra', tag: 'Sportovní', text: 'Svižná a lehká. Pro trénink kondice a delší trasy.', price: 399, img: cobra, bg: '#e6eef7', href: '/sportsteps/#sport' },
+  { id: 'cross', name: 'Cross', tag: 'Terénní', text: 'Robustní a odolná. Do lesa, dun a na šotolinu.', price: 649, img: cross, bg: '#e2f0e7', href: '/sportsteps/#cross' },
+];
+---
+<div class="models">
+  {models.map((m) => (
+    <a class="model" href={m.href} style={`--bg:${m.bg}`}>
+      <span class="model__tag">{m.tag}</span>
+      <Image src={m.img} alt={`Sportovní koloběžka Crussis ${m.name}`} widths={[360, 600]} sizes="(min-width: 900px) 30vw, 90vw" class="model__img" />
+      <div class="model__body">
+        <h3>{m.name}</h3>
+        <p>{m.text}</p>
+        <span class="model__foot">
+          <span>od <strong>{formatPrice(m.price)}</strong></span>
+          <span class="model__go"><Icon name="arrow" size={20} /></span>
+        </span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .models {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 860px) {
+    .models {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .model {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .model:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+  }
+  .model__tag {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    padding: 0.3em 0.85em;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.75);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--forest-700);
+  }
+  .model__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    padding: 36px 18px 0;
+    mix-blend-mode: multiply;
+    transition: transform 0.35s ease;
+  }
+  .model:hover .model__img {
+    transform: translateX(6px) rotate(-2deg);
+  }
+  .model__body {
+    padding: 8px 24px 24px;
+  }
+  .model h3 {
+    font-size: 2rem;
+    margin-bottom: 4px;
+  }
+  .model p {
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .model__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .model__foot strong {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--forest-900);
+  }
+  .model__go {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--forest-900);
+    color: var(--white);
+    transition: background 0.2s ease;
+  }
+  .model:hover .model__go {
+    background: var(--orange-500);
+    color: var(--accent-ink);
+  }
+</style>

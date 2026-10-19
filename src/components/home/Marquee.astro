@@ -1,0 +1,53 @@
+---
+// Běžící pás s hesly (zastaví se při prefers-reduced-motion).
+const words = ['Park', 'Les', 'Duny', 'Pláž', 'Kondice', 'Celé tělo', 'Šetrné ke kloubům', 'Hoofddorp', 'Haarlem', 'Zandvoort', 'Crussis', 'Klub'];
+---
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {[0, 1].map(() => (
+      <ul>
+        {words.map((w) => (<li>{w}<span>✦</span></li>))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    background: var(--forest-900);
+    color: var(--sand-100);
+    padding-block: 18px;
+    transform: rotate(-1.2deg) scale(1.02);
+    margin-block: 12px;
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: scroll 40s linear infinite;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  li {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+    font-weight: 650;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+  li span {
+    color: var(--orange-500);
+    margin-inline: 0.9em;
+    font-size: 0.8em;
+  }
+  @keyframes scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

@@ -1,0 +1,114 @@
+---
+// Galerie „Takhle to vypadá venku“ – mozaika fotek a textových dlaždic.
+import { Image } from 'astro:assets';
+import duinen from '../../assets/photos/sportsteppen-in-de-duinen.jpg';
+import detail from '../../assets/photos/crussis-cross-detail-bos.jpg';
+import groep from '../../assets/photos/clubrit-groep.jpg';
+---
+<div class="bento">
+  <figure class="tile tile--photo tile--big">
+    <Image src={duinen} alt="Sportsteppen v dunách u Zandvoortu" widths={[600, 900, 1200]} sizes="(min-width: 900px) 50vw, 100vw" />
+    <figcaption>Workshop v dunách</figcaption>
+  </figure>
+  <blockquote class="tile tile--quote">
+    <p>„Steppen bylo docela náročné, ale pro mé tělo velmi přátelský pohyb.“</p>
+    <cite>Kirsten</cite>
+  </blockquote>
+  <figure class="tile tile--photo">
+    <Image src={detail} alt="Detail terénní koloběžky Crussis v lese" widths={[400, 700]} sizes="(min-width: 900px) 25vw, 50vw" />
+  </figure>
+  <div class="tile tile--text">
+    <span>Park</span><span>→ les</span><span>→ duny</span><span>→ pláž</span>
+  </div>
+  <figure class="tile tile--photo">
+    <Image src={groep} alt="Společná jízda na sportovních koloběžkách" widths={[400, 700]} sizes="(min-width: 900px) 25vw, 50vw" style="object-position:50% 70%" />
+    <figcaption>Společná jízda</figcaption>
+  </figure>
+</div>
+
+<style>
+  .bento {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 170px;
+  }
+  @media (min-width: 900px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 210px;
+      gap: 18px;
+    }
+    .tile--big {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+  .tile--big {
+    grid-column: span 2;
+  }
+  .tile--big {
+    grid-row: span 2;
+  }
+  .tile {
+    margin: 0;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+  }
+  .tile--photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .tile--photo:hover :global(img) {
+    transform: scale(1.04);
+  }
+  figcaption {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    padding: 0.35em 0.9em;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.9);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest-900);
+  }
+  .tile--quote {
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .tile--quote p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    font-weight: 650;
+    line-height: 1.3;
+  }
+  .tile--quote cite {
+    font-style: normal;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  .tile--text {
+    background: var(--forest-900);
+    color: var(--white);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .tile--text span:nth-child(even) {
+    color: var(--orange-500);
+  }
+</style>
