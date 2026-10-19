@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /bedankt/
-Disallow: /bestelling/
-Disallow: /beheer/
-Disallow: /api/
-
-Sitemap: https://www.kickbikeclubhille.nl/sitemap-index.xml

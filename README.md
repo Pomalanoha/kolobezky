@@ -87,10 +87,10 @@ Astro s adaptérem pro Cloudflare Workers (`npm run build` → `dist/client` sta
 
 - **Cloudflare Workers:** Workers & Pages → Create → Import a repository → `kolobezky`; build `npm run build`, deploy `npx wrangler deploy` (nastavení je v `wrangler.jsonc`). Adresa: `kolobezky.<účet>.workers.dev`.
 
-Ukázková verze má `noindex`, aby ji Google neindexoval (nekonkurovala současnému webu). 
+Ukázková verze zakazuje v `robots.txt` procházení všem robotům (vyhledávače i AI crawlery) a každá stránka má `noindex, nofollow`, aby nekonkurovala současnému webu. Řídí to `src/pages/robots.txt.ts`.
 
 **Ostrý provoz (s doménou):**
 
-- proměnná prostředí `PUBLIC_INDEXABLE=true` (zruší `noindex`),
+- proměnná prostředí `PUBLIC_INDEXABLE=true` (zruší `noindex` a povolí roboty v `robots.txt`; v Cloudflare jako *build* proměnná),
 - `public/_redirects` zajistí 301 přesměrování starých URL z Webnode (Cloudflare je u statických souborů podporuje),
 - po spuštění: Google Search Console → odeslat `sitemap-index.xml`.
