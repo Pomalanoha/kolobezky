@@ -6,6 +6,7 @@ import ProductCard from '../../components/ProductCard.astro';
 import Icon from '../../components/Icon.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import BikeAnatomy from '../../components/BikeAnatomy.astro';
+import QuizTeaser from '../../components/QuizTeaser.astro';
 import { bookingHref, site } from '../../config';
 import { t } from '../../i18n/ui';
 import { breadcrumbSchema } from '../../lib/schema';
@@ -39,12 +40,13 @@ const listSchema = {
     <div class="btn-row">
       <a class="btn btn--primary" href="/bestellen/">Objednat online</a>
       <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
-      <a class="btn btn--secondary" href="/blog/sportstep-kiezen/">Jak vybrat koloběžku?</a>
+      <a class="btn btn--secondary" href="/welke-step/">Kvíz: která je pro mě?</a>
     </div>
   </PageHero>
 
   <section class="section">
     <div class="container">
+      <QuizTeaser class="quiz-teaser" />
       {groups.map((g) => {
         const items = products.filter((p) => p.data.category === g.id);
         return items.length > 0 && (
@@ -103,6 +105,9 @@ const listSchema = {
 </BaseLayout>
 
 <style>
+  :global(.quiz-teaser) {
+    margin-bottom: clamp(40px, 6vw, 64px);
+  }
   .group + .group {
     margin-top: clamp(56px, 8vw, 96px);
   }

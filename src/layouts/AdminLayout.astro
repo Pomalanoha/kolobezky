@@ -1,12 +1,14 @@
 ---
 import '../styles/global.css';
 import { site } from '../config';
+import { countNewMessages } from '../lib/messages';
 
 interface Props {
   title: string;
   loggedIn?: boolean;
 }
 const { title, loggedIn = false } = Astro.props;
+const newMessages = loggedIn ? await countNewMessages() : 0;
 Astro.response.headers.set('Cache-Control', 'no-store');
 ---
 <!doctype html>
@@ -25,6 +27,7 @@ Astro.response.headers.set('Cache-Control', 'no-store');
         {loggedIn && (
           <nav class="admin__nav">
             <a href="/beheer/">Objednávky</a>
+            <a href="/beheer/zpravy/">Zprávy{newMessages > 0 && <span class="admin__count">{newMessages}</span>}</a>
             <a href="/beheer/export/">Export CSV</a>
             <a href="/" target="_blank">Web ↗</a>
             <form method="POST" action="/beheer/"><input type="hidden" name="action" value="logout" /><button type="submit">Odhlásit</button></form>
@@ -100,6 +103,19 @@ Astro.response.headers.set('Cache-Control', 'no-store');
   .admin__nav a:hover,
   .admin__nav button:hover {
     color: var(--orange-500);
+  }
+  .admin__count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    font-size: 0.75rem;
+    font-weight: 750;
   }
   .admin__nav form {
     margin: 0;

@@ -17,6 +17,9 @@ const order = found && found.token === token ? found : null;
 if (!order) Astro.response.status = 404;
 Astro.response.headers.set('Cache-Control', 'no-store');
 
+const isVoucher = order?.meta.type === 'voucher';
+const voucherPaid = order ? ['betaald', 'besteld', 'verzonden'].includes(order.status) : false;
+const voucherUrl = order ? `/cadeaubon/bekijken/?nr=${encodeURIComponent(order.number)}&t=${order.token}` : '';
 const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-mailem' : cents === 0 ? 'zdarma' : formatCents(cents));
 ---
 <BaseLayout title={order ? `Objednávka ${order.number}` : 'Objednávka nenalezena'} description="Potvrzení objednávky." noindex hideMobileCta>
@@ -59,12 +62,23 @@ const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-
 
             <div class="card">
               <h2>Co bude dál</h2>
-              <ol class="next">
-                <li>Po přijetí platby objednáme koloběžku u výrobce.</li>
-                <li>Dodání {shop.deliveryTime} – ozveme se ti s termínem.</li>
-                <li>{order.shipping === 'ophalen' ? 'Při vyzvednutí ti koloběžku nastavíme na míru a vysvětlíme údržbu.' : 'Po doručení se ti ozveme a poradíme s nastavením.'}</li>
-                <li>Jako zákazník se můžeš zdarma přidat ke <a href="/club/">klubovým jízdám</a>.</li>
-              </ol>
+              {isVoucher ? (
+                <ol class="next">
+                  <li>Po přijetí platby poukaz aktivujeme.</li>
+                  <li>Pošleme ti e-mailem odkaz na poukaz – vytiskneš ho, nebo pošleš dál.</li>
+                  <li>Obdarovaný si domluví termín s Lindou a uvede kód poukazu.</li>
+                </ol>
+              ) : (
+                <ol class="next">
+                  <li>Po přijetí platby objednáme koloběžku u výrobce.</li>
+                  <li>Dodání {shop.deliveryTime} – ozveme se ti s termínem.</li>
+                  <li>{order.shipping === 'ophalen' ? 'Při vyzvednutí ti koloběžku nastavíme na míru a vysvětlíme údržbu.' : 'Po doručení se ti ozveme a poradíme s nastavením.'}</li>
+                  <li>Jako zákazník se můžeš zdarma přidat ke <a href="/club/">klubovým jízdám</a>.</li>
+                </ol>
+              )}
+              {isVoucher && (
+                <p class="voucher-link"><a class="btn btn--secondary" href={voucherUrl}>{voucherPaid ? 'Otevřít poukaz k tisku' : 'Náhled poukazu'}</a></p>
+              )}
             </div>
           </div>
 
@@ -81,13 +95,19 @@ const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-
                 <tr><th>Celkem vč. DPH</th><th>{formatCents(order.totalCents)}</th></tr>
               </tfoot>
             </table>
+            {isVoucher && (
+              <p class="addr"><strong>Na poukazu:</strong> {order.meta.amount} € pro {order.meta.recipient || '–'}{order.meta.message && <><br /><em>„{order.meta.message}“</em></>}</p>
+            )}
             <p class="addr">
-              <strong>{order.shipping === 'ophalen' ? 'Kontakt' : 'Doručovací adresa'}:</strong><br />
+              <strong>{isVoucher ? 'Kupující' : order.shipping === 'ophalen' ? 'Kontakt' : 'Doručovací adresa'}:</strong><br />
               {order.name}<br />
               {order.street && (<>{order.street}<br />{order.postcode} {order.city}<br /></>)}
               {order.phone && (<>{order.phone}<br /></>)}
               {order.email}
             </p>
+            {!isVoucher && (
+              <p class="gift-tip">🎁 Víš o někom, koho by steppen bavilo? <a href="/cadeaubon/">Daruj mu dárkový poukaz →</a></p>
+            )}
             <p class="small">Od smlouvy můžeš odstoupit do 14 dnů od převzetí zboží bez udání důvodu – viz <a href="/algemene-voorwaarden/">obchodní podmínky</a>. Dotazy: <a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a>, <a href={site.phoneHref}>{site.phone}</a> nebo <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
           </div>
         </>
@@ -162,6 +182,9 @@ const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-
     display: grid;
     gap: 8px;
   }
+  .voucher-link {
+    margin: 16px 0 0;
+  }
   .summary table {
     width: 100%;
     border-collapse: collapse;
@@ -185,6 +208,12 @@ const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-
   }
   .addr {
     margin-top: 20px;
+  }
+  .gift-tip {
+    margin: 20px 0 8px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--orange-100);
   }
   .small {
     font-size: 0.88rem;

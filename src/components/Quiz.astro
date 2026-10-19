@@ -1,0 +1,380 @@
+---
+// Kvíz „Která koloběžka je pro mě?“ – 3 otázky, výsledek = typ koloběžky + konkrétní modely.
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { bookingHref } from '../config';
+import { formatPrice, t } from '../i18n/ui';
+import road from '../assets/products/crussis-road-4-2-1.jpg';
+import cobra from '../assets/products/crussis-one-cobra-4-2-4.jpg';
+import cross from '../assets/products/crussis-cross-hard-6-2.jpg';
+
+interface Props {
+  /** page = samostatná stránka (tlačítko Objednat), pick = uvnitř objednávky (vybere model do formuláře) */
+  mode?: 'page' | 'pick';
+}
+const { mode = 'page' } = Astro.props;
+type Cat = 'recreatief' | 'sport' | 'cross';
+const questions: { q: string; options: { label: string; hint: string; cat: Cat; points: number }[] }[] = [
+  {
+    q: 'Kde budeš nejčastěji jezdit?',
+    options: [
+      { label: 'Cyklostezky, park, město', hint: 'rovné a zpevněné cesty', cat: 'recreatief', points: 2 },
+      { label: 'Delší trasy po asfaltu', hint: 'kilometry v pohybu', cat: 'sport', points: 2 },
+      { label: 'Les, duny, šotolina', hint: 'nezpevněné cesty', cat: 'cross', points: 2 },
+    ],
+  },
+  {
+    q: 'Co je tvůj hlavní cíl?',
+    options: [
+      { label: 'Pohyb a pohoda', hint: 'venku, bez stresu', cat: 'recreatief', points: 2 },
+      { label: 'Kondice a trénink', hint: 'chci se zlepšovat', cat: 'sport', points: 2 },
+      { label: 'Dobrodružství a výzva', hint: 'kopce, terén, adrenalin', cat: 'cross', points: 2 },
+    ],
+  },
+  {
+    q: 'Jaké máš zkušenosti se sportem?',
+    options: [
+      { label: 'Začínám nebo se vracím', hint: 'třeba po pauze či zranění', cat: 'recreatief', points: 1 },
+      { label: 'Pravidelně sportuji', hint: 'běh, kolo, fitness…', cat: 'sport', points: 1 },
+      { label: 'Jezdím rád v terénu', hint: 'horské kolo, trail', cat: 'cross', points: 1 },
+    ],
+  },
+];
+
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const results: Record<Cat, { name: string; tag: string; text: string; img: ImageMetadata; bg: string }> = {
+  recreatief: { name: 'Rekreační koloběžka', tag: 'Road', text: 'Pohodlná a stabilní – ideální na cyklostezky, výlety a návrat k pohybu bez přetížení.', img: road, bg: '#f4ead6' },
+  sport: { name: 'Sportovní koloběžka', tag: 'Cobra', text: 'Lehká a svižná – pro pravidelný trénink kondice a delší trasy po asfaltu.', img: cobra, bg: '#e6eef7' },
+  cross: { name: 'Terénní koloběžka', tag: 'Cross', text: 'Robustní a odolná – do lesa, dun i na šotolinu, kde běžná koloběžka končí.', img: cross, bg: '#e2f0e7' },
+};
+const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data.availability !== 'uitverkocht');
+---
+<div class:list={['quiz', { 'quiz--pick': mode === 'pick' }]} data-quiz>
+  <div class="quiz__bar" aria-hidden="true"><span data-progress></span></div>
+  <p class="quiz__count" aria-live="polite"><span data-step-label>Otázka 1 ze {questions.length}</span></p>
+
+  {questions.map((q, i) => (
+    <fieldset class="q" data-q={i} hidden={i > 0}>
+      <legend><h2>{q.q}</h2></legend>
+      <div class="q__options">
+        {q.options.map((o) => (
+          <label class="opt">
+            <input type="radio" name={`q${i}`} value={o.cat} data-points={o.points} />
+            <span class="opt__body">
+              <strong>{o.label}</strong>
+              <small>{o.hint}</small>
+            </span>
+            <span class="opt__check" aria-hidden="true"><Icon name="check" size={18} /></span>
+          </label>
+        ))}
+      </div>
+      {i > 0 && <button type="button" class="q__back" data-back>← Zpět</button>}
+    </fieldset>
+  ))}
+
+  {(Object.keys(results) as Cat[]).map((c) => {
+    const r = results[c];
+    const models = byCat(c);
+    const from = Math.min(...models.map((m) => m.data.price));
+    return (
+      <section class="res" data-result={c} hidden style={`--bg:${r.bg}`} aria-live="polite">
+        <div class="res__visual">
+          <Image src={r.img} alt={`${r.name} Crussis ${r.tag}`} widths={[400, 700]} sizes="(min-width: 800px) 40vw, 90vw" class="res__img" />
+        </div>
+        <div class="res__body">
+          <span class="eyebrow">Tvoje koloběžka</span>
+          <h2>{r.name} <span>({r.tag})</span></h2>
+          <p class="lead">{r.text}</p>
+          {models.length > 0 && (
+            <>
+              <p class="res__from">od <strong>{formatPrice(from)}</strong> {t('product.inclVat')}</p>
+              <ul class="res__models">
+                {models.map((m) => (
+                  <li>
+                    {mode === 'pick'
+                      ? <button type="button" class="res__pick" data-pick={m.id}>{m.data.title}</button>
+                      : <a href={`/sportsteps/${m.id}/`}>{m.data.title}</a>}
+                    <span>{formatPrice(m.data.price)}</span>
+                  </li>
+                ))}
+              </ul>
+              {mode === 'pick' ? (
+                <div class="btn-row">
+                  <button type="button" class="btn btn--primary" data-pick={models[0].id}>Vybrat {models[0].data.title}</button>
+                </div>
+              ) : (
+                <div class="btn-row">
+                  <a class="btn btn--primary" href={`/bestellen/?item=${models[0].id}`}>{t('product.order')}</a>
+                  <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
+                </div>
+              )}
+            </>
+          )}
+          <p class="res__alt" data-alt hidden>Hodně ti sedí i <a data-alt-link href="#"></a>.</p>
+          <button type="button" class="q__back" data-restart>↺ Zkusit znovu</button>
+        </div>
+      </section>
+    );
+  })}
+  <noscript><p>Kvíz potřebuje zapnutý JavaScript. Projdi si raději <a href="/sportsteps/">všechny modely</a>.</p></noscript>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quiz]').forEach((root) => {
+    const qs = [...root.querySelectorAll<HTMLFieldSetElement>('[data-q]')];
+    const progress = root.querySelector<HTMLElement>('[data-progress]')!;
+    const label = root.querySelector<HTMLElement>('[data-step-label]')!;
+    const names: Record<string, string> = { recreatief: 'rekreační koloběžka (Road)', sport: 'sportovní koloběžka (Cobra)', cross: 'terénní koloběžka (Cross)' };
+
+    const show = (i: number) => {
+      qs.forEach((q, idx) => (q.hidden = idx !== i));
+      root.querySelectorAll<HTMLElement>('[data-result]').forEach((r) => (r.hidden = true));
+      progress.style.width = `${(i / qs.length) * 100}%`;
+      label.textContent = `Otázka ${i + 1} ze ${qs.length}`;
+      qs[i].querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
+    };
+
+    const result = () => {
+      const score: Record<string, number> = { recreatief: 0, sport: 0, cross: 0 };
+      qs.forEach((q) => {
+        const sel = q.querySelector<HTMLInputElement>('input:checked');
+        if (sel) score[sel.value] += Number(sel.dataset.points);
+      });
+      const first = qs[0].querySelector<HTMLInputElement>('input:checked')?.value ?? 'recreatief';
+      // Nejvíc bodů; při shodě rozhoduje odpověď na první otázku (kde budeš jezdit)
+      const ranked = Object.entries(score).sort((a, b) => b[1] - a[1] || (a[0] === first ? -1 : b[0] === first ? 1 : 0));
+      const [winner, second] = ranked;
+      qs.forEach((q) => (q.hidden = true));
+      progress.style.width = '100%';
+      label.textContent = 'Hotovo!';
+      root.querySelectorAll<HTMLElement>('[data-result]').forEach((r) => {
+        const on = r.dataset.result === winner[0];
+        r.hidden = !on;
+        if (on) {
+          const alt = r.querySelector<HTMLElement>('[data-alt]')!;
+          const showAlt = second[1] > 0 && winner[1] - second[1] <= 1;
+          alt.hidden = !showAlt;
+          const link = alt.querySelector<HTMLAnchorElement>('[data-alt-link]')!;
+          link.textContent = names[second[0]];
+          link.href = `/sportsteps/#${second[0]}`;
+          r.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      });
+    };
+
+    qs.forEach((q, i) => {
+      q.addEventListener('change', () => {
+        window.setTimeout(() => (i < qs.length - 1 ? show(i + 1) : result()), 280);
+      });
+      q.querySelector('[data-back]')?.addEventListener('click', () => show(i - 1));
+    });
+    // V režimu výběru: vybraný model předá objednávce
+    root.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) =>
+      b.addEventListener('click', () => root.dispatchEvent(new CustomEvent('quiz:pick', { bubbles: true, detail: { product: b.dataset.pick } }))),
+    );
+    root.querySelectorAll('[data-restart]').forEach((b) =>
+      b.addEventListener('click', () => {
+        root.querySelectorAll<HTMLInputElement>('input').forEach((inp) => (inp.checked = false));
+        show(0);
+      }),
+    );
+    show(0);
+  });
+</script>
+
+<style>
+  .quiz {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: clamp(22px, 4vw, 44px);
+    max-width: 920px;
+    margin-inline: auto;
+  }
+  .quiz__bar {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--sand-100);
+    overflow: hidden;
+  }
+  .quiz__bar span {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--orange-500), var(--orange-600));
+    transition: width 0.35s ease;
+  }
+  .quiz__count {
+    margin: 10px 0 22px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .q {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    animation: fade 0.3s ease;
+  }
+  .q legend {
+    padding: 0;
+    margin-bottom: 18px;
+  }
+  .q h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    margin: 0;
+  }
+  .q__options {
+    display: grid;
+    gap: 12px;
+  }
+  @media (min-width: 760px) {
+    .q__options {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .opt {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 18px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: var(--sand-50);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+  .opt:hover {
+    border-color: var(--orange-500);
+    transform: translateY(-2px);
+  }
+  .opt input {
+    position: absolute;
+    opacity: 0;
+  }
+  .opt__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .opt__body strong {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--forest-900);
+  }
+  .opt__body small {
+    color: var(--muted);
+  }
+  .opt__check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--border);
+    color: transparent;
+    flex: none;
+  }
+  .opt:has(input:checked) {
+    border-color: var(--orange-500);
+    background: var(--orange-100);
+  }
+  .opt:has(input:checked) .opt__check {
+    background: var(--orange-500);
+    border-color: var(--orange-500);
+    color: var(--accent-ink);
+  }
+  .opt:has(input:focus-visible) {
+    outline: 3px solid var(--orange-500);
+    outline-offset: 2px;
+  }
+  .q__back {
+    margin-top: 18px;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: 600 0.95rem var(--font-body);
+    color: var(--forest-700);
+    cursor: pointer;
+  }
+  .res {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+    animation: fade 0.4s ease;
+  }
+  @media (min-width: 800px) {
+    .res {
+      grid-template-columns: 1fr 1.1fr;
+    }
+  }
+  .res[hidden],
+  .q[hidden] {
+    display: none;
+  }
+  .res__visual {
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    padding: 24px;
+  }
+  .res__img {
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+  }
+  .res h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    margin-bottom: 8px;
+  }
+  .res h2 span {
+    color: var(--orange-600);
+  }
+  .res__from strong {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--forest-900);
+  }
+  .res__models {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: grid;
+    gap: 6px;
+  }
+  .res__models li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .res__models a {
+    font-weight: 600;
+  }
+  .res__pick {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--forest-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .quiz--pick {
+    box-shadow: none;
+    padding: 0;
+  }
+  .res__alt {
+    margin-top: 16px;
+    color: var(--muted);
+  }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+</style>

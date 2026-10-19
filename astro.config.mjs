@@ -14,7 +14,7 @@ export default defineConfig({
   session: false,
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/bedankt/') && !page.includes('/beheer/') && !page.includes('/bestelling/'),
+      filter: (page) => !['/bedankt/', '/beheer/', '/bestelling/', '/bekijken/'].some((p) => page.includes(p)),
     }),
   ],
 });

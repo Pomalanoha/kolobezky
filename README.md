@@ -77,7 +77,16 @@ Stavy objednávky: Nová → Zaplacená → Objednáno u Crussisu → Odesláno 
 
 **Před ostrým prodejem doplnit:** IBAN, cenu dopravy, úplnou adresu firmy, btw-nummer, právo na odstoupení + vzorový formulář v obchodních podmínkách; v NL verzi musí tlačítko znít „Bestelling plaatsen met betaalverplichting“.
 
-Kontaktní formulář (`/contact/`) je zatím připravený pro Netlify Forms – na Cloudflare neodesílá; dá se převést na stejný backend jako objednávky.
+### Další funkce
+
+| Funkce | Stránka | Kde ji Linda spravuje |
+|---|---|---|
+| Kontaktní formulář | `/contact/` → `/api/contact/` | Administrace → **Zprávy** (stav Nová / Vyřízená, interní poznámka) |
+| Poptávka skupin | `/groepen/` (firemní akce, rozlučky, oslavy) | Administrace → **Zprávy** (počet osob, termín, typ akce) |
+| Dárkový poukaz | `/cadeaubon/` → `/api/cadeaubon/` | Administrace → **Objednávky**: po označení „Zaplacená“ poslat kupujícímu odkaz na poukaz k tisku (`/cadeaubon/bekijken/…`, kód se ukáže až po zaplacení) |
+| Kvíz „Která koloběžka je pro mě?“ | `/welke-step/` | – (výsledky se berou z koloběžek v `src/content/products`) |
+
+Hodnoty a platnost poukazů: `src/config.ts` → `voucher`.
 
 ## Nasazení
 

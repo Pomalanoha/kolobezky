@@ -2,6 +2,7 @@
 // Tři styly koloběžek s fotkami na pastelových pozadích.
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
+import QuizTeaser from '../QuizTeaser.astro';
 import { formatPrice } from '../../i18n/ui';
 import road from '../../assets/products/crussis-road-4-2-1.jpg';
 import cobra from '../../assets/products/crussis-one-cobra-4-2-4.jpg';
@@ -29,8 +30,12 @@ const models = [
     </a>
   ))}
 </div>
+<QuizTeaser class="models__quiz" />
 
 <style>
+  :global(.models__quiz) {
+    margin-top: 22px;
+  }
   .models {
     display: grid;
     gap: 20px;

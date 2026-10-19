@@ -34,6 +34,8 @@ export interface Order {
   totalCents: number;
   note: string;
   adminNote: string;
+  /** Doplňující údaje, např. u dárkového poukazu: type, code, recipient, message, validUntil */
+  meta: Record<string, string>;
 }
 
 let schemaReady = false;
@@ -65,6 +67,12 @@ async function ensureSchema() {
       )`,
     )
     .run();
+  // Doplnění sloupce pro starší databáze (přidáno s dárkovými poukazy)
+  try {
+    await db().prepare("ALTER TABLE orders ADD COLUMN meta_json TEXT NOT NULL DEFAULT '{}'").run();
+  } catch {
+    // sloupec už existuje
+  }
   schemaReady = true;
 }
 
@@ -91,6 +99,7 @@ function fromRow(r: Row): Order {
     totalCents: Number(r.total_cents),
     note: String(r.note),
     adminNote: String(r.admin_note),
+    meta: JSON.parse(String(r.meta_json ?? '{}') || '{}') as Record<string, string>,
   };
 }
 
@@ -99,18 +108,19 @@ function randomToken() {
   return [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
-export async function createOrder(input: OrderInput, priced: PricedOrder): Promise<Order> {
+export async function createOrder(input: OrderInput, priced: PricedOrder, meta: Record<string, string> = {}): Promise<Order> {
   await ensureSchema();
   const now = new Date().toISOString();
   const token = randomToken();
   const inserted = await db()
     .prepare(
-      `INSERT INTO orders (token, created_at, updated_at, name, email, phone, street, postcode, city, shipping, shipping_label, lines_json, subtotal_cents, shipping_cents, total_cents, note)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
+      `INSERT INTO orders (token, created_at, updated_at, name, email, phone, street, postcode, city, shipping, shipping_label, lines_json, subtotal_cents, shipping_cents, total_cents, note, meta_json)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id`,
     )
     .bind(
       token, now, now, input.name, input.email, input.phone, input.street, input.postcode, input.city,
       input.shipping, priced.shippingLabel, JSON.stringify(priced.lines), priced.subtotalCents, priced.shippingCents, priced.totalCents, input.note,
+      JSON.stringify(meta),
     )
     .first<{ id: number }>();
   if (!inserted) throw new Error('Objednávku se nepodařilo uložit.');

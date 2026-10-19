@@ -1,0 +1,82 @@
+---
+// Sezónní lišta s dárkovým poukazem. O zobrazení rozhoduje prohlížeč podle dnešního data,
+// takže se zapne/vypne sama bez nového nasazení webu.
+import { promo } from '../config';
+const periods = promo.periods.map((p) => `${p.from}..${p.to}`).join(',');
+---
+<div class="promo" data-promo={periods} hidden>
+  <a href={promo.href}>
+    <span class="promo__gift" aria-hidden="true">🎁</span>
+    <span>{promo.text}</span>
+    <strong>{promo.cta} →</strong>
+  </a>
+  <button type="button" class="promo__close" aria-label="Skrýt lištu" data-promo-close>×</button>
+</div>
+<script is:inline>
+  (function () {
+    var bar = document.currentScript && document.currentScript.previousElementSibling;
+    if (!bar) return;
+    try {
+      if (sessionStorage.getItem('promo-closed') === '1') return;
+    } catch (e) {}
+    var now = new Date();
+    var md = String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    var forced = /[?&]promo=1/.test(location.search);
+    var active = bar.getAttribute('data-promo').split(',').some(function (r) {
+      var p = r.split('..');
+      return md >= p[0] && md <= p[1];
+    });
+    if (!active && !forced) return;
+    bar.hidden = false;
+    bar.querySelector('[data-promo-close]').addEventListener('click', function () {
+      bar.hidden = true;
+      try { sessionStorage.setItem('promo-closed', '1'); } catch (e) {}
+    });
+  })();
+</script>
+
+<style>
+  .promo {
+    position: relative;
+    background: var(--forest-900);
+    color: var(--sand-100);
+    font-size: 0.92rem;
+  }
+  .promo[hidden] {
+    display: none;
+  }
+  .promo a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 10px;
+    padding: 10px 48px;
+    color: inherit;
+    text-decoration: none;
+    text-align: center;
+  }
+  .promo a:hover strong {
+    text-decoration: underline;
+  }
+  .promo strong {
+    color: var(--orange-500);
+  }
+  .promo__close {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sand-200);
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+  .promo__close:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+</style>

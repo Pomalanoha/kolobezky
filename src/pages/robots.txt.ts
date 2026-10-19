@@ -10,6 +10,7 @@ Disallow: /bedankt/
 Disallow: /bestelling/
 Disallow: /beheer/
 Disallow: /api/
+Disallow: /cadeaubon/bekijken/
 
 Sitemap: https://www.kickbikeclubhille.nl/sitemap-index.xml
 `;

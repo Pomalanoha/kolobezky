@@ -55,6 +55,21 @@ const shippingText = order.shippingCents === null ? 'neurčeno' : order.shipping
       {order.note && (<><h3>Poznámka zákazníka</h3><p class="note">{order.note}</p></>)}
     </div>
 
+    {order.meta.type === 'voucher' && (
+      <div class="card voucher-admin">
+        <h2>Dárkový poukaz</h2>
+        <dl>
+          <dt>Kód</dt><dd><code>{order.meta.code}</code></dd>
+          <dt>Hodnota</dt><dd>{order.meta.amount} €</dd>
+          <dt>Pro</dt><dd>{order.meta.recipient || '–'}</dd>
+          <dt>Věnování</dt><dd>{order.meta.message || '–'}</dd>
+          <dt>Platí do</dt><dd>{order.meta.validUntil}</dd>
+        </dl>
+        <p class="muted">Po označení „Zaplacená“ pošli kupujícímu odkaz na poukaz (kód se zobrazí až po zaplacení):</p>
+        <p><a class="btn btn--secondary" href={`/cadeaubon/bekijken/?nr=${encodeURIComponent(order.number)}&t=${order.token}`} target="_blank">Otevřít poukaz</a>
+        <button type="button" class="btn btn--secondary" data-copy={`${Astro.url.origin}/cadeaubon/bekijken/?nr=${encodeURIComponent(order.number)}&t=${order.token}`}>Kopírovat odkaz</button></p>
+      </div>
+    )}
     <div class="card">
       <h2>Zákazník</h2>
       <p class="addr">{addressText.split('\n').map((line) => <>{line}<br /></>)}</p>
@@ -157,6 +172,22 @@ const shippingText = order.shippingCents === null ? 'neurčeno' : order.shipping
     border-radius: 8px;
     font-size: 0.9rem;
     margin-top: 12px;
+  }
+  .voucher-admin {
+    grid-column: 1 / -1;
+  }
+  .voucher-admin dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 16px;
+    margin: 0 0 12px;
+  }
+  .voucher-admin dt {
+    color: var(--muted);
+  }
+  .voucher-admin dd {
+    margin: 0;
+    font-weight: 600;
   }
   .update {
     display: grid;

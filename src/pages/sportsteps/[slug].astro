@@ -105,6 +105,7 @@ const productSchema = {
               <li>Získáš osobní radu k výběru modelu.</li>
               <li>Po nákupu tě rádi přivítáme na klubových jízdách.</li>
             </ul>
+            <a class="pp__quiz" href="/welke-step/"><span aria-hidden="true">?</span> Udělej 30sekundový kvíz – který typ ti sedí <Icon name="arrow" size={16} /></a>
           </div>
         </div>
       </div>
@@ -244,6 +245,28 @@ const productSchema = {
     background: var(--sand-100);
     border: 0;
     box-shadow: none;
+  }
+  .pp__quiz {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sand-200);
+    font-weight: 650;
+    color: var(--orange-600);
+    text-decoration: none;
+  }
+  .pp__quiz span {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border-radius: 9px;
+    display: grid;
+    place-items: center;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    font-weight: 800;
   }
   .pp__box h2 {
     font-size: 1.3rem;
