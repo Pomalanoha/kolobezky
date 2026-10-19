@@ -10,7 +10,7 @@ import Testimonials from '../components/Testimonials.astro';
 import FaqList from '../components/FaqList.astro';
 import Todo from '../components/Todo.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { site, bookingHref } from '../config';
+import { site, bookingHref, voucher } from '../config';
 import { t } from '../i18n/ui';
 import { breadcrumbSchema, businessId } from '../lib/schema';
 
@@ -86,7 +86,7 @@ const offerSchema = {
         <p class="lead">Koloběžku ti na lekce zapůjčíme. Stačí sportovní oblečení a dobrá nálada.</p>
         <Todo>Ceny, délky lekcí a co přesně zahrnují – doplnit od Lindy.</Todo>
       </div>
-      <div class="grid grid--3">
+      <div class="offers">
         {offers.map((o) => (
           <article class:list={['offer', 'card', { 'offer--highlight': o.highlight }]} id={o.id}>
             {o.highlight && <span class="offer__flag">Nejoblíbenější start</span>}
@@ -104,6 +104,21 @@ const offerSchema = {
             </a>
           </article>
         ))}
+        <article class="offer card offer--gift" id="poukaz">
+          <span class="offer__flag offer__flag--gift">Tip na dárek</span>
+          <h3>Dárkový poukaz</h3>
+          <p class="offer__tagline">Daruj zážitek na koloběžce</p>
+          <p class="offer__price">
+            od {Math.min(...voucher.amounts)} €
+            <span>platnost {voucher.validityMonths / 12} roky</span>
+          </p>
+          <ul class="checklist">
+            <li>na zkušební jízdu, workshop i lekci</li>
+            <li>obdarovaný si sám vybere termín</li>
+            <li>e-mailem k vytištění</li>
+          </ul>
+          <a class="btn btn--secondary" href="/cadeaubon/">Darovat poukaz</a>
+        </article>
       </div>
     </div>
   </section>
@@ -152,11 +167,6 @@ const offerSchema = {
         <span><strong>Jezdíte ve skupině?</strong>Firemní akce, rozlučky, oslavy – připravím program na míru.</span>
         <Icon name="arrow" size={20} />
       </a>
-      <a class="extra extra--gift" href="/cadeaubon/">
-        <Icon name="heart" size={26} />
-        <span><strong>Daruj zážitek</strong>Dárkový poukaz na zkušební jízdu, workshop nebo lekci.</span>
-        <Icon name="arrow" size={20} />
-      </a>
     </div>
   </section>
 
@@ -168,10 +178,18 @@ const offerSchema = {
     display: grid;
     gap: 16px;
   }
-  @media (min-width: 800px) {
-    .extras {
-      grid-template-columns: 1fr 1fr;
-    }
+  .offers {
+    display: grid;
+    gap: clamp(16px, 2.5vw, 24px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  }
+  .offer--gift {
+    background: linear-gradient(160deg, #fff6ef, #ffe8da);
+    border-color: #f6c3a8;
+  }
+  .offer__flag--gift {
+    background: var(--forest-900);
+    color: var(--white);
   }
   .extra {
     display: flex;

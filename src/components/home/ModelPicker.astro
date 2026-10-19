@@ -2,6 +2,7 @@
 // Tři styly koloběžek s fotkami na pastelových pozadích.
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
+import QuizTeaser from '../QuizTeaser.astro';
 import { formatPrice } from '../../i18n/ui';
 import road from '../../assets/products/crussis-road-4-2-1.jpg';
 import cobra from '../../assets/products/crussis-one-cobra-4-2-4.jpg';
@@ -29,13 +30,11 @@ const models = [
     </a>
   ))}
 </div>
-<p class="models__quiz">Nevíš, kterou vybrat? <a href="/welke-step/">Udělej 30sekundový kvíz →</a></p>
+<QuizTeaser class="models__quiz" />
 
 <style>
-  .models__quiz {
-    margin: 22px 0 0;
-    text-align: center;
-    font-weight: 600;
+  :global(.models__quiz) {
+    margin-top: 22px;
   }
   .models {
     display: grid;

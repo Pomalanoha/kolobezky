@@ -21,6 +21,11 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
         ))}
       </ul>
       <a href={bookingHref} class="btn btn--primary nav__cta">{t('cta.bookShort')}</a>
+      <div class="nav__extra">
+        <a href="/cadeaubon/"><span aria-hidden="true">🎁</span> {t('footer.voucher')}</a>
+        <a href="/groepen/"><span aria-hidden="true">👥</span> {t('footer.groups')}</a>
+        <a href="/welke-step/"><span aria-hidden="true">?</span> {t('footer.quiz')}</a>
+      </div>
     </nav>
     <button class="nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false">
       <span class="nav-toggle__open"><Icon name="menu" /></span>
@@ -90,6 +95,9 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     color: var(--forest-700);
     background: var(--forest-100);
   }
+  .nav__extra {
+    display: none;
+  }
   .nav-toggle {
     display: none;
     background: none;
@@ -151,6 +159,31 @@ const isActive = (href: string) => path === href || (href !== '/' && path.starts
     }
     .nav__cta {
       width: 100%;
+    }
+    .nav__extra {
+      display: grid;
+      gap: 4px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .nav__extra a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.6em 0.2em;
+      font-weight: 600;
+      color: var(--forest-700);
+      text-decoration: none;
+    }
+    .nav__extra span {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--orange-100);
+      color: var(--orange-600);
+      font-weight: 800;
     }
   }
   :global(html.nav-open) {

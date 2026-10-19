@@ -63,4 +63,17 @@ export const voucher = {
   validityMonths: 24,
 };
 
+// Sezónní lišta nahoře na webu (dárkový poukaz). Zobrazí se jen v uvedených obdobích (MM-DD, včetně).
+// Pro náhled mimo sezónu: přidej k adrese ?promo=1
+export const promo = {
+  text: 'Daruj zážitek na koloběžce',
+  cta: 'Dárkový poukaz',
+  href: '/cadeaubon/',
+  periods: [
+    { from: '11-01', to: '12-24', label: 'Sinterklaas a Vánoce' },
+    { from: '04-20', to: '05-14', label: 'Den matek (2. neděle v květnu)' },
+    { from: '05-28', to: '06-21', label: 'Den otců (3. neděle v červnu)' },
+  ],
+};
+
 export type ShippingId = (typeof shop.shipping)[number]['id'];

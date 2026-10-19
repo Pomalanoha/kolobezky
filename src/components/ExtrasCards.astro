@@ -1,0 +1,73 @@
+---
+// Dvě pozvánky: skupinové akce a dárkový poukaz.
+import Icon from './Icon.astro';
+---
+<div class="extras">
+  <a class="extra" href="/groepen/">
+    <span class="extra__icon"><Icon name="users" size={26} /></span>
+    <span class="extra__text"><strong>Jezdíte ve skupině?</strong>Firemní akce, rozlučky, oslavy – program na míru.</span>
+    <Icon name="arrow" size={20} />
+  </a>
+  <a class="extra extra--gift" href="/cadeaubon/">
+    <span class="extra__icon"><Icon name="heart" size={26} /></span>
+    <span class="extra__text"><strong>Daruj zážitek</strong>Dárkový poukaz na zkušební jízdu, workshop nebo lekci.</span>
+    <Icon name="arrow" size={20} />
+  </a>
+</div>
+
+<style>
+  .extras {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 800px) {
+    .extras {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .extra {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    border: 1px solid var(--border);
+    color: var(--orange-600);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .extra:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .extra__icon {
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--forest-100);
+    color: var(--forest-700);
+  }
+  .extra--gift {
+    background: linear-gradient(120deg, #fff1e8 0%, #ffe3d1 100%);
+    border-color: #f6c3a8;
+  }
+  .extra--gift .extra__icon {
+    background: var(--orange-500);
+    color: var(--accent-ink);
+  }
+  .extra__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    color: var(--muted);
+  }
+  .extra__text strong {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--forest-900);
+  }
+</style>

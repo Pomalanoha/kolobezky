@@ -29,3 +29,5 @@ Správná výška řídítek a správný postoj rozhodují o tom, jestli tě jí
 ## Tip: nejdřív vyzkoušej
 
 Než si koloběžku koupíš, vyzkoušej si na zkušební jízdě různé typy. Za hodinu budeš přesně vědět, který ti sedí.
+
+A pokud chceš rychlé doporučení hned teď, udělej si náš [30sekundový kvíz „Která koloběžka je pro mě?“](/welke-step/).

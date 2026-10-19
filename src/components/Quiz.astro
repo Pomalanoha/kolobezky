@@ -9,6 +9,11 @@ import road from '../assets/products/crussis-road-4-2-1.jpg';
 import cobra from '../assets/products/crussis-one-cobra-4-2-4.jpg';
 import cross from '../assets/products/crussis-cross-hard-6-2.jpg';
 
+interface Props {
+  /** page = samostatná stránka (tlačítko Objednat), pick = uvnitř objednávky (vybere model do formuláře) */
+  mode?: 'page' | 'pick';
+}
+const { mode = 'page' } = Astro.props;
 type Cat = 'recreatief' | 'sport' | 'cross';
 const questions: { q: string; options: { label: string; hint: string; cat: Cat; points: number }[] }[] = [
   {
@@ -45,7 +50,7 @@ const results: Record<Cat, { name: string; tag: string; text: string; img: Image
 };
 const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data.availability !== 'uitverkocht');
 ---
-<div class="quiz" data-quiz>
+<div class:list={['quiz', { 'quiz--pick': mode === 'pick' }]} data-quiz>
   <div class="quiz__bar" aria-hidden="true"><span data-progress></span></div>
   <p class="quiz__count" aria-live="polite"><span data-step-label>Otázka 1 ze {questions.length}</span></p>
 
@@ -86,13 +91,24 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
               <p class="res__from">od <strong>{formatPrice(from)}</strong> {t('product.inclVat')}</p>
               <ul class="res__models">
                 {models.map((m) => (
-                  <li><a href={`/sportsteps/${m.id}/`}>{m.data.title}</a><span>{formatPrice(m.data.price)}</span></li>
+                  <li>
+                    {mode === 'pick'
+                      ? <button type="button" class="res__pick" data-pick={m.id}>{m.data.title}</button>
+                      : <a href={`/sportsteps/${m.id}/`}>{m.data.title}</a>}
+                    <span>{formatPrice(m.data.price)}</span>
+                  </li>
                 ))}
               </ul>
-              <div class="btn-row">
-                <a class="btn btn--primary" href={`/bestellen/?item=${models[0].id}`}>{t('product.order')}</a>
-                <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
-              </div>
+              {mode === 'pick' ? (
+                <div class="btn-row">
+                  <button type="button" class="btn btn--primary" data-pick={models[0].id}>Vybrat {models[0].data.title}</button>
+                </div>
+              ) : (
+                <div class="btn-row">
+                  <a class="btn btn--primary" href={`/bestellen/?item=${models[0].id}`}>{t('product.order')}</a>
+                  <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
+                </div>
+              )}
             </>
           )}
           <p class="res__alt" data-alt hidden>Hodně ti sedí i <a data-alt-link href="#"></a>.</p>
@@ -153,6 +169,10 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
       });
       q.querySelector('[data-back]')?.addEventListener('click', () => show(i - 1));
     });
+    // V režimu výběru: vybraný model předá objednávce
+    root.querySelectorAll<HTMLButtonElement>('[data-pick]').forEach((b) =>
+      b.addEventListener('click', () => root.dispatchEvent(new CustomEvent('quiz:pick', { bubbles: true, detail: { product: b.dataset.pick } }))),
+    );
     root.querySelectorAll('[data-restart]').forEach((b) =>
       b.addEventListener('click', () => {
         root.querySelectorAll<HTMLInputElement>('input').forEach((inp) => (inp.checked = false));
@@ -333,6 +353,21 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
   }
   .res__models a {
     font-weight: 600;
+  }
+  .res__pick {
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--forest-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .quiz--pick {
+    box-shadow: none;
+    padding: 0;
   }
   .res__alt {
     margin-top: 16px;

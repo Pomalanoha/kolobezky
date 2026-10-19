@@ -8,6 +8,7 @@ import { shop, site } from '../config';
 import { formatPrice } from '../i18n/ui';
 import { getCatalog } from '../lib/shop';
 import { breadcrumbSchema } from '../lib/schema';
+import Quiz from '../components/Quiz.astro';
 
 const crumbs = [{ name: 'Objednávka', href: '/bestellen/' }];
 const catalog = await getCatalog();
@@ -53,7 +54,11 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
               <label for="qty">Počet kusů</label>
               <input id="qty" name="qty" type="number" min="1" max={shop.maxQty} value="1" inputmode="numeric" />
             </div>
-            <p class="hint"><Icon name="check" size={16} /> Nevíš, který model? <a href="/proefrit-en-lessen/">Vyzkoušej si ho nejdřív</a> nebo <a href={site.whatsapp} target="_blank" rel="noopener">napiš Lindě</a>.</p>
+            <button type="button" class="quiz-open" data-quiz-open>
+              <span aria-hidden="true">?</span>
+              <span><strong>Nevíš, který model?</strong> Udělej 30sekundový kvíz – model ti rovnou vybereme.</span>
+            </button>
+            <p class="hint"><Icon name="check" size={16} /> Nebo si ho <a href="/proefrit-en-lessen/">nejdřív vyzkoušej</a> či <a href={site.whatsapp} target="_blank" rel="noopener">napiš Lindě</a>.</p>
           </fieldset>
 
           <fieldset class="card">
@@ -154,6 +159,14 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
       </form>
     </div>
   </section>
+
+  <dialog class="quiz-dialog" data-quiz-dialog aria-labelledby="quiz-dialog-title">
+    <div class="quiz-dialog__head">
+      <h2 id="quiz-dialog-title">Která koloběžka je pro mě?</h2>
+      <button type="button" class="quiz-dialog__close" data-quiz-close aria-label="Zavřít kvíz">×</button>
+    </div>
+    <Quiz mode="pick" />
+  </dialog>
 </BaseLayout>
 
 <script>
@@ -207,6 +220,26 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
     form.querySelector('[data-total]')!.textContent = fmt.format(subtotal + (ship?.price ?? 0));
     addressBox.hidden = !ship?.needsAddress;
   }
+  // Kvíz v okně: výsledek vybere model ve formuláři
+  const dialog = document.querySelector<HTMLDialogElement>('[data-quiz-dialog]');
+  document.querySelector('[data-quiz-open]')?.addEventListener('click', () => dialog?.showModal());
+  dialog?.querySelector('[data-quiz-close]')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close(); // klik mimo obsah
+  });
+  dialog?.addEventListener('quiz:pick', (e) => {
+    const product = (e as CustomEvent<{ product: string }>).detail.product;
+    const opt = [...stepSelect.options].find((o) => o.dataset.product === product && !o.disabled);
+    if (opt) {
+      stepSelect.value = opt.value;
+      stepSelect.dispatchEvent(new Event('change', { bubbles: true }));
+      stepSelect.classList.add('flash');
+      window.setTimeout(() => stepSelect.classList.remove('flash'), 1600);
+    }
+    dialog.close();
+    stepSelect.focus();
+  });
+
   form.addEventListener('input', update);
   // Po opravě pole zmizí jeho chybová hláška.
   const clearError = (e: Event) => {
@@ -367,6 +400,84 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
     margin: 4px 0 0;
     font-size: 0.92rem;
     color: var(--muted);
+  }
+  .quiz-open {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 4px 0 10px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    border: 1px solid #f6c3a8;
+    background: linear-gradient(120deg, #fff1e8 0%, #ffe3d1 100%);
+    font: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .quiz-open:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+  .quiz-open > span:first-child {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    font: 800 1.3rem var(--font-display);
+    transform: rotate(-6deg);
+  }
+  .quiz-open strong {
+    color: var(--forest-900);
+  }
+  select.flash {
+    animation: flash 1.6s ease;
+  }
+  @keyframes flash {
+    0%, 60% { border-color: var(--orange-500); box-shadow: 0 0 0 5px rgb(255 122 61 / 0.3); }
+    100% { box-shadow: none; }
+  }
+  .quiz-dialog {
+    width: min(960px, calc(100% - 24px));
+    max-height: calc(100dvh - 24px);
+    border: 0;
+    border-radius: var(--radius-lg);
+    padding: clamp(18px, 3vw, 32px);
+    background: var(--white);
+    box-shadow: 0 40px 100px -30px rgb(0 0 0 / 0.45);
+  }
+  .quiz-dialog::backdrop {
+    background: rgb(11 35 28 / 0.55);
+    backdrop-filter: blur(3px);
+  }
+  .quiz-dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .quiz-dialog__head h2 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  .quiz-dialog__close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--sand-50);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--forest-900);
   }
   .accs {
     display: grid;
