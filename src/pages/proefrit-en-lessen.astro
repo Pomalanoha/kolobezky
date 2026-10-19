@@ -6,6 +6,7 @@ import Photo from '../components/Photo.astro';
 import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
 import Icon from '../components/Icon.astro';
 import TryBuyJoin from '../components/TryBuyJoin.astro';
+import LessonTimeline from '../components/LessonTimeline.astro';
 import Testimonials from '../components/Testimonials.astro';
 import FaqList from '../components/FaqList.astro';
 import Todo from '../components/Todo.astro';
@@ -78,6 +79,18 @@ const offerSchema = {
     <Photo slot="aside" src={imgDuinen} alt="Klientka na sportovní koloběžce během workshopu v dunách" ratio="4 / 3" priority />
   </PageHero>
 
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <span class="eyebrow">Jak probíhá první lekce</span>
+        <h2>Žádný stres. Krok za krokem.</h2>
+        <p class="lead">Nemusíš nic umět ani mít vlastní koloběžku. Takhle vypadá tvoje první jízda s Lindou.</p>
+      </div>
+      <LessonTimeline />
+      <p class="tl-cta"><a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a></p>
+    </div>
+  </section>
+
   <section class="section" id="nabidka">
     <div class="container">
       <div class="section-head">
@@ -149,6 +162,10 @@ const offerSchema = {
 </BaseLayout>
 
 <style>
+  .tl-cta {
+    text-align: center;
+    margin: 36px 0 0;
+  }
   .narrow {
     max-width: 860px;
   }

@@ -1,0 +1,294 @@
+---
+// „Anatomie sportovní koloběžky“: pulzující body na fotce propojené se seznamem vlastností.
+// Texty jsou obecné; čísla „Příklad“ jsou podle výrobce pro Crussis Cross Hard 6.2 (crussis.cz).
+import { Image } from 'astro:assets';
+import bike from '../assets/products/crussis-cross-hard-6-2.jpg';
+
+const points = [
+  {
+    id: 'kolo',
+    x: 86, y: 44,
+    title: 'Velké přední kolo',
+    text: 'Snadno přejede nerovnosti, kořeny i šotolinu a dobře drží rychlost – jízda je plynulá jako na kole.',
+    example: 'Sportovní modely mají přední kolo 26–28". Cross Hard 6.2: 27,5".',
+  },
+  {
+    id: 'naslap',
+    x: 40, y: 79,
+    title: 'Nízký nášlap',
+    text: 'Stojíš nízko nad zemí, takže se při odrazu méně krčíš. Odraz je úspornější a jízda stabilnější.',
+    example: 'Cross Hard 6.2: světlá výška nášlapu 57 mm, délka 430 mm.',
+  },
+  {
+    id: 'zadni',
+    x: 17, y: 58,
+    title: 'Malé zadní kolo',
+    text: 'Díky menšímu zadnímu kolu může být nášlap nízko a koloběžka je obratná i v zatáčkách.',
+    example: 'Všechny sportovní koloběžky Crussis mají zadní kolo 20".',
+  },
+  {
+    id: 'brzdy',
+    x: 75, y: 62,
+    title: 'Spolehlivé brzdy',
+    text: 'Brzdy na obou kolech jako u kola. Rekreační modely mají ráfkové brzdy, sportovní a terénní hydraulické kotoučové.',
+    example: 'Cross Hard 6.2: hydraulické kotoučové brzdy, kotouče 180/160 mm.',
+  },
+  {
+    id: 'riditka',
+    x: 63, y: 15,
+    title: 'Řídítka na míru',
+    text: 'Správná výška řídítek znamená vzpřímený postoj a pohodlné řízení. Při předání ti koloběžku nastavíme.',
+    example: 'Cross Hard 6.2: pro postavu cca 150–195 cm.',
+  },
+  {
+    id: 'ram',
+    x: 56, y: 42,
+    title: 'Lehký hliníkový rám',
+    text: 'Pevný a lehký rám, který koloběžku snadno uneseš i naložíš do auta.',
+    example: 'Rám z hliníku Alu 6061, hmotnost cca 7,5–9 kg podle modelu (Cross Hard 6.2: 9,08 kg).',
+  },
+];
+---
+<div class="anatomy" data-anatomy>
+  <figure class="anatomy__figure">
+    <div class="anatomy__canvas">
+      <Image src={bike} alt="Sportovní koloběžka Crussis Cross Hard 6.2 s vyznačenými částmi" widths={[600, 900, 1300]} sizes="(min-width: 960px) 55vw, 100vw" class="anatomy__img" />
+      {points.map((p, i) => (
+        <button
+          type="button"
+          class:list={['spot', { 'is-active': i === 0 }]}
+          style={`left:${p.x}%;top:${p.y}%`}
+          data-spot={p.id}
+          aria-label={`${i + 1}. ${p.title}`}
+          aria-pressed={i === 0 ? 'true' : 'false'}
+        >
+          <span class="spot__ring" aria-hidden="true"></span>
+          <span class="spot__no">{i + 1}</span>
+        </button>
+      ))}
+    </div>
+    <figcaption>Na fotce Crussis Cross Hard 6.2. Údaje podle výrobce, jednotlivé modely se liší.</figcaption>
+  </figure>
+
+  <ol class="anatomy__list">
+    {points.map((p, i) => (
+      <li class:list={['feat', { 'is-active': i === 0 }]} data-spot={p.id}>
+        <button type="button" class="feat__head" aria-expanded={i === 0 ? 'true' : 'false'}>
+          <span class="feat__no">{i + 1}</span>
+          <span class="feat__title">{p.title}</span>
+          <span class="feat__chev" aria-hidden="true">+</span>
+        </button>
+        <div class="feat__body">
+          <div class="feat__inner">
+            <p>{p.text}</p>
+            <p class="feat__example">{p.example}</p>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-anatomy]').forEach((root) => {
+    function select(id: string) {
+      root.querySelectorAll<HTMLElement>('[data-spot]').forEach((el) => {
+        const on = el.dataset.spot === id;
+        el.classList.toggle('is-active', on);
+        if (el.matches('.spot')) el.setAttribute('aria-pressed', String(on));
+        el.querySelector('.feat__head')?.setAttribute('aria-expanded', String(on));
+      });
+    }
+    root.querySelectorAll<HTMLButtonElement>('.spot').forEach((spot) => {
+      spot.addEventListener('click', () => select(spot.dataset.spot!));
+      spot.addEventListener('mouseenter', () => select(spot.dataset.spot!));
+    });
+    root.querySelectorAll<HTMLElement>('.feat').forEach((feat) => {
+      feat.querySelector('.feat__head')?.addEventListener('click', () => select(feat.dataset.spot!));
+      feat.addEventListener('mouseenter', () => select(feat.dataset.spot!));
+    });
+  });
+</script>
+
+<style>
+  .anatomy {
+    display: grid;
+    gap: 28px;
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .anatomy {
+      grid-template-columns: 1.25fr 1fr;
+      gap: 40px;
+    }
+  }
+  .anatomy__figure {
+    margin: 0;
+  }
+  .anatomy__canvas {
+    position: relative;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 55% 45%, #fff3ea 0%, #ffe3d1 55%, #ffd3b8 100%);
+    padding: 4% 2% 2%;
+  }
+  .anatomy__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+  }
+  .anatomy__figure figcaption {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* Body na fotce */
+  .spot {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+  .spot__no {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--forest-900);
+    color: var(--white);
+    font: 750 0.9rem var(--font-body);
+    border: 3px solid var(--white);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .spot__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--orange-500);
+    opacity: 0.45;
+    animation: ring 2.2s ease-out infinite;
+  }
+  .spot:hover .spot__no,
+  .spot:focus-visible .spot__no {
+    transform: scale(1.12);
+  }
+  .spot.is-active .spot__no {
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    transform: scale(1.18);
+  }
+  @keyframes ring {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    100% { transform: scale(2.1); opacity: 0; }
+  }
+  @media (max-width: 520px) {
+    .spot {
+      width: 28px;
+      height: 28px;
+      margin: -14px 0 0 -14px;
+    }
+    .spot__no {
+      font-size: 0.78rem;
+      border-width: 2px;
+    }
+  }
+
+  /* Seznam vlastností */
+  .anatomy__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .feat {
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+  }
+  .feat.is-active {
+    border-color: #f6c3a8;
+    box-shadow: 0 12px 28px -14px rgb(232 98 42 / 0.45);
+  }
+  .feat__head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+  }
+  .feat__no {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--forest-900);
+    color: var(--white);
+    font-weight: 750;
+    font-size: 0.9rem;
+    transition: background 0.2s ease;
+  }
+  .feat.is-active .feat__no {
+    background: var(--orange-500);
+    color: var(--accent-ink);
+  }
+  .feat__title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.08rem;
+    color: var(--forest-900);
+  }
+  .feat__chev {
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--orange-600);
+    transition: transform 0.2s ease;
+  }
+  .feat.is-active .feat__chev {
+    transform: rotate(45deg);
+  }
+  /* Rozbalení přes grid-template-rows 0fr → 1fr (plynulá animace výšky) */
+  .feat__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+  .feat.is-active .feat__body {
+    grid-template-rows: 1fr;
+  }
+  .feat__inner {
+    overflow: hidden;
+    padding-inline: 62px 18px;
+  }
+  .feat__inner p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .feat__inner .feat__example {
+    margin: 8px 0 16px;
+    font-size: 0.88rem;
+    color: var(--forest-700);
+  }
+</style>

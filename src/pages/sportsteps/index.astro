@@ -5,6 +5,7 @@ import PageHero from '../../components/PageHero.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Icon from '../../components/Icon.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import BikeAnatomy from '../../components/BikeAnatomy.astro';
 import { bookingHref, site } from '../../config';
 import { t } from '../../i18n/ui';
 import { breadcrumbSchema } from '../../lib/schema';
@@ -64,7 +65,18 @@ const listSchema = {
     </div>
   </section>
 
-  <section class="section section--tint">
+  <section class="section section--tint" id="anatomie">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Anatomie sportovní koloběžky</span>
+        <h2>Co dělá sportovní koloběžku sportovní</h2>
+        <p class="lead">Klikni na čísla na fotce a zjisti, proč se na velké koloběžce jede tak plynule – a čím se liší od dětské nebo městské koloběžky.</p>
+      </div>
+      <BikeAnatomy />
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container split">
       <div>
         <span class="eyebrow">Proč u nás</span>
