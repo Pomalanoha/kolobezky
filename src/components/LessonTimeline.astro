@@ -1,0 +1,127 @@
+---
+// Jak probíhá první lekce – časová osa v 5 krocích (vodorovně na počítači, svisle na mobilu).
+import Icon from './Icon.astro';
+
+const steps = [
+  { icon: 'users', title: 'Seznámení', text: 'Krátce probereme tvé cíle, zkušenosti a případná zdravotní omezení.' },
+  { icon: 'wrench', title: 'Nastavení koloběžky', text: 'Vysvětlím koloběžku a brzdy a nastavíme řídítka na tvou výšku. Koloběžku ti zapůjčím.' },
+  { icon: 'bolt', title: 'Technika v parku', text: 'V klidu nacvičíme odraz, střídání nohou a brzdění – bez provozu a bez spěchu.' },
+  { icon: 'route', title: 'Vyjížďka', text: 'Podle chuti a kondice vyrazíme na kratší okruh. Tempo určuješ ty.' },
+  { icon: 'heart', title: 'Protažení a dojmy', text: 'Pár cviků na protažení a poradím ti, jaký typ koloběžky by ti sedl.' },
+] as const;
+---
+<ol class="timeline">
+  {steps.map((s, i) => (
+    <li class="tl">
+      <div class="tl__marker">
+        <span class="tl__icon"><Icon name={s.icon} size={24} /></span>
+        <span class="tl__no">{i + 1}</span>
+      </div>
+      <div class="tl__body">
+        <h3>{s.title}</h3>
+        <p>{s.text}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    position: relative;
+  }
+  .tl {
+    position: relative;
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 16px;
+    padding-bottom: 28px;
+  }
+  /* svislá spojnice (mobil) */
+  .tl::before {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 64px;
+    bottom: 0;
+    border-left: 3px dashed #f6c3a8;
+  }
+  .tl:last-child::before {
+    display: none;
+  }
+  .tl__marker {
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .tl__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--white);
+    color: var(--orange-600);
+    border: 3px solid var(--orange-100);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .tl:hover .tl__icon {
+    transform: scale(1.06);
+    background: var(--orange-500);
+    color: var(--accent-ink);
+  }
+  .tl__no {
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--forest-900);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 750;
+    border: 2px solid var(--white);
+  }
+  .tl__body h3 {
+    font-size: 1.2rem;
+    margin: 8px 0 4px;
+  }
+  .tl__body p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.97rem;
+  }
+
+  @media (min-width: 900px) {
+    .timeline {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+    .tl {
+      grid-template-columns: 1fr;
+      padding-bottom: 0;
+      text-align: center;
+      justify-items: center;
+    }
+    /* vodorovná spojnice (počítač) */
+    .tl::before {
+      left: calc(50% + 40px);
+      right: calc(-50% + 30px);
+      top: 31px;
+      bottom: auto;
+      border-left: 0;
+      border-top: 3px dashed #f6c3a8;
+    }
+    .tl__body h3 {
+      margin-top: 4px;
+    }
+  }
+</style>

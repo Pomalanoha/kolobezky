@@ -8,6 +8,7 @@ import imgGroep from '../assets/photos/clubrit-groep.jpg';
 import Icon from '../components/Icon.astro';
 import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
+import SportInfographic from '../components/SportInfographic.astro';
 import { bookingHref } from '../config';
 import { t } from '../i18n/ui';
 import { breadcrumbSchema, faqSchema } from '../lib/schema';
@@ -15,13 +16,6 @@ import { breadcrumbSchema, faqSchema } from '../lib/schema';
 const crumbs = [{ name: 'Sportsteppen', href: '/sportsteppen/' }];
 const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'zdravi' || f.id === 'wat-is').map((f) => f.data);
 
-const compare = [
-  { label: 'Zátěž kloubů', step: 'nízká – bez nárazů', run: 'vysoká – dopady', bike: 'nízká' },
-  { label: 'Zapojené svaly', step: 'celé tělo', run: 'hlavně nohy', bike: 'hlavně nohy' },
-  { label: 'Trénink rovnováhy', step: 'ano', run: 'málo', bike: 'málo' },
-  { label: 'Kondice', step: 'vysoká', run: 'vysoká', bike: 'střední–vysoká' },
-  { label: 'Vhodné pro začátečníky', step: 'ano', run: 'částečně', bike: 'ano' },
-];
 ---
 <BaseLayout
   title="Co je sportsteppen? Šetrný trénink celého těla"
@@ -68,20 +62,9 @@ const compare = [
       <div class="section-head">
         <span class="eyebrow">Srovnání</span>
         <h2>Steppen vs. běh vs. kolo</h2>
-        <p class="lead">Steppen spojuje to nejlepší z obou světů: intenzitu běhu a šetrnost jízdy na kole.</p>
+        <p class="lead">Steppen spojuje to nejlepší z obou světů: intenzitu běhu a šetrnost jízdy na kole – a přidává k tomu práci celého těla.</p>
       </div>
-      <div class="table-wrap card">
-        <table class="compare">
-          <thead>
-            <tr><th scope="col"></th><th scope="col">Steppen</th><th scope="col">Běh</th><th scope="col">Kolo</th></tr>
-          </thead>
-          <tbody>
-            {compare.map((row) => (
-              <tr><th scope="row">{row.label}</th><td class="hl">{row.step}</td><td>{row.run}</td><td>{row.bike}</td></tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <SportInfographic />
       <p style="margin-top:20px"><a href="/blog/steppen-vs-hardlopen/">Přečti si víc: Steppen vs. běh →</a></p>
     </div>
   </section>
@@ -115,39 +98,6 @@ const compare = [
 <style>
   .narrow {
     max-width: 860px;
-  }
-  .table-wrap {
-    padding: 0;
-    overflow-x: auto;
-  }
-  .compare {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 520px;
-  }
-  .compare th,
-  .compare td {
-    padding: 16px 20px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .compare thead th {
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    color: var(--forest-900);
-  }
-  .compare tbody th {
-    font-weight: 600;
-    color: var(--muted);
-  }
-  .compare .hl {
-    background: var(--forest-100);
-    color: var(--forest-900);
-    font-weight: 600;
-  }
-  .compare tr:last-child th,
-  .compare tr:last-child td {
-    border-bottom: 0;
   }
   :global(.inline-icon) {
     display: inline;
