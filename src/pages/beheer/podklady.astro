@@ -1,0 +1,234 @@
+---
+// Administrace: odkaz na seznam podkladů pro Lindu, přehled odpovědí a smazání dat.
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { isLoggedIn, checklistKey } from '../../lib/auth';
+import { getChecklist, clearChecklist } from '../../lib/checklist';
+import { PARTS, CHECKLIST_ITEMS } from '../../data/podklady';
+
+export const prerender = false;
+
+if (!(await isLoggedIn(Astro.cookies))) return Astro.redirect('/beheer/', 303);
+
+let notice = Astro.url.searchParams.has('smazano') ? 'Odpovědi byly smazány z databáze.' : '';
+let error = '';
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  if (form.get('action') === 'clear') {
+    if (form.get('confirm') === 'on') {
+      await clearChecklist();
+      return Astro.redirect('/beheer/podklady/?smazano=1', 303);
+    }
+    error = 'Pro smazání zaškrtni potvrzení.';
+  }
+}
+
+const key = await checklistKey();
+const link = key ? `${Astro.url.origin}/podklady/?k=${key}` : '';
+const state = await getChecklist();
+const done = CHECKLIST_ITEMS.filter((i) => state[i.id]?.done).length;
+const answered = CHECKLIST_ITEMS.filter((i) => state[i.id]?.note?.trim()).length;
+const dateFmt = new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Amsterdam' });
+---
+<AdminLayout title="Podklady pro Lindu" loggedIn>
+  <h1>Podklady pro Lindu</h1>
+  {notice && <p class="ok" role="status">{notice}</p>}
+
+  <div class="card share">
+    <h2>Odkaz pro Lindu</h2>
+    <p>Pošli Lindě tento odkaz (třeba přes WhatsApp). Nemusí se nikam přihlašovat – zaškrtávání i odpovědi se ukládají sem.</p>
+    <div class="share__row">
+      <input id="share-link" value={link} readonly />
+      <button type="button" class="btn btn--primary" data-copy={link}>Kopírovat odkaz</button>
+      <a class="btn btn--secondary" href={link} target="_blank" rel="noopener">Otevřít</a>
+    </div>
+    <p class="muted">Odkaz obsahuje přístupový kód odvozený z hesla do administrace. Když heslo změníš, odkaz přestane fungovat.</p>
+  </div>
+
+  <div class="stats">
+    <div class="card"><strong>{done} / {CHECKLIST_ITEMS.length}</strong><span>hotovo</span></div>
+    <div class="card"><strong>{answered}</strong><span>s odpovědí</span></div>
+  </div>
+
+  <h2 class="section-title">Odpovědi</h2>
+  {PARTS.map((part) => (
+    <section class="part">
+      <h3>{part.title}</h3>
+      <table>
+        <tbody>
+          {part.groups.flatMap((g) => g.items).map((it) => {
+            const s = state[it.id];
+            return (
+              <tr class:list={{ 'is-done': s?.done }}>
+                <td class="st">{s?.done ? '✓' : '–'}</td>
+                <td>
+                  <strong>{it.title}</strong>
+                  {s?.note?.trim() ? <p class="note">{s.note}</p> : <p class="muted">bez odpovědi</p>}
+                </td>
+                <td class="when">{s ? dateFmt.format(new Date(s.updatedAt)) : ''}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  ))}
+
+  <form class="card danger" method="POST">
+    <h2>Smazat odpovědi z databáze</h2>
+    <p>Až seznam nebudeš potřebovat, smažeš tím všechna zaškrtnutí a odpovědi. Nejde to vrátit, tak si odpovědi předtím zkopíruj.</p>
+    <input type="hidden" name="action" value="clear" />
+    <label class="confirm"><input type="checkbox" name="confirm" /> Ano, chci odpovědi nenávratně smazat</label>
+    {error && <p class="error" role="alert">{error}</p>}
+    <button class="btn btn--danger" type="submit">Smazat odpovědi</button>
+  </form>
+</AdminLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        const text = btn.textContent;
+        btn.textContent = 'Zkopírováno ✓';
+        setTimeout(() => (btn.textContent = text), 1500);
+      } catch {
+        const input = document.getElementById('share-link') as HTMLInputElement | null;
+        input?.select();
+      }
+    });
+  });
+</script>
+
+<style>
+  h2 {
+    font-size: 1.3rem;
+  }
+  .share {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .share p {
+    margin: 0;
+  }
+  .share__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .share__row input {
+    flex: 1;
+    min-width: 240px;
+    font: 0.92rem ui-monospace, Menlo, monospace;
+    padding: 0.7em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 26px;
+  }
+  .stats .card {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    padding: 16px 20px;
+  }
+  .stats strong {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--forest-900);
+    font-variant-numeric: tabular-nums;
+  }
+  .stats span {
+    color: var(--muted);
+  }
+  .section-title {
+    margin-bottom: 12px;
+  }
+  .part {
+    margin-bottom: 24px;
+  }
+  .part h3 {
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+  tr.is-done {
+    background: var(--forest-100);
+  }
+  td.st {
+    width: 32px;
+    font-weight: 700;
+    color: var(--forest-700);
+    text-align: center;
+  }
+  td.when {
+    width: 120px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  .note {
+    margin: 6px 0 0;
+    white-space: pre-wrap;
+  }
+  .danger {
+    display: grid;
+    gap: 10px;
+    margin-top: 32px;
+    max-width: 640px;
+    border-color: #f2c4bb;
+  }
+  .danger p {
+    margin: 0;
+  }
+  .confirm {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-weight: 600;
+  }
+  .btn--danger {
+    justify-self: start;
+    background: #b42318;
+    color: #fff;
+  }
+  .btn--danger:hover {
+    background: #8f1c13;
+    color: #fff;
+  }
+  .error {
+    color: #b42318;
+    margin: 0;
+  }
+  .ok {
+    background: var(--forest-100);
+    color: var(--forest-700);
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+</style>

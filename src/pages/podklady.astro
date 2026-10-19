@@ -1,0 +1,394 @@
+---
+// Seznam podkladů a kontrol pro Lindu. Přístup jen s kódem v odkazu (?k=…), odkaz je v administraci.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { checklistKeyValid } from '../lib/auth';
+import { getChecklist } from '../lib/checklist';
+import { PARTS, CHECKLIST_ITEMS, CHECKLIST_PREVIEW } from '../data/podklady';
+
+export const prerender = false;
+
+const key = Astro.url.searchParams.get('k');
+const allowed = await checklistKeyValid(key);
+const state = allowed ? await getChecklist() : {};
+const doneCount = CHECKLIST_ITEMS.filter((i) => state[i.id]?.done).length;
+const total = CHECKLIST_ITEMS.length;
+if (!allowed) Astro.response.status = 403;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+<BaseLayout title="Podklady pro nový web" description="Seznam podkladů a kontrol pro Lindu." noindex hideMobileCta>
+  <section class="section checklist-page">
+    <div class="container cl">
+      {!allowed ? (
+        <div class="card">
+          <h1>Odkaz není platný</h1>
+          <p>Použij prosím celý odkaz, který ti poslal Jan (včetně části <code>?k=…</code>).</p>
+        </div>
+      ) : (
+        <>
+          <header class="cl__head">
+            <span class="eyebrow">Pro Lindu · nový web Kickbike Club Hille</span>
+            <h1>Co od tebe potřebujeme a co zkontrolovat</h1>
+            <p class="lead">Nový web je hotový a celý přeložený do holandštiny. Než ho spustíme místo současného webu, potřebujeme od tebe pár podkladů a tvůj pohled na texty. Překlad připravil Claude, takže klidně přepiš cokoli, co nezní jako ty.</p>
+          </header>
+
+          <div class="cl__status card" aria-live="polite">
+            <div class="cl__row">
+              <span><strong class="cl__num" data-count>{doneCount} z {total}</strong> hotovo</span>
+              <span class="cl__save" data-save>Odpovědi se ukládají automaticky.</span>
+            </div>
+            <div class="cl__bar" aria-hidden="true"><span data-bar style={`width:${Math.round((doneCount / total) * 100)}%`}></span></div>
+            <p class="cl__links">
+              <a href={`${CHECKLIST_PREVIEW}/`} target="_blank" rel="noopener">Náhled holandské verze webu →</a>
+            </p>
+            <p class="cl__how">Hotové věci zaškrtni a odpovědi piš rovnou do políčka u položky. Všechno se samo uloží a Jan to uvidí. Stránku můžeš kdykoli zavřít a vrátit se k ní.</p>
+          </div>
+
+          <div class="cl__filters" role="group" aria-label="Zobrazit">
+            <button type="button" data-filter="all" aria-pressed="true">Vše</button>
+            <button type="button" data-filter="open" aria-pressed="false">Zbývá</button>
+            <button type="button" data-filter="done" aria-pressed="false">Hotovo</button>
+          </div>
+
+          <div class="cl__parts" data-checklist data-key={key}>
+            {PARTS.map((part) => (
+              <section class="cl__part" id={part.id}>
+                <div class="cl__part-head">
+                  <h2>{part.title}</h2>
+                  <p>{part.text}</p>
+                </div>
+                {part.groups.map((group) => (
+                  <div class="cl__group">
+                    <h3>{group.title} <small data-group-count></small></h3>
+                    <ol class="cl__items">
+                      {group.items.map((it) => {
+                        const s = state[it.id];
+                        return (
+                          <li class:list={['cl__item', { 'is-done': s?.done }]} data-id={it.id}>
+                            <input type="checkbox" class="cl__check" id={`c-${it.id}`} checked={s?.done} />
+                            <div class="cl__main">
+                              <label class="cl__title" for={`c-${it.id}`}>
+                                {it.title}
+                                {it.must && <span class="cl__tag">nutné ke spuštění</span>}
+                              </label>
+                              <p class="cl__why">{it.why}</p>
+                              {it.link && (
+                                <a class="cl__link" href={`${CHECKLIST_PREVIEW}${it.link}`} target="_blank" rel="noopener">Otevřít na webu: {it.link} →</a>
+                              )}
+                              <label class="cl__note-label" for={`n-${it.id}`}>Odpověď nebo poznámka</label>
+                              <textarea id={`n-${it.id}`} rows="2">{s?.note ?? ''}</textarea>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                    <p class="cl__empty" hidden>Tady je vše hotovo.</p>
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-checklist]');
+  if (root) {
+    const key = root.dataset.key ?? '';
+    const saveEl = document.querySelector<HTMLElement>('[data-save]')!;
+    const items = [...root.querySelectorAll<HTMLLIElement>('.cl__item')];
+    let filter = 'all';
+    let pending = 0;
+
+    const setSave = (text: string, error = false) => {
+      saveEl.textContent = text;
+      saveEl.classList.toggle('is-error', error);
+    };
+
+    async function save(id: string, change: { done?: boolean; note?: string }) {
+      pending++;
+      setSave('Ukládám…');
+      try {
+        const res = await fetch('/api/podklady/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ k: key, id, ...change }),
+        });
+        const data = (await res.json()) as { ok: boolean; message?: string };
+        pending--;
+        if (!data.ok) throw new Error(data.message);
+        if (pending === 0) setSave('Uloženo');
+      } catch (err) {
+        pending = Math.max(0, pending - 1);
+        setSave((err as Error).message || 'Uložení se nepovedlo. Zkontroluj připojení a zkus to znovu.', true);
+      }
+    }
+
+    function render() {
+      let done = 0;
+      for (const li of items) {
+        const isDone = li.querySelector<HTMLInputElement>('.cl__check')!.checked;
+        li.classList.toggle('is-done', isDone);
+        li.hidden = (filter === 'open' && isDone) || (filter === 'done' && !isDone);
+        if (isDone) done++;
+      }
+      root!.querySelectorAll<HTMLElement>('.cl__group').forEach((g) => {
+        const lis = [...g.querySelectorAll<HTMLLIElement>('.cl__item')];
+        const d = lis.filter((li) => li.classList.contains('is-done')).length;
+        g.querySelector('[data-group-count]')!.textContent = `${d}/${lis.length}`;
+        const empty = g.querySelector<HTMLElement>('.cl__empty')!;
+        empty.hidden = lis.some((li) => !li.hidden);
+        empty.textContent = filter === 'open' ? 'Tady je vše hotovo.' : 'Zatím nic.';
+      });
+      document.querySelector('[data-count]')!.textContent = `${done} z ${items.length}`;
+      document.querySelector<HTMLElement>('[data-bar]')!.style.width = `${Math.round((done / items.length) * 100)}%`;
+    }
+
+    for (const li of items) {
+      const id = li.dataset.id!;
+      const cb = li.querySelector<HTMLInputElement>('.cl__check')!;
+      const ta = li.querySelector<HTMLTextAreaElement>('textarea')!;
+      let saved = ta.value;
+      let timer = 0;
+      cb.addEventListener('change', () => {
+        render();
+        save(id, { done: cb.checked });
+      });
+      const flush = () => {
+        window.clearTimeout(timer);
+        if (ta.value !== saved) {
+          saved = ta.value;
+          save(id, { note: ta.value });
+        }
+      };
+      ta.addEventListener('input', () => {
+        setSave('Píšeš…');
+        window.clearTimeout(timer);
+        timer = window.setTimeout(flush, 1000);
+      });
+      ta.addEventListener('blur', flush);
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) =>
+      b.addEventListener('click', () => {
+        filter = b.dataset.filter!;
+        document.querySelectorAll('[data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        render();
+      }),
+    );
+
+    // Upozornění při zavírání stránky, pokud se ještě ukládá
+    window.addEventListener('beforeunload', (e) => {
+      if (pending > 0) e.preventDefault();
+    });
+
+    render();
+  }
+</script>
+
+<style>
+  .checklist-page {
+    padding-top: clamp(24px, 4vw, 48px);
+  }
+  .cl {
+    max-width: 860px;
+    display: grid;
+    gap: 26px;
+  }
+  .cl__head {
+    display: grid;
+    gap: 10px;
+  }
+  .cl__head h1 {
+    font-size: clamp(1.9rem, 5vw, 2.7rem);
+    margin: 0;
+  }
+  .cl__status {
+    display: grid;
+    gap: 12px;
+  }
+  .cl__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px 16px;
+  }
+  .cl__num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--forest-900);
+    font-variant-numeric: tabular-nums;
+  }
+  .cl__save {
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+  .cl__save.is-error {
+    color: #b42318;
+    font-weight: 600;
+  }
+  .cl__bar {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--sand-100);
+    overflow: hidden;
+  }
+  .cl__bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--forest-500);
+    transition: width 0.4s ease;
+  }
+  .cl__links,
+  .cl__how {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+  .cl__how {
+    color: var(--muted);
+  }
+  .cl__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cl__filters button {
+    font: 600 0.9rem var(--font-body);
+    padding: 0.45em 1em;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .cl__filters button[aria-pressed='true'] {
+    background: var(--forest-900);
+    color: var(--white);
+    border-color: var(--forest-900);
+  }
+  .cl__parts {
+    display: grid;
+    gap: 40px;
+  }
+  .cl__part {
+    display: grid;
+    gap: 20px;
+  }
+  .cl__part-head h2 {
+    margin-bottom: 4px;
+    font-size: 1.6rem;
+  }
+  .cl__part-head p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .cl__group {
+    display: grid;
+    gap: 10px;
+  }
+  .cl__group h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .cl__group h3 small {
+    font: 500 0.82rem var(--font-body);
+    color: var(--muted);
+    margin-left: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .cl__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .cl__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 4px 14px;
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    background: var(--white);
+    border: 1px solid var(--border);
+  }
+  .cl__item[hidden] {
+    display: none;
+  }
+  .cl__item.is-done {
+    background: var(--forest-100);
+    border-color: transparent;
+  }
+  .cl__item.is-done .cl__title {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .cl__check {
+    width: 22px;
+    height: 22px;
+    margin-top: 2px;
+    accent-color: var(--forest-700);
+    cursor: pointer;
+  }
+  .cl__main {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+  .cl__title {
+    font-weight: 650;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .cl__tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 0.12em 0.6em;
+    border-radius: 999px;
+    background: var(--orange-100);
+    color: #9a3a0e;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: 1px;
+  }
+  .cl__why {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+  .cl__link {
+    font-size: 0.88rem;
+  }
+  .cl__note-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .cl__main textarea {
+    width: 100%;
+    min-height: 2.6em;
+    resize: vertical;
+    font: 0.95rem/1.5 var(--font-body);
+    padding: 8px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+    color: var(--ink);
+  }
+  .cl__main textarea:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .cl__empty {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+</style>

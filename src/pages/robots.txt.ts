@@ -11,6 +11,7 @@ Disallow: /bestelling/
 Disallow: /beheer/
 Disallow: /api/
 Disallow: /cadeaubon/bekijken/
+Disallow: /podklady/
 
 Sitemap: https://www.kickbikeclubhille.nl/sitemap-index.xml
 `;

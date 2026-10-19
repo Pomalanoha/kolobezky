@@ -28,6 +28,7 @@ Astro.response.headers.set('Cache-Control', 'no-store');
           <nav class="admin__nav">
             <a href="/beheer/">Objednávky</a>
             <a href="/beheer/zpravy/">Zprávy{newMessages > 0 && <span class="admin__count">{newMessages}</span>}</a>
+            <a href="/beheer/podklady/">Podklady</a>
             <a href="/beheer/export/">Export CSV</a>
             <a href="/" target="_blank">Web ↗</a>
             <form method="POST" action="/beheer/"><input type="hidden" name="action" value="logout" /><button type="submit">Odhlásit</button></form>

@@ -58,7 +58,7 @@ const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
   </head>
   <body class:list={{ 'no-mobile-cta': hideMobileCta }}>
     <a class="skip-link" href="#main">Přeskočit na obsah</a>
-    {!Astro.url.pathname.startsWith('/cadeaubon') && <PromoBar />}
+    {!['/cadeaubon', '/podklady'].some((p) => Astro.url.pathname.startsWith(p)) && <PromoBar />}
     <Header />
     <main id="main">
       <slot />

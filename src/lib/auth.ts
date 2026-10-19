@@ -52,3 +52,16 @@ export async function login(cookies: AstroCookies, attempt: string): Promise<boo
 export function logout(cookies: AstroCookies) {
   cookies.delete(COOKIE, { path: '/beheer/' });
 }
+
+/** Přístupový kód pro stránku /podklady/ – odvozený z ADMIN_PASSWORD, takže se nemusí nic dalšího nastavovat.
+ *  Změnou hesla do administrace se změní i kód (a starý odkaz přestane fungovat). */
+export async function checklistKey(): Promise<string | null> {
+  const password = secret('ADMIN_PASSWORD');
+  if (!password) return null;
+  return (await hmac(password, 'podklady-pro-lindu')).slice(0, 12);
+}
+
+export async function checklistKeyValid(key: string | null): Promise<boolean> {
+  const expected = await checklistKey();
+  return Boolean(expected && key && safeEqual(key, expected));
+}
