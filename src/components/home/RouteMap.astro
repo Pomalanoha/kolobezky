@@ -5,18 +5,21 @@ import { getCollection } from 'astro:content';
 import Icon from '../Icon.astro';
 
 // Souřadnice v mapě (viewBox 600 × 420). Trasy jsou schematické – upřesní se s Lindou.
-const geo: Record<string, { pin: [number, number]; path: string; label: string; labelSide?: 'left' | 'right' }> = {
+// pop = kam se vysune bublina od bodu, aby nezakrývala vlastní trasu.
+const geo: Record<string, { pin: [number, number]; path: string; label: string; labelSide?: 'left' | 'right'; pop: { x: 'left' | 'right' | 'center'; y: 'above' | 'below' | 'middle' } }> = {
   // 1 – okruh kolem jezera v Haarlemmermeerse Bos
   'hoofddorp-haarlemmermeerse-bos': {
     pin: [398, 322],
     path: 'M398 322 C 396 292, 436 280, 466 292 S 494 338, 462 352 S 400 352, 398 322',
     label: 'Hoofddorp',
+    pop: { x: 'left', y: 'middle' }, // okruh leží vpravo od bodu → bublina vlevo vedle
   },
   // 2 – okruh kolem jezer ve Spaarnwoude
   spaarnwoude: {
     pin: [412, 104],
     path: 'M412 104 C 418 72, 470 60, 500 78 S 512 132, 476 142 S 410 134, 412 104',
     label: 'Spaarnwoude',
+    pop: { x: 'left', y: 'middle' }, // okruh leží vpravo od bodu → bublina vlevo vedle
   },
   // 3 – přes duny od Overveenu k pláži v Zandvoortu
   'kennemerduinen-zandvoort': {
@@ -24,6 +27,7 @@ const geo: Record<string, { pin: [number, number]; path: string; label: string; 
     path: 'M238 172 C 214 146, 186 150, 178 178 S 160 214, 140 220 S 116 232, 104 236',
     label: 'Zandvoort',
     labelSide: 'right',
+    pop: { x: 'right', y: 'below' }, // trasa vede od bodu vpravo nahoru
   },
 };
 
@@ -168,7 +172,7 @@ const first = routes[0]?.id;
       <!-- Vlastní popisek u aktivního bodu (místo systémového tooltipu) -->
       {routes.map((r) => (
         <div
-          class:list={['pop', { 'is-active': r.id === first, 'pop--below': r.pin[1] < 170 }, r.pin[0] < 200 ? 'pop--right' : r.pin[0] > 380 ? 'pop--left' : 'pop--center']}
+          class:list={['pop', { 'is-active': r.id === first }, `pop--${r.pop.x}`, `pop--${r.pop.y}`]}
           data-route={r.id}
           style={`left:${(r.pin[0] / 600) * 100}%;top:${(r.pin[1] / 420) * 100}%`}
           aria-hidden={r.id === first ? 'false' : 'true'}
@@ -588,6 +592,9 @@ const first = routes[0]?.id;
   .pop--right { --tx: -14px; }
   .pop--left { --tx: calc(-100% + 14px); }
   .pop--below { --ty: 26px; }
+  .pop--middle { --ty: -50%; }
+  .pop--left.pop--middle { --tx: calc(-100% - 26px); }
+  .pop--right.pop--middle { --tx: 26px; }
   .pop.is-active {
     opacity: 1;
     pointer-events: auto;
@@ -616,6 +623,9 @@ const first = routes[0]?.id;
   .pop--right::after { left: 8px; }
   .pop--left::after { left: auto; right: 8px; }
   .pop--below::after { bottom: auto; top: -6px; }
+  .pop--middle::after { bottom: auto; top: calc(50% - 6px); }
+  .pop--left.pop--middle::after { left: auto; right: -6px; }
+  .pop--right.pop--middle::after { left: -6px; }
   @media (max-width: 600px) {
     /* Na mobilu by popisek zakryl mapu – informace jsou v kartách pod ní */
     .pop {
