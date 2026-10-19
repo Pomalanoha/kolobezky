@@ -70,7 +70,7 @@ export const promo = {
   cta: 'Dárkový poukaz',
   href: '/cadeaubon/',
   periods: [
-    { from: '11-01', to: '12-24', label: 'Sinterklaas a Vánoce' },
+    { from: '10-19', to: '12-24', label: 'Sinterklaas a Vánoce' },
     { from: '04-20', to: '05-14', label: 'Den matek (2. neděle v květnu)' },
     { from: '05-28', to: '06-21', label: 'Den otců (3. neděle v červnu)' },
   ],
