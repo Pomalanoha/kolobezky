@@ -1,10 +1,20 @@
-// Cloudflare Workers – statický web (výstup `npm run build` ve složce dist/).
+// Cloudflare Workers – statický web + malý server pro e-shop.
 {
   "name": "kolobezky",
+  "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./dist",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "directory": "./dist/client",
+    "html_handling": "auto-trailing-slash"
+  },
+  // Databáze objednávek. Bez database_id ji Wrangler při prvním nasazení sám vytvoří.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kolobezky-objednavky"
+    }
+  ],
+  "observability": { "enabled": true }
 }

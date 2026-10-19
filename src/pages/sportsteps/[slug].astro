@@ -8,7 +8,7 @@ import Icon from '../../components/Icon.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Todo from '../../components/Todo.astro';
 import CtaBand from '../../components/CtaBand.astro';
-import { site, bookingHref } from '../../config';
+import { site, bookingHref, shop } from '../../config';
 import { formatPrice, t } from '../../i18n/ui';
 import { breadcrumbSchema, businessId } from '../../lib/schema';
 
@@ -43,7 +43,7 @@ const productSchema = {
     url: `${site.url}/sportsteps/${product.id}/`,
     priceCurrency: 'EUR',
     price: d.price,
-    availability: d.availability === 'op-voorraad' ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder',
+    availability: d.availability === 'op-voorraad' ? 'https://schema.org/InStock' : d.availability === 'uitverkocht' ? 'https://schema.org/SoldOut' : 'https://schema.org/PreOrder',
     seller: { '@id': businessId },
   },
 };
@@ -79,8 +79,8 @@ const productSchema = {
           <div class="pp__price">
             <span class="pp__amount">{d.priceFrom && <small>{t('product.from')} </small>}{formatPrice(d.price)}</span>
             <span class="pp__vat">{t('product.inclVat')}</span>
-            <span class:list={['pp__stock', { 'pp__stock--in': d.availability === 'op-voorraad' }]}>
-              {d.availability === 'op-voorraad' ? t('product.inStock') : t('product.onOrder')}
+            <span class:list={['pp__stock', { 'pp__stock--in': d.availability === 'op-voorraad', 'pp__stock--out': d.availability === 'uitverkocht' }]}>
+              {d.availability === 'op-voorraad' ? t('product.inStock') : d.availability === 'uitverkocht' ? t('product.soldOut') : t('product.onOrder')}
             </span>
           </div>
 
@@ -89,13 +89,14 @@ const productSchema = {
           )}
 
           <div class="btn-row">
-            <a class="btn btn--primary" href={bookingHref}>Nejdřív vyzkoušet</a>
-            {d.paymentLink ? (
-              <a class="btn btn--secondary" href={d.paymentLink} rel="noopener">{t('product.buy')}</a>
+            {d.availability === 'uitverkocht' ? (
+              <span class="btn btn--secondary" aria-disabled="true">{t('product.soldOut')}</span>
             ) : (
-              <a class="btn btn--secondary" href={`/contact/?onderwerp=sportstep&model=${encodeURIComponent(d.title)}`}>{t('product.ask')}</a>
+              <a class="btn btn--primary" href={`/bestellen/?item=${product.id}`}>{t('product.order')}</a>
             )}
+            <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
           </div>
+          <p class="pp__shipping">Platba převodem · dodání {shop.deliveryTime} · nebo vyzvednutí v Hoofddorpu s nastavením na míru</p>
 
           <div class="pp__box card">
             <h2>Váháš, jestli je to ta pravá?</h2>
@@ -225,6 +226,15 @@ const productSchema = {
   .pp__stock--in {
     background: var(--forest-100);
     color: var(--forest-700);
+  }
+  .pp__stock--out {
+    background: #eee;
+    color: #555;
+  }
+  .pp__shipping {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--muted);
   }
   .pp__variants {
     color: var(--muted);

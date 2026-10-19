@@ -1,0 +1,110 @@
+---
+import '../styles/global.css';
+import { site } from '../config';
+
+interface Props {
+  title: string;
+  loggedIn?: boolean;
+}
+const { title, loggedIn = false } = Astro.props;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · Administrace {site.name}</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+  </head>
+  <body class="admin">
+    <header class="admin__bar">
+      <div class="container admin__bar-inner">
+        <a href="/beheer/" class="admin__brand">{site.name} <span>administrace</span></a>
+        {loggedIn && (
+          <nav class="admin__nav">
+            <a href="/beheer/">Objednávky</a>
+            <a href="/beheer/export/">Export CSV</a>
+            <a href="/" target="_blank">Web ↗</a>
+            <form method="POST" action="/beheer/"><input type="hidden" name="action" value="logout" /><button type="submit">Odhlásit</button></form>
+          </nav>
+        )}
+      </div>
+    </header>
+    <main class="container admin__main">
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  .badge {
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .badge--nieuw { background: var(--orange-100); color: #9a3a0e; }
+  .badge--betaald { background: #dbeafe; color: #1e40af; }
+  .badge--besteld { background: #ede9fe; color: #5b21b6; }
+  .badge--verzonden { background: var(--forest-100); color: var(--forest-700); }
+  .badge--geannuleerd { background: #eee; color: #555; }
+</style>
+
+<style>
+  .admin {
+    padding-bottom: 0 !important;
+    background: var(--sand-50);
+  }
+  .admin__bar {
+    background: var(--forest-950);
+    color: var(--sand-100);
+  }
+  .admin__bar-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+  }
+  .admin__brand {
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+  .admin__brand span {
+    color: var(--orange-500);
+    font-weight: 500;
+  }
+  .admin__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+  .admin__nav a,
+  .admin__nav button {
+    color: var(--sand-100);
+    text-decoration: none;
+    font: 500 0.95rem var(--font-body);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+  }
+  .admin__nav a:hover,
+  .admin__nav button:hover {
+    color: var(--orange-500);
+  }
+  .admin__nav form {
+    margin: 0;
+  }
+  .admin__main {
+    padding-block: 32px 64px;
+  }
+</style>

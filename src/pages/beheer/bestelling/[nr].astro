@@ -1,0 +1,199 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { isLoggedIn } from '../../../lib/auth';
+import { getOrder, updateOrder, STATUSES, isStatus } from '../../../lib/orders';
+import { formatCents } from '../../../lib/shop';
+
+export const prerender = false;
+
+if (!(await isLoggedIn(Astro.cookies))) return Astro.redirect('/beheer/', 303);
+
+const nr = Astro.params.nr ?? '';
+const saved = Astro.url.searchParams.has('ulozeno');
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const status = String(form.get('status') ?? '');
+  await updateOrder(nr, {
+    status: isStatus(status) ? status : undefined,
+    adminNote: String(form.get('admin_note') ?? '').slice(0, 2000),
+  });
+  // Přesměrování po uložení, aby obnovení stránky neodeslalo formulář znovu.
+  return Astro.redirect(`/beheer/bestelling/${encodeURIComponent(nr)}/?ulozeno=1`, 303);
+}
+
+const order = await getOrder(nr);
+if (!order) return Astro.redirect('/beheer/', 303);
+
+const dateFmt = new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Amsterdam' });
+const addressText = [order.name, order.street, `${order.postcode} ${order.city}`.trim()].filter(Boolean).join('\n');
+// Nizozemské číslo 06… → 316… pro WhatsApp
+const digits = order.phone.replace(/\D/g, '');
+const waNumber = digits.startsWith('00') ? digits.slice(2) : digits.startsWith('0') ? `31${digits.slice(1)}` : digits;
+const shippingText = order.shippingCents === null ? 'neurčeno' : order.shippingCents === 0 ? 'zdarma' : formatCents(order.shippingCents);
+---
+<AdminLayout title={order.number} loggedIn>
+  <p><a href="/beheer/">← Všechny objednávky</a></p>
+  <div class="head">
+    <h1>{order.number}</h1>
+    <span class={`badge badge--${order.status}`}>{STATUSES[order.status]}</span>
+  </div>
+  <p class="meta">Přijato {dateFmt.format(new Date(order.createdAt))} · upraveno {dateFmt.format(new Date(order.updatedAt))}</p>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Položky</h2>
+      <table>
+        <tbody>
+          {order.lines.map((l) => (
+            <tr><td>{l.qty}× {l.title}</td><td class="num">{formatCents(l.totalCents)}</td></tr>
+          ))}
+          <tr><td>{order.shippingLabel}</td><td class="num">{shippingText}</td></tr>
+        </tbody>
+        <tfoot><tr><th>Celkem</th><th class="num">{formatCents(order.totalCents)}</th></tr></tfoot>
+      </table>
+      {order.shippingCents === null && <p class="warn">Cena dopravy není nastavená – potvrď ji zákazníkovi e-mailem.</p>}
+      {order.note && (<><h3>Poznámka zákazníka</h3><p class="note">{order.note}</p></>)}
+    </div>
+
+    <div class="card">
+      <h2>Zákazník</h2>
+      <p class="addr">{addressText.split('\n').map((line) => <>{line}<br /></>)}</p>
+      <p>
+        <a href={`mailto:${order.email}?subject=${encodeURIComponent(`Objednávka ${order.number}`)}`}>{order.email}</a><br />
+        {order.phone && (<><a href={`tel:${order.phone.replace(/\s/g, '')}`}>{order.phone}</a> · <a href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener">WhatsApp</a></>)}
+      </p>
+      <p class="muted">{order.shipping === 'ophalen' ? 'Vyzvednutí v Hoofddorpu' : 'Doručení na adresu'}</p>
+      <button type="button" class="btn btn--secondary" data-copy={addressText}>Kopírovat adresu</button>
+    </div>
+  </div>
+
+  <form class="card update" method="POST">
+    <h2>Stav a poznámka</h2>
+    {saved && <p class="ok" role="status">Uloženo.</p>}
+    <div class="statuses">
+      {Object.entries(STATUSES).map(([key, label]) => (
+        <label class="status">
+          <input type="radio" name="status" value={key} checked={order.status === key} />
+          <span class={`badge badge--${key}`}>{label}</span>
+        </label>
+      ))}
+    </div>
+    <label for="admin_note">Interní poznámka (zákazník ji nevidí)</label>
+    <textarea id="admin_note" name="admin_note" rows="4">{order.adminNote}</textarea>
+    <button class="btn btn--primary" type="submit">Uložit</button>
+  </form>
+</AdminLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+      const text = btn.textContent;
+      btn.textContent = 'Zkopírováno ✓';
+      setTimeout(() => (btn.textContent = text), 1500);
+    });
+  });
+</script>
+
+<style>
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .head h1 {
+    margin: 0;
+  }
+  .meta,
+  .muted {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .grid {
+    display: grid;
+    gap: 20px;
+    margin: 20px 0;
+  }
+  @media (min-width: 860px) {
+    .grid {
+      grid-template-columns: 1.4fr 1fr;
+    }
+  }
+  h2 {
+    font-size: 1.3rem;
+  }
+  h3 {
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  td,
+  th {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+  tfoot th {
+    border-bottom: 0;
+    font-size: 1.1rem;
+  }
+  .note {
+    background: var(--sand-100);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    white-space: pre-wrap;
+  }
+  .warn {
+    background: #fff4b8;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .update {
+    display: grid;
+    gap: 12px;
+    max-width: 760px;
+  }
+  .update .btn {
+    justify-self: start;
+  }
+  .statuses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .status input {
+    accent-color: var(--forest-700);
+  }
+  textarea {
+    font: inherit;
+    padding: 0.75em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  label[for] {
+    font-weight: 600;
+  }
+  .ok {
+    background: var(--forest-100);
+    color: var(--forest-700);
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,493 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import Todo from '../components/Todo.astro';
+import { shop, site } from '../config';
+import { formatPrice } from '../i18n/ui';
+import { getCatalog } from '../lib/shop';
+import { breadcrumbSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Objednávka', href: '/bestellen/' }];
+const catalog = await getCatalog();
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const steps = catalog.filter((c) => c.kind === 'step');
+const accessories = catalog.filter((c) => c.kind === 'acc' && c.available);
+// Ceny pro živý souhrn v prohlížeči (finální cenu vždy počítá server).
+const prices = Object.fromEntries(catalog.map((c) => [c.key, { title: c.title, price: c.price }]));
+const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.price, needsAddress: s.needsAddress }));
+---
+<BaseLayout
+  title="Objednávka sportovní koloběžky"
+  description="Objednej si sportovní koloběžku Crussis nebo doplňky. Platba převodem, dodání cca do 10 pracovních dnů nebo vyzvednutí v Hoofddorpu s nastavením na míru."
+  jsonLd={breadcrumbSchema(crumbs)} 
+  hideMobileCta
+>
+  <PageHero eyebrow="E-shop" title="Objednávka" lead={`Vyber koloběžku a doplňky, vyplň adresu a máš hotovo. Platba převodem, dodání ${shop.deliveryTime}.`} crumbs={crumbs} />
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <Todo>Cena dopravy (zatím „upřesníme e-mailem“), IBAN a úplná adresa firmy se doplní v src/config.ts. Tlačítko v NL verzi musí znít „Bestelling plaatsen met betaalverplichting“.</Todo>
+      <form class="order" method="POST" action="/api/bestelling/" novalidate data-prices={JSON.stringify(prices)} data-shipping={JSON.stringify(shipping)}>
+        <div class="order__main">
+          <fieldset class="card">
+            <legend><span class="step-no">1</span> Koloběžka</legend>
+            <div class="field">
+              <label for="step">Model a varianta</label>
+              <select id="step" name="step">
+                <option value="">— bez koloběžky (jen doplňky) —</option>
+                {products.map((p) => (
+                  <optgroup label={p.data.title}>
+                    {steps.filter((s) => s.key.startsWith(`step:${p.id}|`)).map((s) => (
+                      <option value={s.key} disabled={!s.available} data-product={p.id}>
+                        {s.title} – {formatPrice(s.price)}{!s.available ? ' (vyprodáno)' : ''}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+              <p class="field__error" data-error-for="step"></p>
+            </div>
+            <div class="field field--qty">
+              <label for="qty">Počet kusů</label>
+              <input id="qty" name="qty" type="number" min="1" max={shop.maxQty} value="1" inputmode="numeric" />
+            </div>
+            <p class="hint"><Icon name="check" size={16} /> Nevíš, který model? <a href="/proefrit-en-lessen/">Vyzkoušej si ho nejdřív</a> nebo <a href={site.whatsapp} target="_blank" rel="noopener">napiš Lindě</a>.</p>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step-no">2</span> Doplňky <span class="opt">(nepovinné)</span></legend>
+            <div class="accs">
+              {accessories.map((a) => (
+                <label class="acc">
+                  <input type="checkbox" name="acc" value={a.key} />
+                  <span class="acc__title">{a.title}</span>
+                  <span class="acc__price">{formatPrice(a.price)}</span>
+                </label>
+              ))}
+            </div>
+            <p class="field__error" data-error-for="acc"></p>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step-no">3</span> Předání</legend>
+            <div class="ship">
+              {shop.shipping.map((s, i) => (
+                <label class="ship__opt">
+                  <input type="radio" name="shipping" value={s.id} checked={i === 0} />
+                  <span>
+                    <strong>{s.label}</strong>
+                    <small>{s.price === null ? 'cenu dopravy upřesníme e-mailem' : s.price === 0 ? 'zdarma' : formatPrice(s.price)}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+            <p class="field__error" data-error-for="shipping"></p>
+            <p class="hint"><Icon name="calendar" size={16} /> Dodání {shop.deliveryTime} od přijetí platby.</p>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step-no">4</span> Kontaktní údaje a adresa</legend>
+            <div class="grid-2">
+              <div class="field">
+                <label for="name">Jméno a příjmení</label>
+                <input id="name" name="name" autocomplete="name" required />
+                <p class="field__error" data-error-for="name"></p>
+              </div>
+              <div class="field">
+                <label for="phone">Telefon <span class="opt">(doporučeno)</span></label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel" />
+                <p class="field__error" data-error-for="phone"></p>
+              </div>
+            </div>
+            <div class="field">
+              <label for="email">E-mail</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <p class="field__error" data-error-for="email"></p>
+            </div>
+            <div class="address" data-address>
+              <div class="field">
+                <label for="street">Ulice a číslo domu</label>
+                <input id="street" name="street" autocomplete="street-address" />
+                <p class="field__error" data-error-for="street"></p>
+              </div>
+              <div class="grid-2">
+                <div class="field">
+                  <label for="postcode">PSČ</label>
+                  <input id="postcode" name="postcode" autocomplete="postal-code" placeholder="2132 AB" />
+                  <p class="field__error" data-error-for="postcode"></p>
+                </div>
+                <div class="field">
+                  <label for="city">Město</label>
+                  <input id="city" name="city" autocomplete="address-level2" />
+                  <p class="field__error" data-error-for="city"></p>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label for="note">Poznámka <span class="opt">(nepovinné)</span></label>
+              <textarea id="note" name="note" rows="3" placeholder="Např. výška postavy kvůli nastavení, preferovaný termín vyzvednutí…"></textarea>
+            </div>
+            <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+          </fieldset>
+        </div>
+
+        <aside class="order__summary card">
+          <h2>Souhrn</h2>
+          <ul class="sum" data-summary>
+            <li class="sum__empty">Zatím nic nevybráno.</li>
+          </ul>
+          <dl class="totals">
+            <dt>Doprava</dt><dd data-shipping-price>—</dd>
+            <dt class="totals__grand">Celkem vč. DPH</dt><dd class="totals__grand" data-total>{formatPrice(0)}</dd>
+          </dl>
+          <p class="pay"><Icon name="check" size={16} /> Platba převodem do {shop.paymentDays} dnů. Údaje k platbě dostaneš hned po objednání.</p>
+          <label class="consent">
+            <input type="checkbox" name="terms" required />
+            <span>Souhlasím s <a href="/algemene-voorwaarden/" target="_blank">obchodními podmínkami</a> a beru na vědomí <a href="/privacybeleid/" target="_blank">zásady ochrany osobních údajů</a>.</span>
+          </label>
+          <p class="field__error" data-error-for="terms"></p>
+          <button class="btn btn--primary order__submit" type="submit">Objednat s povinností platby</button>
+          <p class="form-error" data-form-error role="alert"></p>
+        </aside>
+      </form>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form.order')!;
+  const prices: Record<string, { title: string; price: number }> = JSON.parse(form.dataset.prices!);
+  const shipping: { id: string; price: number | null; needsAddress: boolean }[] = JSON.parse(form.dataset.shipping!);
+  const fmt = new Intl.NumberFormat(document.documentElement.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { style: 'currency', currency: 'EUR' });
+  const stepSelect = form.querySelector<HTMLSelectElement>('#step')!;
+  const qtyInput = form.querySelector<HTMLInputElement>('#qty')!;
+  const addressBox = form.querySelector<HTMLElement>('[data-address]')!;
+
+  // Předvýběr z odkazu: /bestellen/?item=<produkt> nebo ?acc=<doplněk>
+  const params = new URLSearchParams(location.search);
+  const item = params.get('item');
+  if (item) {
+    const opt = [...stepSelect.options].find((o) => o.dataset.product === item && !o.disabled);
+    if (opt) stepSelect.value = opt.value;
+  }
+  const acc = params.get('acc');
+  if (acc) {
+    const box = form.querySelector<HTMLInputElement>(`input[name="acc"][value="acc:${CSS.escape(acc)}"]`);
+    if (box) box.checked = true;
+  }
+
+  function update() {
+    const lines: { title: string; total: number }[] = [];
+    const qty = Math.max(1, Math.min(Number(qtyInput.max), Number(qtyInput.value) || 1));
+    if (stepSelect.value && prices[stepSelect.value]) {
+      const p = prices[stepSelect.value];
+      lines.push({ title: `${qty}× ${p.title}`, total: p.price * qty });
+    }
+    form.querySelectorAll<HTMLInputElement>('input[name="acc"]:checked').forEach((box) => {
+      const p = prices[box.value];
+      if (p) lines.push({ title: p.title, total: p.price });
+    });
+    const ship = shipping.find((s) => s.id === (form.querySelector<HTMLInputElement>('input[name="shipping"]:checked')?.value ?? ''));
+    const subtotal = lines.reduce((s, l) => s + l.total, 0);
+    const summary = form.querySelector('[data-summary]')!;
+    summary.innerHTML = '';
+    if (lines.length === 0) summary.innerHTML = '<li class="sum__empty">Zatím nic nevybráno.</li>';
+    for (const l of lines) {
+      const li = document.createElement('li');
+      const name = document.createElement('span');
+      name.textContent = l.title;
+      const price = document.createElement('span');
+      price.textContent = fmt.format(l.total);
+      li.append(name, price);
+      summary.append(li);
+    }
+    form.querySelector('[data-shipping-price]')!.textContent = !ship ? '—' : ship.price === null ? 'upřesníme' : ship.price === 0 ? 'zdarma' : fmt.format(ship.price);
+    form.querySelector('[data-total]')!.textContent = fmt.format(subtotal + (ship?.price ?? 0));
+    addressBox.hidden = !ship?.needsAddress;
+  }
+  form.addEventListener('input', update);
+  // Po opravě pole zmizí jeho chybová hláška.
+  const clearError = (e: Event) => {
+    const name = (e.target as HTMLInputElement).name;
+    const el = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+    if (el) el.textContent = '';
+  };
+  form.addEventListener('input', clearError);
+  form.addEventListener('change', clearError);
+  form.addEventListener('change', update);
+  update();
+
+  function showErrors(errors: Record<string, string>) {
+    form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((el) => {
+      el.textContent = errors[el.dataset.errorFor!] ?? '';
+    });
+    const first = Object.keys(errors)[0];
+    if (!first) return;
+    const target = form.querySelector<HTMLElement>(`[name="${first}"]`) ?? form.querySelector<HTMLElement>(`[data-error-for="${first}"]`);
+    target?.scrollIntoView({ block: 'center' });
+    target?.focus();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const button = form.querySelector<HTMLButtonElement>('.order__submit')!;
+    const formError = form.querySelector<HTMLElement>('[data-form-error]')!;
+    formError.textContent = '';
+    button.disabled = true;
+    button.textContent = 'Odesílám…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const data = await res.json();
+      if (data.ok) {
+        location.href = data.redirect;
+        return;
+      }
+      showErrors(data.errors ?? {});
+      if (data.message) formError.textContent = data.message;
+    } catch {
+      formError.textContent = 'Objednávku se nepodařilo odeslat. Zkus to prosím znovu, nebo napiš Lindě na WhatsApp.';
+    }
+    button.disabled = false;
+    button.textContent = 'Objednat s povinností platby';
+  });
+</script>
+
+<style>
+  .order {
+    display: grid;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .order {
+      grid-template-columns: 1.5fr 1fr;
+    }
+    .order__summary {
+      position: sticky;
+      top: 96px;
+    }
+  }
+  .order__main {
+    display: grid;
+    gap: 20px;
+  }
+  fieldset {
+    margin: 0;
+    min-width: 0;
+  }
+  legend {
+    float: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--forest-900);
+    margin-bottom: 18px;
+  }
+  legend + * {
+    clear: both;
+  }
+  .step-no {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--forest-900);
+    color: var(--white);
+    font-size: 0.95rem;
+  }
+  .opt {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .field--qty input {
+    max-width: 120px;
+  }
+  .grid-2 {
+    display: grid;
+    gap: 0 16px;
+  }
+  @media (min-width: 640px) {
+    .grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--forest-900);
+  }
+  input:not([type='checkbox']):not([type='radio']),
+  select,
+  textarea {
+    font: inherit;
+    width: 100%;
+    padding: 0.75em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+    color: var(--ink);
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .field__error,
+  .form-error {
+    margin: 0;
+    color: #b42318;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .field__error:empty,
+  .form-error:empty {
+    display: none;
+  }
+  .hint {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 4px 0 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .accs {
+    display: grid;
+    gap: 8px;
+  }
+  .acc,
+  .ship__opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    cursor: pointer;
+    background: var(--sand-50);
+  }
+  .acc:has(input:checked),
+  .ship__opt:has(input:checked) {
+    border-color: var(--forest-500);
+    background: var(--forest-100);
+  }
+  .acc input,
+  .ship__opt input {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    accent-color: var(--forest-700);
+  }
+  .acc__title {
+    flex: 1;
+  }
+  .acc__price {
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .ship {
+    display: grid;
+    gap: 8px;
+  }
+  .ship__opt span {
+    display: flex;
+    flex-direction: column;
+  }
+  .ship__opt small {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .address[hidden] {
+    display: none;
+  }
+  .order__summary h2 {
+    font-size: 1.4rem;
+  }
+  .sum {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    display: grid;
+    gap: 8px;
+  }
+  .sum :global(li) {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.95rem;
+  }
+  .sum :global(.sum__empty) {
+    color: var(--muted);
+  }
+  .totals {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    margin: 0 0 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .totals dd {
+    margin: 0;
+    text-align: right;
+  }
+  .totals__grand {
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-size: 1.3rem;
+    color: var(--forest-900);
+    margin-top: 6px;
+  }
+  .pay {
+    display: flex;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex: none;
+    accent-color: var(--forest-700);
+  }
+  .order__submit {
+    width: 100%;
+    margin-top: 8px;
+    white-space: normal;
+  }
+  .order__submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+  .form-error {
+    margin-top: 10px;
+  }
+</style>

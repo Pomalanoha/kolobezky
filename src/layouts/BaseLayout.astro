@@ -14,9 +14,11 @@ interface Props {
   type?: 'website' | 'article' | 'product';
   noindex?: boolean;
   jsonLd?: object | object[];
+  /** Skryje mobilní lištu „Rezervovat“ (např. během objednávky) */
+  hideMobileCta?: boolean;
 }
 
-const { title, description, fullTitle = false, image = site.ogImage, type = 'website', noindex = false, jsonLd } = Astro.props;
+const { title, description, fullTitle = false, image = site.ogImage, type = 'website', noindex = false, jsonLd, hideMobileCta = false } = Astro.props;
 const pageTitle = fullTitle ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(image, site.url).href;
@@ -53,13 +55,13 @@ const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
 
     {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
   </head>
-  <body>
+  <body class:list={{ 'no-mobile-cta': hideMobileCta }}>
     <a class="skip-link" href="#main">Přeskočit na obsah</a>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
-    <MobileCta />
+    {!hideMobileCta && <MobileCta />}
   </body>
 </html>

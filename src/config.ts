@@ -34,3 +34,25 @@ export const nav = [
 ] as const;
 
 export const bookingHref = site.bookingUrl || '/contact/?onderwerp=proefrit';
+
+// Nastavení e-shopu (objednávka s platbou převodem).
+export const shop = {
+  orderPrefix: 'KCH',
+  deliveryTime: 'cca do 10 pracovních dnů',
+  // Splatnost převodu ve dnech
+  paymentDays: 7,
+  maxQty: 5,
+  // Bankovní spojení pro platbu převodem. Prázdný IBAN = v potvrzení se zobrazí „pošleme e-mailem“.
+  bank: {
+    accountName: 'Kickbike Club Hille',
+    iban: '',
+    bic: '',
+  },
+  // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem).
+  shipping: [
+    { id: 'bezorgen', label: 'Doručení na adresu v Nizozemsku', price: null as number | null, needsAddress: true },
+    { id: 'ophalen', label: 'Vyzvednutí v Hoofddorpu + nastavení koloběžky na míru', price: 0 as number | null, needsAddress: false },
+  ],
+};
+
+export type ShippingId = (typeof shop.shipping)[number]['id'];

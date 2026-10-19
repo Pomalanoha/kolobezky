@@ -1,0 +1,171 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { adminConfigured, isLoggedIn, login, logout } from '../../lib/auth';
+import { listOrders, STATUSES, isStatus, type Status } from '../../lib/orders';
+import { formatCents } from '../../lib/shop';
+import { mailConfigured } from '../../lib/mail';
+
+export const prerender = false;
+
+let loginError = '';
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = String(form.get('action') ?? '');
+  if (action === 'logout') {
+    logout(Astro.cookies);
+    return Astro.redirect('/beheer/', 303);
+  }
+  if (action === 'login') {
+    if (await login(Astro.cookies, String(form.get('password') ?? ''))) return Astro.redirect('/beheer/', 303);
+    loginError = 'Nesprávné heslo.';
+  }
+}
+
+const loggedIn = await isLoggedIn(Astro.cookies);
+const filter = Astro.url.searchParams.get('stav') ?? '';
+const status: Status | undefined = isStatus(filter) ? filter : undefined;
+const all = loggedIn ? await listOrders() : [];
+const orders = status ? all.filter((o) => o.status === status) : all;
+const counts = Object.fromEntries(Object.keys(STATUSES).map((s) => [s, all.filter((o) => o.status === s).length]));
+const dateFmt = new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Amsterdam' });
+---
+<AdminLayout title={loggedIn ? 'Objednávky' : 'Přihlášení'} loggedIn={loggedIn}>
+  {!adminConfigured() ? (
+    <div class="card narrow">
+      <h1>Administrace není nastavená</h1>
+      <p>Nastav tajnou proměnnou <code>ADMIN_PASSWORD</code> v Cloudflare (Worker → Settings → Variables and Secrets) a obnov stránku.</p>
+    </div>
+  ) : !loggedIn ? (
+    <form class="card narrow login" method="POST" action="/beheer/">
+      <h1>Přihlášení</h1>
+      <input type="hidden" name="action" value="login" />
+      <label for="password">Heslo</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required autofocus />
+      {loginError && <p class="error" role="alert">{loginError}</p>}
+      <button class="btn btn--primary" type="submit">Přihlásit</button>
+    </form>
+  ) : (
+    <>
+      <div class="head">
+        <h1>Objednávky</h1>
+        {!mailConfigured() && <p class="warn">E-maily zatím nejsou zapnuté – nové objednávky sleduj tady (viz README: Resend).</p>}
+      </div>
+      <nav class="tabs" aria-label="Filtr podle stavu">
+        <a href="/beheer/" aria-current={!status ? 'page' : undefined}>Vše <span>{all.length}</span></a>
+        {Object.entries(STATUSES).map(([key, label]) => (
+          <a href={`/beheer/?stav=${key}`} aria-current={status === key ? 'page' : undefined}>{label} <span>{counts[key]}</span></a>
+        ))}
+      </nav>
+      {orders.length === 0 ? (
+        <p class="card empty">Žádné objednávky.</p>
+      ) : (
+        <div class="table-wrap card">
+          <table>
+            <thead><tr><th>Číslo</th><th>Datum</th><th>Zákazník</th><th>Obsah</th><th>Celkem</th><th>Stav</th></tr></thead>
+            <tbody>
+              {orders.map((o) => (
+                <tr>
+                  <td><a href={`/beheer/bestelling/${o.number}/`}><strong>{o.number}</strong></a></td>
+                  <td>{dateFmt.format(new Date(o.createdAt))}</td>
+                  <td>{o.name}<br /><small>{o.shipping === 'ophalen' ? 'vyzvednutí' : o.city}</small></td>
+                  <td><small>{o.lines.map((l) => `${l.qty}× ${l.title}`).join(', ')}</small></td>
+                  <td class="num">{formatCents(o.totalCents)}</td>
+                  <td><span class={`badge badge--${o.status}`}>{STATUSES[o.status]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </>
+  )}
+</AdminLayout>
+
+<style>
+  .narrow {
+    max-width: 420px;
+    margin: 40px auto;
+  }
+  .login {
+    display: grid;
+    gap: 10px;
+  }
+  .login input {
+    font: inherit;
+    padding: 0.75em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .error {
+    color: #b42318;
+    margin: 0;
+  }
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .warn {
+    background: #fff4b8;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .tabs a {
+    padding: 0.4em 0.9em;
+    border-radius: 999px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+  .tabs a[aria-current='page'] {
+    background: var(--forest-900);
+    color: var(--white);
+    border-color: var(--forest-900);
+  }
+  .tabs span {
+    opacity: 0.6;
+    margin-left: 4px;
+  }
+  .table-wrap {
+    padding: 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+    font-size: 0.95rem;
+  }
+  th,
+  td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  th {
+    background: var(--sand-100);
+    font-size: 0.85rem;
+  }
+  .num {
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  td:first-child {
+    white-space: nowrap;
+  }
+  .empty {
+    color: var(--muted);
+  }
+</style>

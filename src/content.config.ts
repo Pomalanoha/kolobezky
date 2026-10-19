@@ -19,9 +19,8 @@ const products = defineCollection({
       imageHint: z.string().optional(),
       // Další fotky (např. barevné varianty)
       gallery: z.array(z.object({ src: image(), alt: z.string() })).default([]),
-      availability: z.enum(['op-voorraad', 'op-bestelling']).default('op-bestelling'),
-      // Stripe/Mollie payment link (iDEAL). Prázdné = jen poptávka.
-      paymentLink: z.string().optional(),
+      // op-voorraad = skladem, op-bestelling = na objednávku, uitverkocht = vyprodáno (nelze objednat)
+      availability: z.enum(['op-voorraad', 'op-bestelling', 'uitverkocht']).default('op-bestelling'),
       order: z.number().default(99),
     }),
 });
@@ -95,6 +94,8 @@ const accessories = defineCollection({
     price: z.number(),
     fits: z.string().optional(),
     note: z.string().optional(),
+    // false = dočasně nelze objednat
+    available: z.boolean().default(true),
   }),
 });
 

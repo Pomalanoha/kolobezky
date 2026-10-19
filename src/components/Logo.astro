@@ -1,7 +1,6 @@
 ---
-import { Image } from 'astro:assets';
+// Logo jako statický soubor v /public, aby fungovalo i na stránkách generovaných serverem.
 import { site } from '../config';
-import logo from '../assets/brand/logo-kickbike-club-hille.png';
 
 interface Props {
   inverted?: boolean;
@@ -10,7 +9,7 @@ const { inverted = false } = Astro.props;
 ---
 <a href="/" class:list={['logo', { 'logo--inverted': inverted }]} aria-label={`${site.name} – úvod`}>
   <span class="logo__badge">
-    <Image src={logo} alt="" width={48} height={48} densities={[1, 2]} loading="eager" />
+    <img src="/logo-96.png" srcset="/logo-96.png 1x, /logo-192.png 2x" alt="" width="48" height="48" />
   </span>
   <span class="logo__text">
     <span class="logo__name">Kickbike Club</span>

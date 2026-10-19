@@ -20,7 +20,7 @@ const items = await getCollection('accessories');
 
   <section class="section" style="padding-top:0">
     <div class="container">
-      <Todo>Fotky převzaté ze současného webu (Crussis). Ověřit dostupné velikosti helem a rukavic. Zvážit, zda doplňky prodávat online (Stripe/iDEAL), nebo jen na objednávku.</Todo>
+      <Todo>Fotky převzaté ze současného webu (Crussis). Ověřit dostupné velikosti helem a rukavic.</Todo>
       <div class="grid grid--3">
         {items.map((a) => (
           <article class="card acc">
@@ -29,7 +29,11 @@ const items = await getCollection('accessories');
             {a.data.fits && <p class="acc__fits">Pasuje na: {a.data.fits}</p>}
             {a.data.note && <Todo>{a.data.note}</Todo>}
             <p class="acc__price">{formatPrice(a.data.price)} <span>{t('product.inclVat')}</span></p>
-            <a class="btn btn--secondary" href={`/contact/?onderwerp=sportstep&model=${encodeURIComponent(a.data.title)}`}>Objednat</a>
+            {a.data.available ? (
+              <a class="btn btn--secondary" href={`/bestellen/?acc=${a.id}`}>{t('product.order')}</a>
+            ) : (
+              <span class="btn btn--secondary" aria-disabled="true">{t('product.soldOut')}</span>
+            )}
           </article>
         ))}
       </div>

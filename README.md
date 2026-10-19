@@ -14,7 +14,7 @@ npm install
 npm run dev
 ```
 
-Web běží na http://localhost:4321. Ve vývojovém režimu se zobrazují **žluté poznámky „Doplnit / ověřit s Lindou“** a popisky u zástupných fotek – v produkčním buildu (`npm run build`) se nevykreslí.
+Web běží na http://localhost:4321. Pro test e-shopu a administrace vytvoř soubor `.dev.vars` s řádkem `ADMIN_PASSWORD=nějaké-heslo` (soubor se necommituje). Lokální databáze objednávek je ve složce `.wrangler/`. Ve vývojovém režimu se zobrazují **žluté poznámky „Doplnit / ověřit s Lindou“** a popisky u zástupných fotek – v produkčním buildu (`npm run build`) se nevykreslí.
 
 ## Struktura
 
@@ -44,7 +44,7 @@ public/
 - **Fotky:** současné fotky (převzaté ze starého webu) jsou v `src/assets/` – `brand/` (logo), `photos/` (Linda, duny, klubová jízda, detail koloběžky), `products/` a `accessories/` (produktové fotky Crussis). Nové fotky vložit do `src/assets/…` a v příslušném souboru obsahu přidat `image: ../../assets/nazev.jpg`. U stránek předat `src={…}` komponentě `<Photo>`. Dokud fotka chybí, zobrazí se barevný zástupný blok.
 - **Ceny lekcí:** `src/pages/proefrit-en-lessen.astro` → pole `offers` (`price`).
 - **Rezervační systém (Cal.com / Calendly):** vyplnit `bookingUrl` v `src/config.ts` – všechna tlačítka „Rezervovat“ se přepnou automaticky.
-- **Online platba (iDEAL):** u koloběžky vyplnit `paymentLink` (Stripe Payment Link / Mollie). Bez něj se zobrazí tlačítko „Poptat tento model“.
+- **Ceny a dostupnost v e-shopu:** u koloběžky `price`, `variants` a `availability` (`op-voorraad` skladem / `op-bestelling` na objednávku / `uitverkocht` vyprodáno – nelze objednat). U doplňků `price` a `available: false` pro dočasné vypnutí.
 - **Sociální sítě:** `social` v `src/config.ts` (propíše se i do strukturovaných dat).
 - **OG obrázek:** `public/og-default.jpg` (1200×630, zatím výřez fotky z dun). Favicony `public/favicon.png` a `apple-touch-icon.png` jsou vygenerované z loga klubu.
 
@@ -55,19 +55,42 @@ public/
 3. Title a meta description psát rovnou holandsky s klíčovými slovy (viz analýza, kap. 4.5).
 4. Přeložit hodnoty `level`, `place` v lokalitách a štítky kategorií v `ProductCard.astro` / `[slug].astro`.
 
+## E-shop
+
+Jednoduchý objednávkový e-shop bez košíku: zákazník vybere koloběžku a doplňky, vyplní adresu a zaplatí převodem.
+
+| Co | Kde |
+|---|---|
+| Objednávkový formulář | `/bestellen/` (tlačítko „Objednat“ u koloběžek a doplňků předvybere položku) |
+| Potvrzení objednávky | `/bestelling/?nr=…&t=…` (číslo objednávky + tajný token) |
+| Administrace | `/beheer/` – seznam objednávek, filtr podle stavu, detail, změna stavu, interní poznámka, export CSV |
+| Nastavení (IBAN, doprava, dodací lhůta) | `src/config.ts` → `shop` |
+| Logika | `src/lib/shop.ts` (ceny – vždy se počítají na serveru), `src/lib/orders.ts` (databáze), `src/lib/auth.ts`, `src/lib/mail.ts` |
+
+Stavy objednávky: Nová → Zaplacená → Objednáno u Crussisu → Odesláno / předáno (nebo Zrušená).
+
+**Nastavení v Cloudflare (jednou):**
+
+1. **Databáze:** vytvoří se sama při prvním nasazení (D1 `kolobezky-objednavky`, tabulka se založí při první objednávce).
+2. **Heslo do administrace:** Workers & Pages → `kolobezky` → Settings → Variables and Secrets → Add → typ *Secret*, název `ADMIN_PASSWORD`, hodnota = silné heslo. Bez něj je administrace vypnutá.
+3. **E-maily (volitelné, až bude doména):** účet na [resend.com](https://resend.com), ověřit doménu, pak secrets `RESEND_API_KEY`, `MAIL_FROM` (např. `Kickbike Club Hille <objednavky@kickbikeclubhille.nl>`) a případně `MAIL_ADMIN` (komu chodí upozornění, výchozí je Gmail z `config.ts`). Bez nich se objednávky jen ukládají a jsou vidět v administraci.
+
+**Před ostrým prodejem doplnit:** IBAN, cenu dopravy, úplnou adresu firmy, btw-nummer, právo na odstoupení + vzorový formulář v obchodních podmínkách; v NL verzi musí tlačítko znít „Bestelling plaatsen met betaalverplichting“.
+
+Kontaktní formulář (`/contact/`) je zatím připravený pro Netlify Forms – na Cloudflare neodesílá; dá se převést na stejný backend jako objednávky.
+
 ## Nasazení
 
-Statický web (`npm run build` → `dist/`), Node 22.22+ (`.node-version` = 24).
+Astro s adaptérem pro Cloudflare Workers (`npm run build` → `dist/client` statické stránky + `dist/server` pro e-shop), Node 22.22+ (`.node-version` = 24). Po změně `wrangler.jsonc` spusť `npm run types`.
 
 **Ukázková verze (zdarma, bez vlastní domény):**
 
-- **Vercel:** Add New → Project → importovat repozitář `kolobezky` → framework Astro se rozpozná sám → Deploy. Adresa: `kolobezky.vercel.app` (nebo podobná).
 - **Cloudflare Workers:** Workers & Pages → Create → Import a repository → `kolobezky`; build `npm run build`, deploy `npx wrangler deploy` (nastavení je v `wrangler.jsonc`). Adresa: `kolobezky.<účet>.workers.dev`.
 
-Ukázková verze má `noindex`, aby ji Google neindexoval (nekonkurovala současnému webu). Kontaktní formulář je připravený pro Netlify Forms – na Vercelu/Cloudflare zatím neodešle (pro ostrý provoz přepnout např. na Web3Forms).
+Ukázková verze má `noindex`, aby ji Google neindexoval (nekonkurovala současnému webu). 
 
 **Ostrý provoz (s doménou):**
 
 - proměnná prostředí `PUBLIC_INDEXABLE=true` (zruší `noindex`),
-- `public/_redirects` zajistí 301 přesměrování starých URL z Webnode (funguje na Netlify a Cloudflare Pages; na Vercelu je potřeba `vercel.json`),
+- `public/_redirects` zajistí 301 přesměrování starých URL z Webnode (Cloudflare je u statických souborů podporuje),
 - po spuštění: Google Search Console → odeslat `sitemap-index.xml`.
