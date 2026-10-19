@@ -6,16 +6,10 @@ import Todo from '../components/Todo.astro';
 import { site } from '../config';
 import { t } from '../i18n/ui';
 import { breadcrumbSchema, businessSchema } from '../lib/schema';
+import { SUBJECTS } from '../lib/subjects';
 
 const crumbs = [{ name: 'Kontakt', href: '/contact/' }];
-const subjects = [
-  { value: 'proefrit', label: 'Zkušební jízda' },
-  { value: 'workshop', label: 'Workshop' },
-  { value: 'prive', label: 'Soukromá lekce' },
-  { value: 'sportstep', label: 'Koupě koloběžky / doplňku' },
-  { value: 'club', label: 'Klub / klubové jízdy' },
-  { value: 'anders', label: 'Něco jiného' },
-];
+const subjects = Object.entries(SUBJECTS).map(([value, label]) => ({ value, label }));
 ---
 <BaseLayout
   title="Kontakt & rezervace – sportsteppen Hoofddorp"
@@ -26,9 +20,8 @@ const subjects = [
 
   <section class="section" style="padding-top:0">
     <div class="container contact">
-      <form class="card form" name="contact" method="POST" action="/bedankt/" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="contact" />
-        <p class="visually-hidden"><label>Nevyplňovat: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+      <form class="card form" method="POST" action="/api/contact/" novalidate data-contact-form>
+        <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
 
         <div class="field">
           <label for="onderwerp">Co tě zajímá?</label>
@@ -40,15 +33,18 @@ const subjects = [
           <div class="field">
             <label for="naam">Jméno a příjmení</label>
             <input id="naam" name="naam" type="text" autocomplete="name" required />
+            <p class="field__error" data-error-for="naam"></p>
           </div>
           <div class="field">
             <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
             <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+            <p class="field__error" data-error-for="telefoon"></p>
           </div>
         </div>
         <div class="field">
           <label for="email">E-mail</label>
           <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="field__error" data-error-for="email"></p>
         </div>
         <div class="field">
           <label for="bericht">Zpráva</label>
@@ -58,7 +54,9 @@ const subjects = [
           <input type="checkbox" name="toestemming" required />
           <span>Souhlasím se zpracováním údajů podle <a href="/privacybeleid/">zásad ochrany osobních údajů</a>.</span>
         </label>
+        <p class="field__error" data-error-for="toestemming"></p>
         <button class="btn btn--primary" type="submit">Odeslat zprávu <Icon name="arrow" size={18} /></button>
+        <p class="form-error" data-form-error role="alert"></p>
       </form>
 
       <aside class="contact__aside">
@@ -87,6 +85,10 @@ const subjects = [
 </BaseLayout>
 
 <script>
+  import { enhanceForm } from '../scripts/ajaxForm';
+  const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  if (contactForm) enhanceForm(contactForm);
+
   // Předvyplní „Co tě zajímá?“ a zprávu podle odkazu (např. /contact/?onderwerp=sportstep&model=Cobra).
   const params = new URLSearchParams(location.search);
   const subject = params.get('onderwerp');
@@ -151,6 +153,17 @@ const subjects = [
     outline: none;
     border-color: var(--forest-500);
     box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .field__error,
+  .form-error {
+    margin: 0;
+    color: #b42318;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .field__error:empty,
+  .form-error:empty {
+    display: none;
   }
   .consent {
     display: flex;

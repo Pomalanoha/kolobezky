@@ -8,6 +8,9 @@ const year = new Date().getFullYear();
 const explore = [
   ...nav.filter((n) => n.href !== '/contact/').map((n) => ({ href: n.href, label: t(n.key) })),
   { href: '/accessoires/', label: t('footer.accessories') },
+  { href: '/welke-step/', label: t('footer.quiz') },
+  { href: '/groepen/', label: t('footer.groups') },
+  { href: '/cadeaubon/', label: t('footer.voucher') },
   { href: '/routes/', label: t('footer.routes') },
   { href: '/ervaringen/', label: t('footer.reviews') },
   { href: '/blog/', label: t('footer.blog') },

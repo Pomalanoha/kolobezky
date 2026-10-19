@@ -1,0 +1,316 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import Todo from '../components/Todo.astro';
+import imgGroep from '../assets/photos/clubrit-groep.jpg';
+import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
+import { site } from '../config';
+import { breadcrumbSchema, businessId } from '../lib/schema';
+
+const crumbs = [{ name: 'Pro skupiny', href: '/groepen/' }];
+const types = [
+  { icon: 'users', title: 'Firemní akce', text: 'Teambuilding venku, který baví všechny – od sportovců po kolegy, co běžně nesportují.', bg: '#e6eef7', fg: '#1e40af' },
+  { icon: 'heart', title: 'Rozlučka se svobodou', text: 'Netradiční zážitek pro nevěstu nebo ženicha a partu přátel. Smích zaručen.', bg: '#ffe6d9', fg: '#c2410c' },
+  { icon: 'star', title: 'Narozeniny a oslavy', text: 'Dárek, na který se nezapomíná – vyjížďka s přáteli, třeba přes duny až k moři.', bg: '#f4ead6', fg: '#8a6116' },
+  { icon: 'leaf', title: 'Kluby a spolky', text: 'Sportovní kluby, běžecké skupiny, spolky seniorů – zkuste něco nového společně.', bg: '#dcefe5', fg: '#1d5a46' },
+] as const;
+const program = [
+  { title: 'Přivítání a instruktáž', text: 'Nastavíme koloběžky a ukážu základy techniky – zvládne to každý.' },
+  { title: 'Rozjezd v klidu', text: 'Krátký nácvik v parku, aby se všichni cítili jistě.' },
+  { title: 'Společná vyjížďka', text: 'Trasa podle skupiny – park, les nebo duny až na pláž.' },
+  { title: 'Zakončení', text: 'Protažení a společná chvíle na závěr – podle domluvy.' },
+];
+const eventTypes = ['Firemní akce / teambuilding', 'Rozlučka se svobodou', 'Narozeniny / oslava', 'Klub / spolek', 'Rodinná akce', 'Jiné'];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Skupinové akce na sportovních koloběžkách',
+  serviceType: 'Groepsuitje / bedrijfsuitje',
+  provider: { '@id': businessId },
+  areaServed: site.areaServed,
+};
+---
+<BaseLayout
+  title="Skupinové akce na koloběžkách – firemní akce, rozlučky, oslavy"
+  description="Sportsteppen pro skupiny v okolí Hoofddorpu: firemní akce a teambuilding, rozlučky se svobodou, narozeniny i kluby. Koloběžky zapůjčíme, trasu připravíme."
+  jsonLd={[breadcrumbSchema(crumbs), serviceSchema]}
+>
+  <PageHero eyebrow="Pro skupiny" title="Zážitek na koloběžkách pro celou partu" lead="Firemní akce, rozlučka se svobodou nebo narozeniny – vyrazíme společně na sportovních koloběžkách. Koloběžky zapůjčím, trasu připravím a postarám se, aby si to užil každý." crumbs={crumbs}>
+    <div class="btn-row">
+      <a class="btn btn--primary" href="#poptavka">Nezávazná poptávka</a>
+      <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> WhatsApp</a>
+    </div>
+    <Photo slot="aside" src={imgGroep} alt="Skupinová jízda na sportovních koloběžkách" ratio="4 / 3" position="50% 65%" priority />
+  </PageHero>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="types">
+        {types.map((t) => (
+          <article class="type" style={`--bg:${t.bg};--fg:${t.fg}`}>
+            <span class="type__icon"><Icon name={t.icon} size={24} /></span>
+            <h2>{t.title}</h2>
+            <p>{t.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container split">
+      <div>
+        <span class="eyebrow">Jak to probíhá</span>
+        <h2>Program na míru vaší skupině</h2>
+        <ol class="prog">
+          {program.map((p, i) => (
+            <li><span class="prog__no">{i + 1}</span><div><strong>{p.title}</strong><p>{p.text}</p></div></li>
+          ))}
+        </ol>
+        <ul class="checklist">
+          <li>koloběžky zapůjčím</li>
+          <li>trasu a tempo přizpůsobím skupině</li>
+          <li>vhodné pro začátečníky i sportovce</li>
+          <li>délka akce cca 2–3 hodiny (dle domluvy)</li>
+        </ul>
+        <Todo>Doplnit s Lindou: maximální velikost skupiny (kolik koloběžek je k dispozici), helmy, cena za osobu / skupinu, možnost spojit s občerstvením.</Todo>
+      </div>
+      <Photo src={imgDuinen} alt="Vyjížďka na koloběžkách v dunách" ratio="4 / 5" />
+    </div>
+  </section>
+
+  <section class="section" id="poptavka">
+    <div class="container inquiry">
+      <div>
+        <span class="eyebrow">Nezávazná poptávka</span>
+        <h2>Napiš mi, co plánujete</h2>
+        <p class="lead">Ozvu se s návrhem programu, trasy a ceny. Nic tím neobjednáváš.</p>
+        <p>Raději hned? <a href={site.whatsapp} target="_blank" rel="noopener">Napiš na WhatsApp</a> nebo zavolej na <a href={site.phoneHref}>{site.phone}</a>.</p>
+      </div>
+      <form class="card form" method="POST" action="/api/contact/" novalidate data-group-form>
+        <input type="hidden" name="onderwerp" value="skupina" />
+        <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+        <div class="field">
+          <label for="soort">Typ akce</label>
+          <select id="soort" name="soort">
+            {eventTypes.map((e) => <option>{e}</option>)}
+          </select>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="groep_grootte">Počet osob</label>
+            <input id="groep_grootte" name="groep_grootte" type="number" min="2" max="60" inputmode="numeric" placeholder="např. 8" />
+          </div>
+          <div class="field">
+            <label for="datum">Preferovaný termín</label>
+            <input id="datum" name="datum" placeholder="např. sobota 14. 6. odpoledne" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="naam">Jméno a příjmení</label>
+            <input id="naam" name="naam" autocomplete="name" required />
+            <p class="field__error" data-error-for="naam"></p>
+          </div>
+          <div class="field">
+            <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
+            <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+            <p class="field__error" data-error-for="telefoon"></p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="field__error" data-error-for="email"></p>
+        </div>
+        <div class="field">
+          <label for="bericht">Cokoli dalšího <span class="opt">(nepovinné)</span></label>
+          <textarea id="bericht" name="bericht" rows="3" placeholder="Např. úroveň skupiny, místo, rozpočet…"></textarea>
+        </div>
+        <label class="consent">
+          <input type="checkbox" name="toestemming" required />
+          <span>Souhlasím se zpracováním údajů podle <a href="/privacybeleid/">zásad ochrany osobních údajů</a>.</span>
+        </label>
+        <p class="field__error" data-error-for="toestemming"></p>
+        <button class="btn btn--primary" type="submit">Odeslat poptávku <Icon name="arrow" size={18} /></button>
+        <p class="form-error" data-form-error role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container gift">
+      <div>
+        <span class="eyebrow">Tip na dárek</span>
+        <h2>Nechcete celou akci? Darujte poukaz.</h2>
+        <p class="lead">Dárkový poukaz na zkušební jízdu nebo workshop – obdarovaný si termín vybere sám.</p>
+      </div>
+      <a class="btn btn--primary" href="/cadeaubon/">Dárkový poukaz <Icon name="arrow" size={18} /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { enhanceForm } from '../scripts/ajaxForm';
+  const form = document.querySelector<HTMLFormElement>('[data-group-form]');
+  if (form) enhanceForm(form);
+</script>
+
+<style>
+  .types {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  }
+  .type {
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+  .type__icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: var(--white);
+    color: var(--fg);
+    box-shadow: var(--shadow-sm);
+  }
+  .type h2 {
+    font-size: 1.25rem;
+    margin: 14px 0 6px;
+  }
+  .type p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .prog {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .prog li {
+    display: flex;
+    gap: 14px;
+  }
+  .prog__no {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--orange-500);
+    color: var(--accent-ink);
+    font-weight: 750;
+  }
+  .prog strong {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--forest-900);
+  }
+  .prog p {
+    margin: 2px 0 0;
+    color: var(--muted);
+  }
+  .inquiry {
+    display: grid;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .inquiry {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+  }
+  .form {
+    display: grid;
+    gap: 14px;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  .field-row {
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 640px) {
+    .field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--forest-900);
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  input:not([type='checkbox']),
+  select,
+  textarea {
+    font: inherit;
+    width: 100%;
+    padding: 0.75em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+    color: var(--ink);
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex: none;
+    accent-color: var(--forest-700);
+  }
+  .field__error,
+  .form-error {
+    margin: 0;
+    color: #b42318;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .field__error:empty,
+  .form-error:empty {
+    display: none;
+  }
+  .form .btn {
+    justify-self: start;
+  }
+  .gift {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .gift .lead {
+    margin: 0;
+  }
+</style>

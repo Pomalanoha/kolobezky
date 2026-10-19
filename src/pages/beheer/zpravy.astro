@@ -1,0 +1,172 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { isLoggedIn } from '../../lib/auth';
+import { listMessages, updateMessage, MESSAGE_STATUSES, SUBJECTS, type MessageStatus } from '../../lib/messages';
+
+export const prerender = false;
+
+if (!(await isLoggedIn(Astro.cookies))) return Astro.redirect('/beheer/', 303);
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const id = Number(form.get('id'));
+  const status = String(form.get('status') ?? '');
+  if (id) {
+    await updateMessage(id, {
+      status: status === 'vyrizena' || status === 'nova' ? status : undefined,
+      adminNote: form.has('admin_note') ? String(form.get('admin_note')).slice(0, 2000) : undefined,
+    });
+  }
+  return Astro.redirect(`/beheer/zpravy/${Astro.url.search}#zprava-${id}`, 303);
+}
+
+const filter = Astro.url.searchParams.get('stav');
+const status: MessageStatus | undefined = filter === 'nova' || filter === 'vyrizena' ? filter : undefined;
+const all = await listMessages();
+const messages = status ? all.filter((m) => m.status === status) : all;
+const dateFmt = new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Europe/Amsterdam' });
+const META_LABELS: Record<string, string> = { groep_grootte: 'Počet osob', datum: 'Termín', soort: 'Typ akce' };
+const wa = (phone: string) => {
+  const d = phone.replace(/\D/g, '');
+  return d.startsWith('00') ? d.slice(2) : d.startsWith('0') ? `31${d.slice(1)}` : d;
+};
+---
+<AdminLayout title="Zprávy" loggedIn>
+  <h1>Zprávy</h1>
+  <nav class="tabs" aria-label="Filtr podle stavu">
+    <a href="/beheer/zpravy/" aria-current={!status ? 'page' : undefined}>Vše <span>{all.length}</span></a>
+    {Object.entries(MESSAGE_STATUSES).map(([key, label]) => (
+      <a href={`/beheer/zpravy/?stav=${key}`} aria-current={status === key ? 'page' : undefined}>{label} <span>{all.filter((m) => m.status === key).length}</span></a>
+    ))}
+  </nav>
+
+  {messages.length === 0 ? (
+    <p class="card empty">Žádné zprávy.</p>
+  ) : (
+    <div class="list">
+      {messages.map((m) => (
+        <article class:list={['card', 'msg', { 'msg--done': m.status === 'vyrizena' }]} id={`zprava-${m.id}`}>
+          <header class="msg__head">
+            <span class="badge badge--subject">{SUBJECTS[m.subject]}</span>
+            <span class={`badge ${m.status === 'nova' ? 'badge--nieuw' : 'badge--verzonden'}`}>{MESSAGE_STATUSES[m.status]}</span>
+            <time datetime={m.createdAt}>{dateFmt.format(new Date(m.createdAt))}</time>
+          </header>
+          <h2>{m.name}</h2>
+          <p class="msg__contact">
+            <a href={`mailto:${m.email}?subject=${encodeURIComponent(`Re: ${SUBJECTS[m.subject]}`)}`}>{m.email}</a>
+            {m.phone && (<> · <a href={`tel:${m.phone.replace(/\s/g, '')}`}>{m.phone}</a> · <a href={`https://wa.me/${wa(m.phone)}`} target="_blank" rel="noopener">WhatsApp</a></>)}
+          </p>
+          {Object.keys(m.meta).length > 0 && (
+            <dl class="msg__meta">
+              {Object.entries(m.meta).map(([k, v]) => (<><dt>{META_LABELS[k] ?? k}</dt><dd>{v}</dd></>))}
+            </dl>
+          )}
+          {m.message && <p class="msg__text">{m.message}</p>}
+          <form method="POST" class="msg__form">
+            <input type="hidden" name="id" value={m.id} />
+            <label class="visually-hidden" for={`note-${m.id}`}>Interní poznámka</label>
+            <input id={`note-${m.id}`} name="admin_note" value={m.adminNote} placeholder="Interní poznámka (např. zavoláno 20. 10.)" />
+            <button class="btn btn--secondary" type="submit" name="status" value={m.status === 'nova' ? 'vyrizena' : 'nova'}>
+              {m.status === 'nova' ? 'Označit jako vyřízenou' : 'Vrátit mezi nové'}
+            </button>
+          </form>
+        </article>
+      ))}
+    </div>
+  )}
+</AdminLayout>
+
+<style>
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .tabs a {
+    padding: 0.4em 0.9em;
+    border-radius: 999px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+  .tabs a[aria-current='page'] {
+    background: var(--forest-900);
+    color: var(--white);
+    border-color: var(--forest-900);
+  }
+  .tabs span {
+    opacity: 0.6;
+    margin-left: 4px;
+  }
+  .list {
+    display: grid;
+    gap: 14px;
+    max-width: 860px;
+  }
+  .msg--done {
+    opacity: 0.7;
+  }
+  .msg__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .msg h2 {
+    font-size: 1.25rem;
+    margin: 10px 0 2px;
+  }
+  .msg__contact {
+    margin-bottom: 10px;
+  }
+  .msg__meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 14px;
+    margin: 0 0 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--sand-100);
+    font-size: 0.92rem;
+  }
+  .msg__meta dt {
+    color: var(--muted);
+  }
+  .msg__meta dd {
+    margin: 0;
+    font-weight: 600;
+  }
+  .msg__text {
+    white-space: pre-wrap;
+    background: var(--sand-50);
+    border-left: 3px solid var(--orange-500);
+    padding: 10px 14px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .msg__form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .msg__form input {
+    flex: 1;
+    min-width: 220px;
+    font: inherit;
+    padding: 0.6em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+  .badge--subject {
+    background: var(--forest-100);
+    color: var(--forest-700);
+  }
+  .empty {
+    color: var(--muted);
+  }
+</style>

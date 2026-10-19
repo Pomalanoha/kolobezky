@@ -1,0 +1,185 @@
+---
+// Vizuál dárkového poukazu – použitý jako živý náhled při objednávce i na stránce k tisku.
+import KickbikeArt from './KickbikeArt.astro';
+import { site } from '../config';
+
+interface Props {
+  amount?: string;
+  recipient?: string;
+  message?: string;
+  code?: string;
+  validUntil?: string;
+  /** Data atributy pro živé přepisování náhledu skriptem */
+  live?: boolean;
+}
+const { amount = '50', recipient = '', message = '', code = 'CB-XXXX-XXXX', validUntil = '', live = false } = Astro.props;
+const fmtDate = (iso: string) => (iso ? new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'long' }).format(new Date(iso)) : '');
+---
+<div class="voucher-wrap">
+<div class="voucher" data-voucher-card={live ? '' : undefined}>
+  <div class="voucher__main">
+    <div class="voucher__brand">
+      <img src="/logo-96.png" alt="" width="44" height="44" />
+      <span>{site.name}</span>
+    </div>
+    <p class="voucher__kicker">Dárkový poukaz</p>
+    <p class="voucher__amount"><span data-v="amount">{amount}</span> €</p>
+    <p class="voucher__for">
+      pro <strong data-v="recipient">{recipient || 'tebe'}</strong>
+    </p>
+    <p class="voucher__msg" data-v="message">{message || 'Na zkušební jízdu, workshop, lekci nebo nákup u Kickbike Club Hille.'}</p>
+  </div>
+  <div class="voucher__side">
+    <KickbikeArt class="voucher__art" />
+    <dl class="voucher__meta">
+      <div><dt>Kód</dt><dd class="voucher__code">{code}</dd></div>
+      {validUntil && <div><dt>Platí do</dt><dd>{fmtDate(validUntil)}</dd></div>}
+      <div><dt>Uplatnění</dt><dd>{site.phone} · WhatsApp</dd></div>
+    </dl>
+  </div>
+  <svg class="voucher__dunes" viewBox="0 0 600 80" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 50 C 120 20, 220 30, 320 45 S 520 70, 600 40 V80 H0Z" />
+  </svg>
+</div>
+</div>
+
+<style>
+  /* Kontejner pro container queries (poukaz se přizpůsobí své šířce, ne šířce okna) */
+  .voucher-wrap {
+    container-type: inline-size;
+  }
+  .voucher {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--forest-700), var(--forest-950) 75%);
+    color: var(--sand-100);
+    aspect-ratio: 1.75 / 1;
+    box-shadow: 0 30px 60px -30px rgb(11 35 28 / 0.6);
+  }
+  @container (max-width: 380px) {
+    .voucher {
+      aspect-ratio: auto;
+      grid-template-columns: 1fr;
+    }
+    .voucher__main {
+      padding: 22px 22px 0;
+    }
+    .voucher__amount {
+      font-size: 56px;
+    }
+    .voucher__side {
+      padding: 14px 22px 26px;
+    }
+    .voucher__side :global(.voucher__art) {
+      display: none;
+    }
+    .voucher__brand,
+    .voucher__for,
+    .voucher__msg,
+    .voucher__meta,
+    .voucher__kicker {
+      font-size: 13px;
+    }
+  }
+  .voucher__main {
+    position: relative;
+    z-index: 1;
+    padding: 6cqw 0 6cqw 6cqw;
+    display: flex;
+    flex-direction: column;
+  }
+  .voucher__brand {
+    display: flex;
+    align-items: center;
+    gap: 2cqw;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: max(12px, 2.6cqw);
+  }
+  .voucher__brand img {
+    width: max(28px, 6.5cqw);
+    height: auto;
+    border-radius: 50%;
+    background: var(--white);
+  }
+  .voucher__kicker {
+    margin: 4cqw 0 0;
+    font-size: max(10px, 2.2cqw);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange-500);
+    font-weight: 700;
+  }
+  .voucher__amount {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 14cqw;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.03em;
+  }
+  .voucher__for {
+    margin: 1cqw 0 0;
+    font-size: max(12px, 3cqw);
+  }
+  .voucher__for strong {
+    color: var(--orange-500);
+  }
+  .voucher__msg {
+    margin: 2cqw 0 0;
+    font-size: max(11px, 2.3cqw);
+    line-height: 1.4;
+    color: var(--sand-200);
+    max-width: 40ch;
+  }
+  .voucher__side {
+    position: relative;
+    z-index: 1;
+    padding: 5cqw 5cqw 5cqw 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .voucher__side :global(.voucher__art) {
+    width: 100%;
+  }
+  .voucher__meta {
+    margin: 0;
+    display: grid;
+    gap: 1cqw;
+    font-size: max(10px, 2cqw);
+  }
+  .voucher__meta div {
+    display: flex;
+    justify-content: space-between;
+    gap: 2cqw;
+    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+    padding-bottom: 0.8cqw;
+  }
+  .voucher__meta dt {
+    color: var(--sand-400);
+  }
+  .voucher__meta dd {
+    margin: 0;
+    font-weight: 650;
+    text-align: right;
+  }
+  .voucher__code {
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .voucher__dunes {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 16%;
+    fill: rgb(235 223 200 / 0.12);
+  }
+</style>

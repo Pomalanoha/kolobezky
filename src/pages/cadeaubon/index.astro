@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import VoucherCard from '../../components/VoucherCard.astro';
+import Icon from '../../components/Icon.astro';
+import Todo from '../../components/Todo.astro';
+import { voucher, shop } from '../../config';
+import { breadcrumbSchema } from '../../lib/schema';
+
+const crumbs = [{ name: 'Dárkový poukaz', href: '/cadeaubon/' }];
+const steps = [
+  { icon: 'heart', title: 'Vyber hodnotu', text: 'Napiš, pro koho poukaz je, a připoj krátké věnování.' },
+  { icon: 'check', title: 'Zaplať převodem', text: `Platební údaje dostaneš hned po objednání (splatnost ${shop.paymentDays} dní).` },
+  { icon: 'mail', title: 'Poukaz ti pošleme', text: 'Po přijetí platby dostaneš e-mailem odkaz na poukaz – vytiskneš ho, nebo pošleš dál.' },
+] as const;
+---
+<BaseLayout
+  title="Dárkový poukaz na sportsteppen"
+  description="Daruj zážitek na sportovní koloběžce: dárkový poukaz na zkušební jízdu, workshop v dunách, lekci nebo nákup koloběžky. Platnost 2 roky, k vytištění."
+  jsonLd={breadcrumbSchema(crumbs)}
+  hideMobileCta
+>
+  <PageHero eyebrow="Dárkový poukaz" title="Daruj zážitek na koloběžce" lead="Poukaz lze uplatnit na zkušební jízdu, workshop v dunách, soukromou lekci i na nákup koloběžky nebo doplňků. Ideální dárek k narozeninám, na Sinterklaas i Vánoce." crumbs={crumbs}>
+    <div slot="aside" class="hero-voucher">
+      <VoucherCard amount="50" recipient="" />
+    </div>
+  </PageHero>
+
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li>
+            <span class="steps__icon"><Icon name={s.icon} size={22} /></span>
+            <div>
+              <strong>{i + 1}. {s.title}</strong>
+              <p>{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="objednat">
+    <div class="container order">
+      <form class="card form" method="POST" action="/api/cadeaubon/" novalidate data-voucher-form>
+        <h2>Objednat poukaz</h2>
+        <fieldset>
+          <legend>Hodnota poukazu</legend>
+          <div class="amounts">
+            {voucher.amounts.map((a, i) => (
+              <label class="amount">
+                <input type="radio" name="bedrag" value={a} checked={i === 1} />
+                <span>{a} €</span>
+              </label>
+            ))}
+            <label class="amount amount--custom">
+              <input type="radio" name="bedrag" value="jine" />
+              <span>Jiná částka</span>
+            </label>
+          </div>
+          <div class="field field--custom" data-custom hidden>
+            <label for="bedrag_vrij">Částka v € ({voucher.min}–{voucher.max})</label>
+            <input id="bedrag_vrij" name="bedrag_vrij" type="number" min={voucher.min} max={voucher.max} step="1" inputmode="numeric" />
+            <p class="field__error" data-error-for="bedrag_vrij"></p>
+          </div>
+          <p class="field__error" data-error-for="bedrag"></p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Na poukazu</legend>
+          <div class="field">
+            <label for="ontvanger">Pro koho <span class="opt">(nepovinné)</span></label>
+            <input id="ontvanger" name="ontvanger" maxlength="60" placeholder="např. Mamka" />
+          </div>
+          <div class="field">
+            <label for="boodschap">Věnování <span class="opt">(nepovinné, max. 200 znaků)</span></label>
+            <textarea id="boodschap" name="boodschap" rows="2" maxlength="200" placeholder="Všechno nejlepší! Ať ti to jede 🛴"></textarea>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Tvoje údaje</legend>
+          <div class="field-row">
+            <div class="field">
+              <label for="naam">Jméno a příjmení</label>
+              <input id="naam" name="naam" autocomplete="name" required />
+              <p class="field__error" data-error-for="naam"></p>
+            </div>
+            <div class="field">
+              <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
+              <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
+              <p class="field__error" data-error-for="telefoon"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">E-mail (sem pošleme poukaz)</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+            <p class="field__error" data-error-for="email"></p>
+          </div>
+        </fieldset>
+        <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+
+        <label class="consent">
+          <input type="checkbox" name="terms" required />
+          <span>Souhlasím s <a href="/algemene-voorwaarden/" target="_blank">obchodními podmínkami</a> a <a href="/privacybeleid/" target="_blank">zásadami ochrany osobních údajů</a>.</span>
+        </label>
+        <p class="field__error" data-error-for="terms"></p>
+        <button class="btn btn--primary" type="submit">Objednat s povinností platby</button>
+        <p class="form-error" data-form-error role="alert"></p>
+      </form>
+
+      <aside class="order__preview">
+        <p class="eyebrow">Náhled</p>
+        <VoucherCard amount="50" live />
+        <ul class="facts">
+          <li><Icon name="calendar" size={18} /> Platnost {voucher.validityMonths / 12} roky od nákupu</li>
+          <li><Icon name="check" size={18} /> Na lekce, workshopy i nákup</li>
+          <li><Icon name="mail" size={18} /> E-mailem k vytištění – bez poštovného</li>
+        </ul>
+        <Todo>Ověřit s Lindou: platnost poukazu, uplatnění na nákup koloběžek a zda chce i tištěné poukazy poštou.</Todo>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { enhanceForm } from '../../scripts/ajaxForm';
+  const form = document.querySelector<HTMLFormElement>('[data-voucher-form]');
+  const card = document.querySelector<HTMLElement>('[data-voucher-card]');
+  if (form) {
+    enhanceForm(form);
+    const custom = form.querySelector<HTMLElement>('[data-custom]')!;
+    const customInput = form.querySelector<HTMLInputElement>('#bedrag_vrij')!;
+    const set = (key: string, value: string) => {
+      const el = card?.querySelector<HTMLElement>(`[data-v="${key}"]`);
+      if (el) el.textContent = value;
+    };
+    const update = () => {
+      const choice = form.querySelector<HTMLInputElement>('input[name="bedrag"]:checked')?.value ?? '';
+      custom.hidden = choice !== 'jine';
+      set('amount', choice === 'jine' ? customInput.value || '…' : choice);
+      set('recipient', (form.querySelector<HTMLInputElement>('#ontvanger')!.value.trim() || 'tebe'));
+      const msg = form.querySelector<HTMLTextAreaElement>('#boodschap')!.value.trim();
+      set('message', msg || 'Na zkušební jízdu, workshop, lekci nebo nákup u Kickbike Club Hille.');
+    };
+    form.addEventListener('input', update);
+    form.addEventListener('change', update);
+    update();
+  }
+</script>
+
+<style>
+  .hero-voucher {
+    transform: rotate(-3deg);
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 800px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .steps li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .steps__icon {
+    flex: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--orange-100);
+    color: var(--orange-600);
+  }
+  .steps strong {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--forest-900);
+  }
+  .steps p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .order {
+    display: grid;
+    gap: 28px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .order {
+      grid-template-columns: 1.1fr 1fr;
+    }
+    .order__preview {
+      position: sticky;
+      top: 96px;
+    }
+  }
+  .form {
+    display: grid;
+    gap: 18px;
+  }
+  .form h2 {
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+  }
+  legend {
+    font-weight: 700;
+    color: var(--forest-900);
+    margin-bottom: 10px;
+  }
+  .amounts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  .amount {
+    position: relative;
+    cursor: pointer;
+  }
+  .amount input {
+    position: absolute;
+    opacity: 0;
+  }
+  .amount span {
+    display: grid;
+    place-items: center;
+    min-height: 52px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--sand-50);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--forest-900);
+    transition: all 0.15s ease;
+  }
+  .amount--custom span {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+  }
+  .amount input:checked + span {
+    border-color: var(--orange-500);
+    background: var(--orange-100);
+    box-shadow: 0 0 0 3px rgb(255 122 61 / 0.25);
+  }
+  .amount input:focus-visible + span {
+    outline: 3px solid var(--orange-500);
+    outline-offset: 2px;
+  }
+  .field {
+    display: grid;
+    gap: 6px;
+  }
+  .field[hidden] {
+    display: none;
+  }
+  .field-row {
+    display: grid;
+    gap: 12px;
+  }
+  @media (min-width: 640px) {
+    .field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--forest-900);
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--muted);
+  }
+  input:not([type='checkbox']):not([type='radio']),
+  textarea {
+    font: inherit;
+    width: 100%;
+    padding: 0.75em 0.9em;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--sand-50);
+    color: var(--ink);
+  }
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--forest-500);
+    box-shadow: 0 0 0 4px var(--forest-100);
+  }
+  .consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    flex: none;
+    accent-color: var(--forest-700);
+  }
+  .field__error,
+  .form-error {
+    margin: 0;
+    color: #b42318;
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .field__error:empty,
+  .form-error:empty {
+    display: none;
+  }
+  .form .btn {
+    justify-self: start;
+    white-space: normal;
+  }
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0;
+    display: grid;
+    gap: 8px;
+    color: var(--forest-700);
+    font-weight: 550;
+  }
+  .facts li {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+</style>

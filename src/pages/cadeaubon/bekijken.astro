@@ -1,0 +1,95 @@
+---
+// Dárkový poukaz k tisku / poslání dál. Přístup: číslo objednávky + tajný token.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VoucherCard from '../../components/VoucherCard.astro';
+import { getOrder } from '../../lib/orders';
+
+export const prerender = false;
+
+const nr = Astro.url.searchParams.get('nr') ?? '';
+const token = Astro.url.searchParams.get('t') ?? '';
+const found = nr && token ? await getOrder(nr) : null;
+const order = found && found.token === token && found.meta.type === 'voucher' ? found : null;
+const paid = order ? ['betaald', 'besteld', 'verzonden'].includes(order.status) : false;
+if (!order) Astro.response.status = 404;
+Astro.response.headers.set('Cache-Control', 'no-store');
+---
+<BaseLayout title="Dárkový poukaz" description="Dárkový poukaz Kickbike Club Hille." noindex hideMobileCta>
+  <section class="section print-area">
+    <div class="container" style="max-width:820px">
+      {order ? (
+        <>
+          {!paid && (
+            <p class="notice no-print">
+              <strong>Náhled:</strong> poukaz začne platit po přijetí platby za objednávku {order.number}. Kód se zobrazí po zaplacení.
+            </p>
+          )}
+          <div class:list={['wrap', { 'wrap--preview': !paid }]}>
+            <VoucherCard
+              amount={order.meta.amount}
+              recipient={order.meta.recipient}
+              message={order.meta.message}
+              code={paid ? order.meta.code : 'CB-••••-••••'}
+              validUntil={order.meta.validUntil}
+            />
+          </div>
+          <div class="actions no-print">
+            {paid && <button class="btn btn--primary" type="button" onclick="window.print()">Vytisknout / uložit jako PDF</button>}
+            <a class="btn btn--secondary" href="/">Na web</a>
+          </div>
+          <p class="how">Poukaz uplatníš domluvou termínu u Lindy (WhatsApp nebo e-mail) – stačí uvést kód poukazu.</p>
+        </>
+      ) : (
+        <div style="text-align:center">
+          <h1>Poukaz nenalezen</h1>
+          <p class="lead" style="margin-inline:auto">Odkaz je neplatný nebo neúplný. Použij prosím odkaz z e-mailu.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notice {
+    background: var(--orange-100);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+  }
+  .wrap--preview {
+    opacity: 0.85;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 28px;
+  }
+  .how {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-top: 18px;
+  }
+  @media print {
+    :global(header),
+    :global(footer),
+    :global(.skip-link),
+    .no-print,
+    .how {
+      display: none !important;
+    }
+    :global(body) {
+      background: #fff;
+      padding: 0 !important;
+    }
+    .print-area {
+      padding: 0;
+    }
+    :global(*) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>

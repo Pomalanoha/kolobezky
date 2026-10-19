@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Quiz from '../components/Quiz.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { breadcrumbSchema } from '../lib/schema';
+
+const crumbs = [{ name: 'Která koloběžka je pro mě?', href: '/welke-step/' }];
+---
+<BaseLayout
+  title="Která sportovní koloběžka je pro mě? Kvíz"
+  description="Tři otázky a víš, jestli ti sedí rekreační Road, sportovní Cobra nebo terénní Cross. Kvíz k výběru sportovní koloběžky Crussis."
+  jsonLd={breadcrumbSchema(crumbs)}
+>
+  <PageHero eyebrow="Kvíz · 30 sekund" title="Která koloběžka je pro mě?" lead="Odpověz na tři rychlé otázky a doporučíme ti typ koloběžky i konkrétní modely." crumbs={crumbs} />
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <Quiz />
+    </div>
+  </section>
+  <CtaBand title="Nejistý/á? Vyzkoušej všechny tři." text="Na zkušební jízdě si projedeš Road, Cobru i Cross a hned budeš vědět, která ti sedí." />
+</BaseLayout>

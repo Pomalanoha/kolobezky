@@ -55,4 +55,12 @@ export const shop = {
   ],
 };
 
+// Dárkové poukazy (hodnotové – lze uplatnit na lekce, workshopy i nákup).
+export const voucher = {
+  amounts: [25, 50, 75, 100],
+  min: 20,
+  max: 500,
+  validityMonths: 24,
+};
+
 export type ShippingId = (typeof shop.shipping)[number]['id'];
