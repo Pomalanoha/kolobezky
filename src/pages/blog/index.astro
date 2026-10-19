@@ -6,17 +6,17 @@ import Photo from '../../components/Photo.astro';
 import { site } from '../../config';
 import { breadcrumbSchema } from '../../lib/schema';
 
-const crumbs = [{ name: 'Tipy & články', href: '/blog/' }];
+const crumbs = [{ name: 'Tips & blog', href: '/blog/' }];
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const dateFmt = new Intl.DateTimeFormat(site.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { dateStyle: 'medium' });
 const tones = ['forest', 'sand', 'orange'] as const;
 ---
 <BaseLayout
-  title="Tipy & články o sportsteppen"
-  description="Praktické tipy o sportsteppen: technika, výběr koloběžky, zdraví, trasy v okolí Hoofddorpu a v dunách."
+  title="Tips en blogs over sportsteppen"
+  description="Praktische tips over sportsteppen: techniek, een step kiezen, gezondheid en routes rond Hoofddorp en in de duinen."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Blog" title="Tipy & články" lead="Vše, co potřebuješ vědět o sportsteppen – od první jízdy po výběr koloběžky." crumbs={crumbs} />
+  <PageHero eyebrow="Blog" title="Tips & blog" lead="Alles wat je wilt weten over sportsteppen – van je eerste rit tot het kiezen van je step." crumbs={crumbs} />
   <section class="section" style="padding-top:0">
     <div class="container grid grid--3">
       {posts.map((post, i) => (

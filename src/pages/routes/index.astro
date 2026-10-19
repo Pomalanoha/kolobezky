@@ -7,16 +7,16 @@ import Icon from '../../components/Icon.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { breadcrumbSchema } from '../../lib/schema';
 
-const crumbs = [{ name: 'Kde jezdíme', href: '/routes/' }];
+const crumbs = [{ name: 'Waar we steppen', href: '/routes/' }];
 const locations = (await getCollection('locations')).sort((a, b) => a.data.order - b.data.order);
 const tones = ['forest', 'sand', 'orange'] as const;
 ---
 <BaseLayout
-  title="Kde jezdíme – trasy pro sportsteppen v Haarlemmermeer a v dunách"
-  description="Trasy pro sportsteppen v okolí Hoofddorpu: Haarlemmermeerse Bos, Spaarnwoude a duny Zuid-Kennemerland až k moři v Zandvoortu."
+  title="Waar we steppen – routes in de Haarlemmermeer en de duinen"
+  description="Routes voor sportsteppen rond Hoofddorp: het Haarlemmermeerse Bos, Spaarnwoude en de duinen van Zuid-Kennemerland tot aan zee in Zandvoort."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Trasy & lokality" title="Kde jezdíme" lead="Holandsko je pro steppen jako stvořené. Začínáme v klidu v parku a postupně vyrážíme dál – do lesa, polderů a dun." crumbs={crumbs} />
+  <PageHero eyebrow="Routes & locaties" title="Waar we steppen" lead="Nederland is een stepland bij uitstek. We beginnen rustig in het park en gaan daarna steeds verder – het bos, de polder en de duinen in." crumbs={crumbs} />
   <section class="section" style="padding-top:0">
     <div class="container routes">
       {locations.map((l, i) => (
@@ -27,9 +27,9 @@ const tones = ['forest', 'sand', 'orange'] as const;
             <h2>{l.data.title}</h2>
             <p>{l.data.description}</p>
             <ul class="route__facts">
-              {l.data.distance && <li><strong>Délka:</strong> {l.data.distance}</li>}
-              {l.data.surface && <li><strong>Povrch:</strong> {l.data.surface}</li>}
-              <li><strong>Úroveň:</strong> {l.data.level}</li>
+              {l.data.distance && <li><strong>Afstand:</strong> {l.data.distance}</li>}
+              {l.data.surface && <li><strong>Ondergrond:</strong> {l.data.surface}</li>}
+              <li><strong>Niveau:</strong> {l.data.level}</li>
             </ul>
           </div>
         </a>

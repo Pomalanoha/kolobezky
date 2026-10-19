@@ -8,15 +8,15 @@ import CtaBand from '../components/CtaBand.astro';
 import { formatPrice, t } from '../i18n/ui';
 import { breadcrumbSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Doplňky', href: '/accessoires/' }];
+const crumbs = [{ name: 'Accessoires', href: '/accessoires/' }];
 const items = await getCollection('accessories');
 ---
 <BaseLayout
-  title="Doplňky pro sportovní koloběžky Crussis"
-  description="Stojánky, blatníky, držáky na láhev, helmy a rukavice pro sportovní koloběžky Crussis. Objednej spolu s koloběžkou nebo samostatně."
+  title="Accessoires voor Crussis sportsteps"
+  description="Standaards, spatborden, bidonhouders, helmen en handschoenen voor Crussis sportsteps. Bestel ze samen met je step of los."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Příslušenství" title="Doplňky pro tvou koloběžku" lead="Originální příslušenství Crussis a výbava pro bezpečnou a pohodlnou jízdu. Objednáš ho spolu s koloběžkou nebo samostatně." crumbs={crumbs} />
+  <PageHero eyebrow="Accessoires" title="Accessoires voor jouw step" lead="Originele Crussis-accessoires en uitrusting voor veilig en comfortabel steppen. Bestel ze samen met je step of los." crumbs={crumbs} />
 
   <section class="section" style="padding-top:0">
     <div class="container">
@@ -26,7 +26,7 @@ const items = await getCollection('accessories');
           <article class="card acc">
             <Photo src={a.data.image} alt={a.data.title} ratio="4 / 3" fit="contain" tone="sand" class="acc__img" sizes="(min-width: 900px) 33vw, 100vw" widths={[400, 700]} />
             <h2>{a.data.title}</h2>
-            {a.data.fits && <p class="acc__fits">Pasuje na: {a.data.fits}</p>}
+            {a.data.fits && <p class="acc__fits">Past op: {a.data.fits}</p>}
             {a.data.note && <Todo>{a.data.note}</Todo>}
             <p class="acc__price">{formatPrice(a.data.price)} <span>{t('product.inclVat')}</span></p>
             {a.data.available ? (

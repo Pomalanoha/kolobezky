@@ -10,21 +10,21 @@ import Todo from '../components/Todo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { breadcrumbSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Klub', href: '/club/' }];
+const crumbs = [{ name: 'Club', href: '/club/' }];
 const points = [
-  { icon: 'users', title: 'Společné jízdy', text: 'Pravidelné klubové vyjížďky v okolí Hoofddorpu, Haarlemu a v dunách.' },
-  { icon: 'bolt', title: 'Tréninky', text: 'Vyhlášené tréninky techniky a kondice pro všechny úrovně.' },
-  { icon: 'route', title: 'Nové trasy', text: 'Objevuj nová místa, kam by ses sám/sama nevydal/a.' },
-  { icon: 'heart', title: 'Parta', text: 'Potkáš další sportsteppers, sdílíš zkušenosti a motivuješ se navzájem.' },
+  { icon: 'users', title: 'Samen steppen', text: 'Regelmatige clubritten rond Hoofddorp, Haarlem en in de duinen.' },
+  { icon: 'bolt', title: 'Trainingen', text: 'Aangekondigde trainingen in techniek en conditie voor elk niveau.' },
+  { icon: 'route', title: 'Nieuwe routes', text: 'Ontdek plekken waar je in je eentje niet snel naartoe zou gaan.' },
+  { icon: 'heart', title: 'Gezelligheid', text: 'Je ontmoet andere sportsteppers, deelt ervaringen en motiveert elkaar.' },
 ] as const;
 ---
 <BaseLayout
-  title="Klub sportsteppen – společné jízdy v Haarlemmermeer"
-  description="Kickbike Club Hille: společné klubové jízdy a tréninky sportsteppen v okolí Hoofddorpu, Haarlemu a v dunách. Pro zákazníky zdarma."
+  title="Stepclub – samen sportsteppen in de Haarlemmermeer"
+  description="Kickbike Club Hille: clubritten en trainingen sportsteppen rond Hoofddorp, Haarlem en in de duinen. Gratis voor klanten."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Kickbike Club Hille" title="Tvoje koloběžka. Tvoje tempo. Tvůj klub." lead="Koupí koloběžky to nekončí. Jako zákazník se můžeš zdarma přidat ke klubovým jízdám a vyhlášeným tréninkům – potkáš další sportsteppers, nasbíráš zkušenosti a objevíš nové trasy." crumbs={crumbs}>
-    <Photo slot="aside" src={imgGroep} alt="Klubová jízda na sportovních koloběžkách" ratio="4 / 5" position="50% 60%" priority />
+  <PageHero eyebrow="Kickbike Club Hille" title="Jouw step. Jouw tempo. Jouw club." lead="Een sportstep kopen is pas het begin. Als klant doe je gratis mee aan clubritten en aangekondigde trainingen – zo ontmoet je andere sportsteppers, doe je ervaring op en ontdek je nieuwe routes." crumbs={crumbs}>
+    <Photo slot="aside" src={imgGroep} alt="Clubrit op sportsteps" ratio="4 / 5" position="50% 60%" priority />
   </PageHero>
 
   <section class="section" style="padding-top:0">
@@ -44,17 +44,17 @@ const points = [
   <section class="section section--tint">
     <div class="container split">
       <div>
-        <span class="eyebrow">Jak se přidat</span>
-        <h2>Kdy a kde jezdíme</h2>
+        <span class="eyebrow">Meedoen</span>
+        <h2>Wanneer en waar we steppen</h2>
         <Todo>Doplnit: jak často jsou klubové jízdy (např. 1× týdně / 2× měsíčně), den a čas, místo srazu, úrovně, jak se přihlásit (WhatsApp skupina?). Zvážit i placené členství pro ty, kdo koloběžku koupili jinde.</Todo>
         <ul class="checklist">
-          <li>klubové jízdy a vyhlášené tréninky jsou pro zákazníky e-shopu zdarma</li>
-          <li>potkáš další sportsteppers a nasbíráš zkušenosti</li>
-          <li>objevíš nové trasy v okolí</li>
+          <li>clubritten en aangekondigde trainingen zijn gratis voor klanten van de webshop</li>
+          <li>je ontmoet andere sportsteppers en doet ervaring op</li>
+          <li>je ontdekt nieuwe routes in de omgeving</li>
         </ul>
-        <a class="btn btn--primary" href="/contact/?onderwerp=club">Chci se přidat</a>
+        <a class="btn btn--primary" href="/contact/?onderwerp=club">Ik wil meedoen</a>
       </div>
-      <Photo src={imgDuinen} alt="Sportsteppen v dunách" ratio="4 / 3" />
+      <Photo src={imgDuinen} alt="Sportsteppen in de duinen" ratio="4 / 3" />
     </div>
   </section>
 
@@ -62,7 +62,7 @@ const points = [
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Ze sedla</span>
-        <h2>Zážitky členů a klientů</h2>
+        <h2>Ervaringen van leden en klanten</h2>
       </div>
       <Testimonials />
     </div>

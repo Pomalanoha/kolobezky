@@ -1,6 +1,6 @@
 // Katalog a výpočet ceny objednávky. Cena se vždy počítá na serveru z aktuálního obsahu webu.
 import { getCollection } from 'astro:content';
-import { shop } from '../config';
+import { shop, site } from '../config';
 
 export interface CatalogItem {
   key: string; // "step:<slug>|<varianta>" nebo "acc:<id>"
@@ -96,32 +96,32 @@ export function priceOrder(input: OrderInput, catalog: CatalogItem[]): { errors:
 
   if (input.step) {
     const item = byKey.get(input.step);
-    if (!item || item.kind !== 'step') errors.step = 'Vyber koloběžku ze seznamu.';
-    else if (!item.available) errors.step = 'Tento model je momentálně vyprodaný.';
+    if (!item || item.kind !== 'step') errors.step = 'Kies een step uit de lijst.';
+    else if (!item.available) errors.step = 'Dit model is momenteel uitverkocht.';
     else lines.push({ key: item.key, title: item.title, qty: input.qty, unitCents: toCents(item.price), totalCents: toCents(item.price) * input.qty });
   }
   for (const key of new Set(input.accessories)) {
     const item = byKey.get(key);
     if (!item || item.kind !== 'acc' || !item.available) {
-      errors.acc = 'Některý z doplňků už není k dispozici.';
+      errors.acc = 'Een van de accessoires is niet meer beschikbaar.';
       continue;
     }
     lines.push({ key: item.key, title: item.title, qty: 1, unitCents: toCents(item.price), totalCents: toCents(item.price) });
   }
-  if (lines.length === 0 && !errors.step) errors.step = 'Vyber koloběžku nebo alespoň jeden doplněk.';
+  if (lines.length === 0 && !errors.step) errors.step = 'Kies een step of ten minste één accessoire.';
 
   const ship = shop.shipping.find((s) => s.id === input.shipping);
-  if (!ship) errors.shipping = 'Vyber způsob předání.';
+  if (!ship) errors.shipping = 'Kies hoe je de bestelling wilt ontvangen.';
 
-  if (input.name.length < 2) errors.name = 'Vyplň jméno a příjmení.';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email)) errors.email = 'Zadej platný e-mail.';
-  if (input.phone && !/^[+\d][\d\s()-]{6,}$/.test(input.phone)) errors.phone = 'Telefon zadej jen číslicemi, např. 06 12345678.';
+  if (input.name.length < 2) errors.name = 'Vul je voor- en achternaam in.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email)) errors.email = 'Vul een geldig e-mailadres in.';
+  if (input.phone && !/^[+\d][\d\s()-]{6,}$/.test(input.phone)) errors.phone = 'Vul je telefoonnummer in met cijfers, bijv. 06 12345678.';
   if (ship?.needsAddress) {
-    if (input.street.length < 3) errors.street = 'Vyplň ulici a číslo domu.';
-    if (!/^[1-9]\d{3}\s?[A-Z]{2}$/.test(input.postcode)) errors.postcode = 'Zadej nizozemské PSČ, např. 2132 AB.';
-    if (input.city.length < 2) errors.city = 'Vyplň město.';
+    if (input.street.length < 3) errors.street = 'Vul je straat en huisnummer in.';
+    if (!/^[1-9]\d{3}\s?[A-Z]{2}$/.test(input.postcode)) errors.postcode = 'Vul een Nederlandse postcode in, bijv. 2132 AB.';
+    if (input.city.length < 2) errors.city = 'Vul je woonplaats in.';
   }
-  if (!input.terms) errors.terms = 'Pro objednání je potřeba souhlasit s obchodními podmínkami.';
+  if (!input.terms) errors.terms = 'Om te bestellen moet je akkoord gaan met de algemene voorwaarden.';
 
   if (Object.keys(errors).length > 0 || !ship) return { errors };
 
@@ -134,5 +134,5 @@ export function priceOrder(input: OrderInput, catalog: CatalogItem[]): { errors:
 }
 
 export function formatCents(cents: number): string {
-  return new Intl.NumberFormat('cs-CZ', { style: 'currency', currency: 'EUR' }).format(cents / 100);
+  return new Intl.NumberFormat(site.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { style: 'currency', currency: 'EUR' }).format(cents / 100);
 }

@@ -3,11 +3,11 @@ title: Crussis Cross 6.2
 category: cross
 price: 649
 order: 5
-summary: Terénní koloběžka do lesa, dun a na nezpevněné cesty.
+summary: Terreinstep voor het bos, de duinen en onverharde paden.
 idealFor:
-  - lesní a šotolinové cesty
-  - aktivní trénink s výzvou
-  - jezdce, kteří chtějí víc než asfalt
+  - bos- en grindpaden
+  - actief trainen met een uitdaging
+  - steppers die meer willen dan asfalt
 variants:
   - Cross Hard 6.2
   - ONE Cross Hard 6.2
@@ -20,4 +20,4 @@ gallery:
 availability: op-bestelling
 ---
 
-Cross je stavěná na terén. Ideální na lesní cesty a dunové stezky, kde se trénuje síla i rovnováha. Pro ty, kdo myslí trénink vážně a mají rádi výzvu.
+De Cross is gebouwd voor het terrein. Ideaal voor bospaden en duinroutes, waar je zowel kracht als balans traint. Voor wie serieus wil trainen en van een uitdaging houdt.

@@ -14,14 +14,14 @@ const paid = order ? ['betaald', 'besteld', 'verzonden'].includes(order.status) 
 if (!order) Astro.response.status = 404;
 Astro.response.headers.set('Cache-Control', 'no-store');
 ---
-<BaseLayout title="Dárkový poukaz" description="Dárkový poukaz Kickbike Club Hille." noindex hideMobileCta>
+<BaseLayout title="Cadeaubon" description="Cadeaubon Kickbike Club Hille." noindex hideMobileCta>
   <section class="section print-area">
     <div class="container" style="max-width:820px">
       {order ? (
         <>
           {!paid && (
             <p class="notice no-print">
-              <strong>Náhled:</strong> poukaz začne platit po přijetí platby za objednávku {order.number}. Kód se zobrazí po zaplacení.
+              <strong>Voorbeeld:</strong> de cadeaubon is geldig zodra de betaling voor bestelling {order.number} is ontvangen. De code verschijnt na betaling.
             </p>
           )}
           <div class:list={['wrap', { 'wrap--preview': !paid }]}>
@@ -34,15 +34,15 @@ Astro.response.headers.set('Cache-Control', 'no-store');
             />
           </div>
           <div class="actions no-print">
-            {paid && <button class="btn btn--primary" type="button" onclick="window.print()">Vytisknout / uložit jako PDF</button>}
-            <a class="btn btn--secondary" href="/">Na web</a>
+            {paid && <button class="btn btn--primary" type="button" onclick="window.print()">Printen / opslaan als pdf</button>}
+            <a class="btn btn--secondary" href="/">Naar de website</a>
           </div>
-          <p class="how">Poukaz uplatníš domluvou termínu u Lindy (WhatsApp nebo e-mail) – stačí uvést kód poukazu.</p>
+          <p class="how">Je wisselt de bon in door een afspraak te maken met Linda (WhatsApp of e-mail) – vermeld daarbij de code.</p>
         </>
       ) : (
         <div style="text-align:center">
-          <h1>Poukaz nenalezen</h1>
-          <p class="lead" style="margin-inline:auto">Odkaz je neplatný nebo neúplný. Použij prosím odkaz z e-mailu.</p>
+          <h1>Cadeaubon niet gevonden</h1>
+          <p class="lead" style="margin-inline:auto">De link is ongeldig of onvolledig. Gebruik de link uit de e-mail.</p>
         </div>
       )}
     </div>

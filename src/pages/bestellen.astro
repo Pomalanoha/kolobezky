@@ -10,7 +10,7 @@ import { getCatalog } from '../lib/shop';
 import { breadcrumbSchema } from '../lib/schema';
 import Quiz from '../components/Quiz.astro';
 
-const crumbs = [{ name: 'Objednávka', href: '/bestellen/' }];
+const crumbs = [{ name: 'Bestellen', href: '/bestellen/' }];
 const catalog = await getCatalog();
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const steps = catalog.filter((c) => c.kind === 'step');
@@ -20,12 +20,12 @@ const prices = Object.fromEntries(catalog.map((c) => [c.key, { title: c.title, p
 const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.price, needsAddress: s.needsAddress }));
 ---
 <BaseLayout
-  title="Objednávka sportovní koloběžky"
-  description="Objednej si sportovní koloběžku Crussis nebo doplňky. Platba převodem, dodání cca do 10 pracovních dnů nebo vyzvednutí v Hoofddorpu s nastavením na míru."
+  title="Sportstep bestellen"
+  description="Bestel een Crussis sportstep of accessoires. Betalen per overboeking, levering binnen ca. 10 werkdagen of ophalen in Hoofddorp met persoonlijk afsteladvies."
   jsonLd={breadcrumbSchema(crumbs)} 
   hideMobileCta
 >
-  <PageHero eyebrow="E-shop" title="Objednávka" lead={`Vyber koloběžku a doplňky, vyplň adresu a máš hotovo. Platba převodem, dodání ${shop.deliveryTime}.`} crumbs={crumbs} />
+  <PageHero eyebrow="Webshop" title="Bestellen" lead={`Kies je step en accessoires, vul je adres in en klaar. Betalen per overboeking, levering ${shop.deliveryTime}.`} crumbs={crumbs} />
 
   <section class="section" style="padding-top:0">
     <div class="container">
@@ -33,16 +33,16 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
       <form class="order" method="POST" action="/api/bestelling/" novalidate data-prices={JSON.stringify(prices)} data-shipping={JSON.stringify(shipping)}>
         <div class="order__main">
           <fieldset class="card">
-            <legend><span class="step-no">1</span> Koloběžka</legend>
+            <legend><span class="step-no">1</span> Sportstep</legend>
             <div class="field">
-              <label for="step">Model a varianta</label>
+              <label for="step">Model en variant</label>
               <select id="step" name="step">
-                <option value="">— bez koloběžky (jen doplňky) —</option>
+                <option value="">— geen step (alleen accessoires) —</option>
                 {products.map((p) => (
                   <optgroup label={p.data.title}>
                     {steps.filter((s) => s.key.startsWith(`step:${p.id}|`)).map((s) => (
                       <option value={s.key} disabled={!s.available} data-product={p.id}>
-                        {s.title} – {formatPrice(s.price)}{!s.available ? ' (vyprodáno)' : ''}
+                        {s.title} – {formatPrice(s.price)}{!s.available ? ' (uitverkocht)' : ''}
                       </option>
                     ))}
                   </optgroup>
@@ -51,18 +51,18 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
               <p class="field__error" data-error-for="step"></p>
             </div>
             <div class="field field--qty">
-              <label for="qty">Počet kusů</label>
+              <label for="qty">Aantal</label>
               <input id="qty" name="qty" type="number" min="1" max={shop.maxQty} value="1" inputmode="numeric" />
             </div>
             <button type="button" class="quiz-open" data-quiz-open>
               <span aria-hidden="true">?</span>
-              <span><strong>Nevíš, který model?</strong> Udělej 30sekundový kvíz – model ti rovnou vybereme.</span>
+              <span><strong>Twijfel je welk model?</strong> Doe de test van 30 seconden – we kiezen het model meteen voor je.</span>
             </button>
-            <p class="hint"><Icon name="check" size={16} /> Nebo si ho <a href="/proefrit-en-lessen/">nejdřív vyzkoušej</a> či <a href={site.whatsapp} target="_blank" rel="noopener">napiš Lindě</a>.</p>
+            <p class="hint"><Icon name="check" size={16} /> Of <a href="/proefrit-en-lessen/">probeer hem eerst uit</a> of <a href={site.whatsapp} target="_blank" rel="noopener">stuur Linda een bericht</a>.</p>
           </fieldset>
 
           <fieldset class="card">
-            <legend><span class="step-no">2</span> Doplňky <span class="opt">(nepovinné)</span></legend>
+            <legend><span class="step-no">2</span> Accessoires <span class="opt">(optioneel)</span></legend>
             <div class="accs">
               {accessories.map((a) => (
                 <label class="acc">
@@ -76,84 +76,84 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
           </fieldset>
 
           <fieldset class="card">
-            <legend><span class="step-no">3</span> Předání</legend>
+            <legend><span class="step-no">3</span> Levering</legend>
             <div class="ship">
               {shop.shipping.map((s, i) => (
                 <label class="ship__opt">
                   <input type="radio" name="shipping" value={s.id} checked={i === 0} />
                   <span>
                     <strong>{s.label}</strong>
-                    <small>{s.price === null ? 'cenu dopravy upřesníme e-mailem' : s.price === 0 ? 'zdarma' : formatPrice(s.price)}</small>
+                    <small>{s.price === null ? 'verzendkosten bevestigen we per e-mail' : s.price === 0 ? 'gratis' : formatPrice(s.price)}</small>
                   </span>
                 </label>
               ))}
             </div>
             <p class="field__error" data-error-for="shipping"></p>
-            <p class="hint"><Icon name="calendar" size={16} /> Dodání {shop.deliveryTime} od přijetí platby.</p>
+            <p class="hint"><Icon name="calendar" size={16} /> Levering {shop.deliveryTime} na ontvangst van de betaling.</p>
           </fieldset>
 
           <fieldset class="card">
-            <legend><span class="step-no">4</span> Kontaktní údaje a adresa</legend>
+            <legend><span class="step-no">4</span> Contactgegevens en adres</legend>
             <div class="grid-2">
               <div class="field">
-                <label for="name">Jméno a příjmení</label>
+                <label for="name">Voor- en achternaam</label>
                 <input id="name" name="name" autocomplete="name" required />
                 <p class="field__error" data-error-for="name"></p>
               </div>
               <div class="field">
-                <label for="phone">Telefon <span class="opt">(doporučeno)</span></label>
+                <label for="phone">Telefoon <span class="opt">(aanbevolen)</span></label>
                 <input id="phone" name="phone" type="tel" autocomplete="tel" />
                 <p class="field__error" data-error-for="phone"></p>
               </div>
             </div>
             <div class="field">
-              <label for="email">E-mail</label>
+              <label for="email">E-mailadres</label>
               <input id="email" name="email" type="email" autocomplete="email" required />
               <p class="field__error" data-error-for="email"></p>
             </div>
             <div class="address" data-address>
               <div class="field">
-                <label for="street">Ulice a číslo domu</label>
+                <label for="street">Straat en huisnummer</label>
                 <input id="street" name="street" autocomplete="street-address" />
                 <p class="field__error" data-error-for="street"></p>
               </div>
               <div class="grid-2">
                 <div class="field">
-                  <label for="postcode">PSČ</label>
+                  <label for="postcode">Postcode</label>
                   <input id="postcode" name="postcode" autocomplete="postal-code" placeholder="2132 AB" />
                   <p class="field__error" data-error-for="postcode"></p>
                 </div>
                 <div class="field">
-                  <label for="city">Město</label>
+                  <label for="city">Plaats</label>
                   <input id="city" name="city" autocomplete="address-level2" />
                   <p class="field__error" data-error-for="city"></p>
                 </div>
               </div>
             </div>
             <div class="field">
-              <label for="note">Poznámka <span class="opt">(nepovinné)</span></label>
-              <textarea id="note" name="note" rows="3" placeholder="Např. výška postavy kvůli nastavení, preferovaný termín vyzvednutí…"></textarea>
+              <label for="note">Opmerking <span class="opt">(optioneel)</span></label>
+              <textarea id="note" name="note" rows="3" placeholder="Bijvoorbeeld je lichaamslengte voor het afstellen of een voorkeursdatum om op te halen…"></textarea>
             </div>
-            <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+            <p class="visually-hidden"><label>Niet invullen: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
           </fieldset>
         </div>
 
         <aside class="order__summary card">
-          <h2>Souhrn</h2>
+          <h2>Overzicht</h2>
           <ul class="sum" data-summary>
-            <li class="sum__empty">Zatím nic nevybráno.</li>
+            <li class="sum__empty">Nog niets gekozen.</li>
           </ul>
           <dl class="totals">
-            <dt>Doprava</dt><dd data-shipping-price>—</dd>
-            <dt class="totals__grand">Celkem vč. DPH</dt><dd class="totals__grand" data-total>{formatPrice(0)}</dd>
+            <dt>Verzendkosten</dt><dd data-shipping-price>—</dd>
+            <dt class="totals__grand">Totaal incl. btw</dt><dd class="totals__grand" data-total>{formatPrice(0)}</dd>
           </dl>
-          <p class="pay"><Icon name="check" size={16} /> Platba převodem do {shop.paymentDays} dnů. Údaje k platbě dostaneš hned po objednání.</p>
+          <p class="pay"><Icon name="check" size={16} /> Betalen per overboeking binnen {shop.paymentDays} dagen. Je ontvangt de betaalgegevens direct na je bestelling.</p>
           <label class="consent">
             <input type="checkbox" name="terms" required />
-            <span>Souhlasím s <a href="/algemene-voorwaarden/" target="_blank">obchodními podmínkami</a> a beru na vědomí <a href="/privacybeleid/" target="_blank">zásady ochrany osobních údajů</a>.</span>
+            <span>Ik ga akkoord met de <a href="/algemene-voorwaarden/" target="_blank">algemene voorwaarden</a> en heb het <a href="/privacybeleid/" target="_blank">privacybeleid</a> gelezen.</span>
           </label>
           <p class="field__error" data-error-for="terms"></p>
-          <button class="btn btn--primary order__submit" type="submit">Objednat s povinností platby</button>
+          <button class="btn btn--primary order__submit" type="submit">Bestelling plaatsen met betaalverplichting</button>
           <p class="form-error" data-form-error role="alert"></p>
         </aside>
       </form>
@@ -162,8 +162,8 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
 
   <dialog class="quiz-dialog" data-quiz-dialog aria-labelledby="quiz-dialog-title">
     <div class="quiz-dialog__head">
-      <h2 id="quiz-dialog-title">Která koloběžka je pro mě?</h2>
-      <button type="button" class="quiz-dialog__close" data-quiz-close aria-label="Zavřít kvíz">×</button>
+      <h2 id="quiz-dialog-title">Welke step past bij mij?</h2>
+      <button type="button" class="quiz-dialog__close" data-quiz-close aria-label="Test sluiten">×</button>
     </div>
     <Quiz mode="pick" />
   </dialog>
@@ -206,7 +206,7 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
     const subtotal = lines.reduce((s, l) => s + l.total, 0);
     const summary = form.querySelector('[data-summary]')!;
     summary.innerHTML = '';
-    if (lines.length === 0) summary.innerHTML = '<li class="sum__empty">Zatím nic nevybráno.</li>';
+    if (lines.length === 0) summary.innerHTML = '<li class="sum__empty">Nog niets gekozen.</li>';
     for (const l of lines) {
       const li = document.createElement('li');
       const name = document.createElement('span');
@@ -216,7 +216,7 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
       li.append(name, price);
       summary.append(li);
     }
-    form.querySelector('[data-shipping-price]')!.textContent = !ship ? '—' : ship.price === null ? 'upřesníme' : ship.price === 0 ? 'zdarma' : fmt.format(ship.price);
+    form.querySelector('[data-shipping-price]')!.textContent = !ship ? '—' : ship.price === null ? 'volgt per e-mail' : ship.price === 0 ? 'gratis' : fmt.format(ship.price);
     form.querySelector('[data-total]')!.textContent = fmt.format(subtotal + (ship?.price ?? 0));
     addressBox.hidden = !ship?.needsAddress;
   }
@@ -269,7 +269,7 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
     const formError = form.querySelector<HTMLElement>('[data-form-error]')!;
     formError.textContent = '';
     button.disabled = true;
-    button.textContent = 'Odesílám…';
+    button.textContent = 'Bezig met verzenden…';
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
       const data = await res.json();
@@ -280,10 +280,10 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
       showErrors(data.errors ?? {});
       if (data.message) formError.textContent = data.message;
     } catch {
-      formError.textContent = 'Objednávku se nepodařilo odeslat. Zkus to prosím znovu, nebo napiš Lindě na WhatsApp.';
+      formError.textContent = 'Je bestelling kon niet worden verzonden. Probeer het opnieuw of stuur Linda een WhatsApp-bericht.';
     }
     button.disabled = false;
-    button.textContent = 'Objednat s povinností platby';
+    button.textContent = 'Bestelling plaatsen met betaalverplichting';
   });
 </script>
 

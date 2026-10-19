@@ -9,41 +9,41 @@ import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
 import { site } from '../config';
 import { breadcrumbSchema, businessId } from '../lib/schema';
 
-const crumbs = [{ name: 'Pro skupiny', href: '/groepen/' }];
+const crumbs = [{ name: 'Groepsuitjes', href: '/groepen/' }];
 const types = [
-  { icon: 'users', title: 'Firemní akce', text: 'Teambuilding venku, který baví všechny – od sportovců po kolegy, co běžně nesportují.', bg: '#e6eef7', fg: '#1e40af' },
-  { icon: 'heart', title: 'Rozlučka se svobodou', text: 'Netradiční zážitek pro nevěstu nebo ženicha a partu přátel. Smích zaručen.', bg: '#ffe6d9', fg: '#c2410c' },
-  { icon: 'star', title: 'Narozeniny a oslavy', text: 'Dárek, na který se nezapomíná – vyjížďka s přáteli, třeba přes duny až k moři.', bg: '#f4ead6', fg: '#8a6116' },
-  { icon: 'leaf', title: 'Kluby a spolky', text: 'Sportovní kluby, běžecké skupiny, spolky seniorů – zkuste něco nového společně.', bg: '#dcefe5', fg: '#1d5a46' },
+  { icon: 'users', title: 'Bedrijfsuitje', text: 'Teambuilding in de buitenlucht die iedereen leuk vindt – van sporters tot collega’s die normaal niet sporten.', bg: '#e6eef7', fg: '#1e40af' },
+  { icon: 'heart', title: 'Vrijgezellenfeest', text: 'Een originele belevenis voor de bruid of bruidegom en een groep vrienden. Lachen gegarandeerd.', bg: '#ffe6d9', fg: '#c2410c' },
+  { icon: 'star', title: 'Verjaardagen en feestjes', text: 'Een cadeau om nooit te vergeten – samen met vrienden op pad, bijvoorbeeld door de duinen naar zee.', bg: '#f4ead6', fg: '#8a6116' },
+  { icon: 'leaf', title: 'Clubs en verenigingen', text: 'Sportclubs, hardloopgroepen, seniorenverenigingen – probeer samen eens iets nieuws.', bg: '#dcefe5', fg: '#1d5a46' },
 ] as const;
 const program = [
-  { title: 'Přivítání a instruktáž', text: 'Nastavíme koloběžky a ukážu základy techniky – zvládne to každý.' },
-  { title: 'Rozjezd v klidu', text: 'Krátký nácvik v parku, aby se všichni cítili jistě.' },
-  { title: 'Společná vyjížďka', text: 'Trasa podle skupiny – park, les nebo duny až na pláž.' },
-  { title: 'Zakončení', text: 'Protažení a společná chvíle na závěr – podle domluvy.' },
+  { title: 'Welkom en uitleg', text: 'We stellen de steps af en ik laat de basistechniek zien – iedereen kan het.' },
+  { title: 'Rustig inrijden', text: 'Even oefenen in het park, zodat iedereen zich zeker voelt.' },
+  { title: 'Samen op pad', text: 'Een route die past bij de groep – park, bos of door de duinen naar het strand.' },
+  { title: 'Afsluiting', text: 'Rekken en strekken en samen nog even napraten – in overleg.' },
 ];
-const eventTypes = ['Firemní akce / teambuilding', 'Rozlučka se svobodou', 'Narozeniny / oslava', 'Klub / spolek', 'Rodinná akce', 'Jiné'];
+const eventTypes = ['Bedrijfsuitje / teambuilding', 'Vrijgezellenfeest', 'Verjaardag / feest', 'Club / vereniging', 'Familie-uitje', 'Anders'];
 
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Skupinové akce na sportovních koloběžkách',
+  name: 'Groepsuitjes op sportsteps',
   serviceType: 'Groepsuitje / bedrijfsuitje',
   provider: { '@id': businessId },
   areaServed: site.areaServed,
 };
 ---
 <BaseLayout
-  title="Skupinové akce na koloběžkách – firemní akce, rozlučky, oslavy"
-  description="Sportsteppen pro skupiny v okolí Hoofddorpu: firemní akce a teambuilding, rozlučky se svobodou, narozeniny i kluby. Koloběžky zapůjčíme, trasu připravíme."
+  title="Groepsuitje steppen – bedrijfsuitje, vrijgezellenfeest of verjaardag"
+  description="Sportsteppen met een groep rond Hoofddorp: bedrijfsuitjes en teambuilding, vrijgezellenfeesten, verjaardagen en clubs. Steps te leen, route geregeld."
   jsonLd={[breadcrumbSchema(crumbs), serviceSchema]}
 >
-  <PageHero eyebrow="Pro skupiny" title="Zážitek na koloběžkách pro celou partu" lead="Firemní akce, rozlučka se svobodou nebo narozeniny – vyrazíme společně na sportovních koloběžkách. Koloběžky zapůjčím, trasu připravím a postarám se, aby si to užil každý." crumbs={crumbs}>
+  <PageHero eyebrow="Groepsuitjes" title="Een stepbelevenis voor de hele groep" lead="Een bedrijfsuitje, vrijgezellenfeest of verjaardag – samen op pad op sportsteps. Ik zorg voor de steps en de route, en ervoor dat iedereen het naar zijn zin heeft." crumbs={crumbs}>
     <div class="btn-row">
-      <a class="btn btn--primary" href="#poptavka">Nezávazná poptávka</a>
+      <a class="btn btn--primary" href="#poptavka">Vrijblijvende aanvraag</a>
       <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> WhatsApp</a>
     </div>
-    <Photo slot="aside" src={imgGroep} alt="Skupinová jízda na sportovních koloběžkách" ratio="4 / 3" position="50% 65%" priority />
+    <Photo slot="aside" src={imgGroep} alt="Groepsrit op sportsteps" ratio="4 / 3" position="50% 65%" priority />
   </PageHero>
 
   <section class="section" style="padding-top:0">
@@ -63,79 +63,79 @@ const serviceSchema = {
   <section class="section section--tint">
     <div class="container split">
       <div>
-        <span class="eyebrow">Jak to probíhá</span>
-        <h2>Program na míru vaší skupině</h2>
+        <span class="eyebrow">Zo verloopt het</span>
+        <h2>Een programma op maat van je groep</h2>
         <ol class="prog">
           {program.map((p, i) => (
             <li><span class="prog__no">{i + 1}</span><div><strong>{p.title}</strong><p>{p.text}</p></div></li>
           ))}
         </ol>
         <ul class="checklist">
-          <li>koloběžky zapůjčím</li>
-          <li>trasu a tempo přizpůsobím skupině</li>
-          <li>vhodné pro začátečníky i sportovce</li>
-          <li>délka akce cca 2–3 hodiny (dle domluvy)</li>
+          <li>steps te leen</li>
+          <li>route en tempo afgestemd op de groep</li>
+          <li>geschikt voor beginners én sporters</li>
+          <li>duur ca. 2–3 uur (in overleg)</li>
         </ul>
         <Todo>Doplnit s Lindou: maximální velikost skupiny (kolik koloběžek je k dispozici), helmy, cena za osobu / skupinu, možnost spojit s občerstvením.</Todo>
       </div>
-      <Photo src={imgDuinen} alt="Vyjížďka na koloběžkách v dunách" ratio="4 / 5" />
+      <Photo src={imgDuinen} alt="Steptocht door de duinen" ratio="4 / 5" />
     </div>
   </section>
 
   <section class="section" id="poptavka">
     <div class="container inquiry">
       <div>
-        <span class="eyebrow">Nezávazná poptávka</span>
-        <h2>Napiš mi, co plánujete</h2>
-        <p class="lead">Ozvu se s návrhem programu, trasy a ceny. Nic tím neobjednáváš.</p>
-        <p>Raději hned? <a href={site.whatsapp} target="_blank" rel="noopener">Napiš na WhatsApp</a> nebo zavolej na <a href={site.phoneHref}>{site.phone}</a>.</p>
+        <span class="eyebrow">Vrijblijvende aanvraag</span>
+        <h2>Vertel me wat jullie van plan zijn</h2>
+        <p class="lead">Je ontvangt van mij een voorstel voor het programma, de route en de prijs. Je zit nergens aan vast.</p>
+        <p>Liever meteen? <a href={site.whatsapp} target="_blank" rel="noopener">Stuur een WhatsApp</a> of bel <a href={site.phoneHref}>{site.phone}</a>.</p>
       </div>
       <form class="card form" method="POST" action="/api/contact/" novalidate data-group-form>
         <input type="hidden" name="onderwerp" value="skupina" />
-        <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+        <p class="visually-hidden"><label>Niet invullen: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
         <div class="field">
-          <label for="soort">Typ akce</label>
+          <label for="soort">Soort uitje</label>
           <select id="soort" name="soort">
             {eventTypes.map((e) => <option>{e}</option>)}
           </select>
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="groep_grootte">Počet osob</label>
-            <input id="groep_grootte" name="groep_grootte" type="number" min="2" max="60" inputmode="numeric" placeholder="např. 8" />
+            <label for="groep_grootte">Aantal personen</label>
+            <input id="groep_grootte" name="groep_grootte" type="number" min="2" max="60" inputmode="numeric" placeholder="bijv. 8" />
           </div>
           <div class="field">
-            <label for="datum">Preferovaný termín</label>
-            <input id="datum" name="datum" placeholder="např. sobota 14. 6. odpoledne" />
+            <label for="datum">Voorkeursdatum</label>
+            <input id="datum" name="datum" placeholder="bijv. zaterdag 14 juni, ’s middags" />
           </div>
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="naam">Jméno a příjmení</label>
+            <label for="naam">Voor- en achternaam</label>
             <input id="naam" name="naam" autocomplete="name" required />
             <p class="field__error" data-error-for="naam"></p>
           </div>
           <div class="field">
-            <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
+            <label for="telefoon">Telefoon <span class="opt">(optioneel)</span></label>
             <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
             <p class="field__error" data-error-for="telefoon"></p>
           </div>
         </div>
         <div class="field">
-          <label for="email">E-mail</label>
+          <label for="email">E-mailadres</label>
           <input id="email" name="email" type="email" autocomplete="email" required />
           <p class="field__error" data-error-for="email"></p>
         </div>
         <div class="field">
-          <label for="bericht">Cokoli dalšího <span class="opt">(nepovinné)</span></label>
-          <textarea id="bericht" name="bericht" rows="3" placeholder="Např. úroveň skupiny, místo, rozpočet…"></textarea>
+          <label for="bericht">Verder nog iets? <span class="opt">(optioneel)</span></label>
+          <textarea id="bericht" name="bericht" rows="3" placeholder="Bijvoorbeeld het niveau van de groep, de locatie, het budget…"></textarea>
         </div>
         <label class="consent">
           <input type="checkbox" name="toestemming" required />
-          <span>Souhlasím se zpracováním údajů podle <a href="/privacybeleid/">zásad ochrany osobních údajů</a>.</span>
+          <span>Ik ga akkoord met de verwerking van mijn gegevens volgens het <a href="/privacybeleid/">privacybeleid</a>.</span>
         </label>
         <p class="field__error" data-error-for="toestemming"></p>
-        <button class="btn btn--primary" type="submit">Odeslat poptávku <Icon name="arrow" size={18} /></button>
+        <button class="btn btn--primary" type="submit">Aanvraag versturen <Icon name="arrow" size={18} /></button>
         <p class="form-error" data-form-error role="alert"></p>
       </form>
     </div>
@@ -144,11 +144,11 @@ const serviceSchema = {
   <section class="section section--tint">
     <div class="container gift">
       <div>
-        <span class="eyebrow">Tip na dárek</span>
-        <h2>Nechcete celou akci? Darujte poukaz.</h2>
-        <p class="lead">Dárkový poukaz na zkušební jízdu nebo workshop – obdarovaný si termín vybere sám.</p>
+        <span class="eyebrow">Cadeautip</span>
+        <h2>Geen heel uitje? Geef een cadeaubon.</h2>
+        <p class="lead">Een cadeaubon voor een proefrit of workshop – de ontvanger kiest zelf de datum.</p>
       </div>
-      <a class="btn btn--primary" href="/cadeaubon/">Dárkový poukaz <Icon name="arrow" size={18} /></a>
+      <a class="btn btn--primary" href="/cadeaubon/">Cadeaubon <Icon name="arrow" size={18} /></a>
     </div>
   </section>
 </BaseLayout>

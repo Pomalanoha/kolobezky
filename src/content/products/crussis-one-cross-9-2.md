@@ -3,16 +3,16 @@ title: Crussis ONE Cross 9.2
 category: cross
 price: 869
 order: 6
-summary: Špičková terénní koloběžka z řady ONE pro náročné jezdce.
+summary: Topmodel terreinstep uit de ONE-serie voor veeleisende steppers.
 idealFor:
-  - pokročilé jezdce
-  - náročný terén a dlouhé trasy
+  - gevorderde steppers
+  - zwaar terrein en lange afstanden
 variants:
   - ONE Cross 9.2-1
 image: ../../assets/products/crussis-one-cross-9-2-1.jpg
 availability: op-bestelling
 ---
 
-Vrchol terénní nabídky. Pro jezdce, kteří chtějí jezdit daleko, rychle a v jakémkoli terénu.
+Het topmodel van de terreinlijn. Voor steppers die ver, snel en in elk terrein willen rijden.
 
-<!-- TODO: doplnit parametry (odpružení, brzdy, hmotnost) -->
+<!-- TODO: specificaties aanvullen (vering, remmen, gewicht) -->

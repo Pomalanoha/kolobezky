@@ -3,11 +3,11 @@ title: Crussis Cobra Sport 4.2
 category: sport
 price: 399
 order: 3
-summary: Sportovní koloběžka pro cílený trénink kondice – i Lindina vlastní volba.
+summary: Sportieve step voor gerichte conditietraining – ook Linda’s eigen keuze.
 idealFor:
-  - trénink kondice a vytrvalosti
-  - delší trasy a vyšší tempo
-  - sportovce, kteří hledají alternativu k běhu
+  - conditie- en duurtraining
+  - langere afstanden en een hoger tempo
+  - sporters die een alternatief voor hardlopen zoeken
 variants:
   - Cobra Sport 4.2-3
   - Cobra Sport 4.2-4
@@ -20,6 +20,6 @@ gallery:
 availability: op-bestelling
 ---
 
-Cobra je sportovní koloběžka pro ty, kdo chtějí venku aktivně trénovat. Lepší přenos síly, efektivní trénink bez nárazové zátěže a vhodná pro silový i vytrvalostní trénink.
+De Cobra is een sportieve step voor wie actief wil trainen in de buitenlucht. Betere krachtoverbrenging, efficiënt trainen zonder schokbelasting en geschikt voor zowel kracht- als duurtraining.
 
-Linda sama jezdí na Crussis Cobra už léta – a právě na ní se steppen stalo její vášní.
+Linda rijdt zelf al jaren op een Crussis Cobra – en juist daarop is sportsteppen haar passie geworden.

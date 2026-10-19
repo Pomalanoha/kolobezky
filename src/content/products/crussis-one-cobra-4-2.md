@@ -3,10 +3,10 @@ title: Crussis ONE Cobra 4.2
 category: sport
 price: 399
 order: 4
-summary: Sportovní Cobra z řady ONE – pro svižný trénink na asfaltu i zpevněných cestách.
+summary: Sportieve Cobra uit de ONE-serie – voor vlot trainen op asfalt en verharde paden.
 idealFor:
-  - pravidelný trénink
-  - svižné tempo na delších trasách
+  - regelmatig trainen
+  - een vlot tempo op langere afstanden
 variants:
   - ONE Cobra 4.2-3
   - ONE Cobra 4.2-4
@@ -19,6 +19,6 @@ gallery:
 availability: op-bestelling
 ---
 
-Sportovní geometrie modelu Cobra ve výbavě řady ONE. Pro ty, kdo chtějí trénovat pravidelně a efektivně.
+De sportieve geometrie van de Cobra met de uitrusting van de ONE-serie. Voor wie regelmatig en efficiënt wil trainen.
 
-<!-- TODO: doplnit konkrétní parametry -->
+<!-- TODO: concrete specificaties aanvullen -->

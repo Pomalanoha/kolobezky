@@ -1,22 +1,22 @@
 ---
-title: Steppen v dunách – Zuid-Kennemerland a Zandvoort
-name: Přes duny k moři
+title: Steppen in de duinen – Zuid-Kennemerland en Zandvoort
+name: Door de duinen naar zee
 place: Zandvoort / Kennemerduinen
-description: Sportsteppen přes duny až k moři. Okruh Národním parkem Zuid-Kennemerland k pláži v Zandvoortu – zážitek, na který se nezapomíná.
+description: Sportsteppen door de duinen naar zee. Een rondje door Nationaal Park Zuid-Kennemerland naar het strand van Zandvoort – een ervaring om nooit te vergeten.
 distance: 15–25 km
-surface: asfalt (cyklostezky v dunách)
-level: mírně pokročilý
+surface: asfalt (fietspaden in de duinen)
+level: gemiddeld
 verify: true
 order: 3
 image: ../../assets/photos/sportsteppen-in-de-duinen.jpg
 ---
 
-Nejoblíbenější trasa našich klientů: **přes duny až na pláž**. Kopečky v dunách dají zabrat, ale odměnou je výhled na moře a pauza na pláži.
+De favoriete route van onze klanten: **door de duinen naar het strand**. De heuveltjes in de duinen zijn pittig, maar de beloning is het uitzicht op zee en een pauze op het strand.
 
-> „Brzy mě to chytlo a odvážila jsem se na pěkný okruh přes duny až na pláž.“ – Kirsten
+> „Al snel had ik de smaak te pakken en durfde ik de uitdaging aan om een mooi rondje te gaan maken door de duinen naar het strand.” – Kirsten
 
-## Na co se připravit
+## Waar je op voorbereid moet zijn
 
-- mírné stoupání a klesání – trénink pro nohy i rovnováhu,
-- v létě víc cyklistů, proto vyrážíme raději ráno nebo odpoledne,
-- s sebou vodu a vrstvu na vítr.
+- licht klimmen en dalen – training voor je benen én je balans,
+- in de zomer meer fietsers, daarom vertrekken we liever ’s ochtends of later in de middag,
+- neem water en een winddichte laag mee.

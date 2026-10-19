@@ -3,10 +3,10 @@ title: Crussis ONE Road 4.2
 category: recreatief
 price: 399
 order: 2
-summary: Rekreační koloběžka z řady ONE – komfort modelu Road s vyšší úrovní výbavy.
+summary: Recreatieve sportstep uit de ONE-serie – het comfort van de Road met een hoger uitrustingsniveau.
 idealFor:
-  - začátečníky, kteří chtějí o kus víc
-  - delší výlety po asfaltu
+  - beginners die net iets meer willen
+  - langere tochten over asfalt
 variants:
   - ONE Road 4.2-1
   - ONE Road 4.2-2
@@ -19,6 +19,6 @@ gallery:
 availability: op-bestelling
 ---
 
-Řada ONE od Crussisu spojuje pohodlí rekreační koloběžky s kvalitnějšími komponenty. Hodí se pro každého, kdo chce začít v klidu, ale počítá s tím, že bude jezdit pravidelně a dál.
+De ONE-serie van Crussis combineert het comfort van een recreatieve step met hoogwaardigere onderdelen. Ideaal voor iedereen die rustig wil beginnen, maar van plan is regelmatig en verder te steppen.
 
-<!-- TODO: doplnit konkrétní rozdíly oproti Road 4.2 (rám, kola, hmotnost) -->
+<!-- TODO: concrete verschillen met de Road 4.2 aanvullen (frame, wielen, gewicht) -->

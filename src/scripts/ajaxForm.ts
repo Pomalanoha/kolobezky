@@ -18,7 +18,7 @@ export function enhanceForm(form: HTMLFormElement) {
     if (formError) formError.textContent = '';
     if (button) {
       button.disabled = true;
-      button.textContent = 'Odesílám…';
+      button.textContent = 'Bezig met verzenden…';
     }
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
@@ -39,7 +39,7 @@ export function enhanceForm(form: HTMLFormElement) {
       }
       if (data.message && formError) formError.textContent = data.message;
     } catch {
-      if (formError) formError.textContent = 'Odeslání se nepodařilo. Zkus to prosím znovu, nebo napiš na WhatsApp.';
+      if (formError) formError.textContent = 'Verzenden is niet gelukt. Probeer het opnieuw of stuur een WhatsApp-bericht.';
     }
     if (button) {
       button.disabled = false;

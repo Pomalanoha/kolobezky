@@ -8,54 +8,54 @@ import { t } from '../i18n/ui';
 import { breadcrumbSchema, businessSchema } from '../lib/schema';
 import { SUBJECTS } from '../lib/subjects';
 
-const crumbs = [{ name: 'Kontakt', href: '/contact/' }];
+const crumbs = [{ name: 'Contact', href: '/contact/' }];
 const subjects = Object.entries(SUBJECTS).map(([value, label]) => ({ value, label }));
 ---
 <BaseLayout
-  title="Kontakt & rezervace – sportsteppen Hoofddorp"
-  description="Rezervuj zkušební jízdu nebo se zeptej na sportovní koloběžky. Kontakt na Lindu: WhatsApp, telefon, e-mail. Kickbike Club Hille, Hoofddorp."
+  title="Contact & boeken – sportsteppen Hoofddorp"
+  description="Boek een proefrit of stel je vraag over sportsteps. Neem contact op met Linda via WhatsApp, telefoon of e-mail. Kickbike Club Hille, Hoofddorp."
   jsonLd={[breadcrumbSchema(crumbs), businessSchema()]}
 >
-  <PageHero eyebrow="Kontakt" title="Chceš vědět víc nebo rezervovat?" lead="Vyplň krátký formulář nebo mi rovnou napiš na WhatsApp. Ozvu se ti co nejdřív." crumbs={crumbs} />
+  <PageHero eyebrow="Contact" title="Meer weten of boeken?" lead="Vul het korte formulier in of stuur me direct een WhatsApp-bericht. Ik neem zo snel mogelijk contact met je op." crumbs={crumbs} />
 
   <section class="section" style="padding-top:0">
     <div class="container contact">
       <form class="card form" method="POST" action="/api/contact/" novalidate data-contact-form>
-        <p class="visually-hidden"><label>Nevyplňovat: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
+        <p class="visually-hidden"><label>Niet invullen: <input name="website" tabindex="-1" autocomplete="off" /></label></p>
 
         <div class="field">
-          <label for="onderwerp">Co tě zajímá?</label>
+          <label for="onderwerp">Waar heb je interesse in?</label>
           <select id="onderwerp" name="onderwerp" required>
             {subjects.map((s) => <option value={s.value}>{s.label}</option>)}
           </select>
         </div>
         <div class="field-row">
           <div class="field">
-            <label for="naam">Jméno a příjmení</label>
+            <label for="naam">Voor- en achternaam</label>
             <input id="naam" name="naam" type="text" autocomplete="name" required />
             <p class="field__error" data-error-for="naam"></p>
           </div>
           <div class="field">
-            <label for="telefoon">Telefon <span class="opt">(nepovinné)</span></label>
+            <label for="telefoon">Telefoon <span class="opt">(optioneel)</span></label>
             <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" />
             <p class="field__error" data-error-for="telefoon"></p>
           </div>
         </div>
         <div class="field">
-          <label for="email">E-mail</label>
+          <label for="email">E-mailadres</label>
           <input id="email" name="email" type="email" autocomplete="email" required />
           <p class="field__error" data-error-for="email"></p>
         </div>
         <div class="field">
-          <label for="bericht">Zpráva</label>
-          <textarea id="bericht" name="bericht" rows="5" placeholder="Např. kdy se ti hodí, kolik vás bude, máš-li zdravotní omezení…"></textarea>
+          <label for="bericht">Bericht</label>
+          <textarea id="bericht" name="bericht" rows="5" placeholder="Bijvoorbeeld wanneer het je uitkomt, met hoeveel personen je komt of eventuele lichamelijke beperkingen…"></textarea>
         </div>
         <label class="consent">
           <input type="checkbox" name="toestemming" required />
-          <span>Souhlasím se zpracováním údajů podle <a href="/privacybeleid/">zásad ochrany osobních údajů</a>.</span>
+          <span>Ik ga akkoord met de verwerking van mijn gegevens volgens het <a href="/privacybeleid/">privacybeleid</a>.</span>
         </label>
         <p class="field__error" data-error-for="toestemming"></p>
-        <button class="btn btn--primary" type="submit">Odeslat zprávu <Icon name="arrow" size={18} /></button>
+        <button class="btn btn--primary" type="submit">Bericht versturen <Icon name="arrow" size={18} /></button>
         <p class="form-error" data-form-error role="alert"></p>
       </form>
 
@@ -64,19 +64,19 @@ const subjects = Object.entries(SUBJECTS).map(([value, label]) => ({ value, labe
           <span class="contact__wa-icon"><Icon name="whatsapp" size={28} /></span>
           <span>
             <strong>{t('cta.whatsapp')}</strong>
-            <span>Nejrychlejší cesta k termínu</span>
+            <span>De snelste weg naar een afspraak</span>
           </span>
         </a>
         <div class="card">
           <ul class="contact__list">
             <li><Icon name="phone" /><a href={site.phoneHref}>{site.phone}</a></li>
             <li><Icon name="mail" /><a href={`mailto:${site.email}`}>{site.email}</a></li>
-            <li><Icon name="pin" /><span>{site.city} a okolí<br /><small>{site.areaServed.join(', ')}</small></span></li>
+            <li><Icon name="pin" /><span>{site.city} en omgeving<br /><small>{site.areaServed.join(', ')}</small></span></li>
           </ul>
         </div>
         <div class="card">
-          <h2>Kde se potkáme?</h2>
-          <p>Místo srazu domlouváme individuálně – většinou v Hoofddorpu (Haarlemmermeerse Bos), u výletů v dunách v Zandvoortu nebo okolí. <a href="/routes/">Kde jezdíme →</a></p>
+          <h2>Waar spreken we af?</h2>
+          <p>De startplek spreken we per afspraak af – meestal in Hoofddorp (Haarlemmermeerse Bos), bij tochten door de duinen in Zandvoort of omgeving. <a href="/routes/">Waar we steppen →</a></p>
           <Todo>Doplnit konkrétní místa srazu, příp. vložit mapu (OpenStreetMap kvůli GDPR).</Todo>
         </div>
       </aside>
@@ -96,7 +96,7 @@ const subjects = Object.entries(SUBJECTS).map(([value, label]) => ({ value, labe
   const select = document.getElementById('onderwerp') as HTMLSelectElement | null;
   if (select && subject && [...select.options].some((o) => o.value === subject)) select.value = subject;
   const msg = document.getElementById('bericht') as HTMLTextAreaElement | null;
-  if (msg && model) msg.value = `Mám zájem o: ${model}\n`;
+  if (msg && model) msg.value = `Ik heb interesse in: ${model}\n`;
 </script>
 
 <style>

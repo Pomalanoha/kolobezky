@@ -9,12 +9,12 @@ interface Props {
 }
 const { product } = Astro.props;
 const { title, price, priceFrom, summary, category, image, imageHint } = product.data;
-const labels = { recreatief: 'Rekreační', sport: 'Sportovní', cross: 'Terénní' } as const;
+const labels = { recreatief: 'Recreatief', sport: 'Sportief', cross: 'Terrein' } as const;
 const tones = { recreatief: 'sand', sport: 'forest', cross: 'orange' } as const;
 ---
 <article class="product">
   <a href={`/sportsteps/${product.id}/`} class="product__link">
-    <Photo src={image} alt={`Sportovní koloběžka ${title}`} hint={imageHint} ratio="4 / 3" fit="contain" tone={tones[category]} sizes="(min-width: 900px) 33vw, 100vw" />
+    <Photo src={image} alt={`Sportstep ${title}`} hint={imageHint} ratio="4 / 3" fit="contain" tone={tones[category]} sizes="(min-width: 900px) 33vw, 100vw" />
     <div class="product__body">
       <span class={`badge badge--${category}`}>{labels[category]}</span>
       <h3>{title}</h3>

@@ -13,7 +13,7 @@ interface Props {
   live?: boolean;
 }
 const { amount = '50', recipient = '', message = '', code = 'CB-XXXX-XXXX', validUntil = '', live = false } = Astro.props;
-const fmtDate = (iso: string) => (iso ? new Intl.DateTimeFormat('cs-CZ', { dateStyle: 'long' }).format(new Date(iso)) : '');
+const fmtDate = (iso: string) => (iso ? new Intl.DateTimeFormat(site.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { dateStyle: 'long' }).format(new Date(iso)) : '');
 ---
 <div class="voucher-wrap">
 <div class="voucher" data-voucher-card={live ? '' : undefined}>
@@ -22,19 +22,19 @@ const fmtDate = (iso: string) => (iso ? new Intl.DateTimeFormat('cs-CZ', { dateS
       <img src="/logo-96.png" alt="" width="44" height="44" />
       <span>{site.name}</span>
     </div>
-    <p class="voucher__kicker">Dárkový poukaz</p>
+    <p class="voucher__kicker">Cadeaubon</p>
     <p class="voucher__amount"><span data-v="amount">{amount}</span> €</p>
     <p class="voucher__for">
-      pro <strong data-v="recipient">{recipient || 'tebe'}</strong>
+      voor <strong data-v="recipient">{recipient || 'jou'}</strong>
     </p>
-    <p class="voucher__msg" data-v="message">{message || 'Na zkušební jízdu, workshop, lekci nebo nákup u Kickbike Club Hille.'}</p>
+    <p class="voucher__msg" data-v="message">{message || 'Voor een proefrit, workshop, les of aankoop bij Kickbike Club Hille.'}</p>
   </div>
   <div class="voucher__side">
     <KickbikeArt class="voucher__art" />
     <dl class="voucher__meta">
-      <div><dt>Kód</dt><dd class="voucher__code">{code}</dd></div>
-      {validUntil && <div><dt>Platí do</dt><dd>{fmtDate(validUntil)}</dd></div>}
-      <div><dt>Uplatnění</dt><dd>{site.phone} · WhatsApp</dd></div>
+      <div><dt>Code</dt><dd class="voucher__code">{code}</dd></div>
+      {validUntil && <div><dt>Geldig tot</dt><dd>{fmtDate(validUntil)}</dd></div>}
+      <div><dt>Inwisselen</dt><dd>{site.phone} · WhatsApp</dd></div>
     </dl>
   </div>
   <svg class="voucher__dunes" viewBox="0 0 600 80" preserveAspectRatio="none" aria-hidden="true">

@@ -9,21 +9,21 @@ import cobra from '../../assets/products/crussis-one-cobra-4-2-4.jpg';
 import cross from '../../assets/products/crussis-cross-hard-6-2.jpg';
 
 const models = [
-  { id: 'recreatief', name: 'Road', tag: 'Rekreační', text: 'Pohodlná a stabilní. Na cyklostezky a pohodové vyjížďky.', price: 329, img: road, bg: '#f4ead6', href: '/sportsteps/#recreatief' },
-  { id: 'sport', name: 'Cobra', tag: 'Sportovní', text: 'Svižná a lehká. Pro trénink kondice a delší trasy.', price: 399, img: cobra, bg: '#e6eef7', href: '/sportsteps/#sport' },
-  { id: 'cross', name: 'Cross', tag: 'Terénní', text: 'Robustní a odolná. Do lesa, dun a na šotolinu.', price: 649, img: cross, bg: '#e2f0e7', href: '/sportsteps/#cross' },
+  { id: 'recreatief', name: 'Road', tag: 'Recreatief', text: 'Comfortabel en stabiel. Voor fietspaden en ontspannen tochten.', price: 329, img: road, bg: '#f4ead6', href: '/sportsteps/#recreatief' },
+  { id: 'sport', name: 'Cobra', tag: 'Sportief', text: 'Vlot en licht. Voor conditietraining en langere afstanden.', price: 399, img: cobra, bg: '#e6eef7', href: '/sportsteps/#sport' },
+  { id: 'cross', name: 'Cross', tag: 'Terrein', text: 'Robuust en sterk. Voor bos, duinen en grind.', price: 649, img: cross, bg: '#e2f0e7', href: '/sportsteps/#cross' },
 ];
 ---
 <div class="models">
   {models.map((m) => (
     <a class="model" href={m.href} style={`--bg:${m.bg}`}>
       <span class="model__tag">{m.tag}</span>
-      <Image src={m.img} alt={`Sportovní koloběžka Crussis ${m.name}`} widths={[360, 600]} sizes="(min-width: 900px) 30vw, 90vw" class="model__img" />
+      <Image src={m.img} alt={`Sportstep Crussis ${m.name}`} widths={[360, 600]} sizes="(min-width: 900px) 30vw, 90vw" class="model__img" />
       <div class="model__body">
         <h3>{m.name}</h3>
         <p>{m.text}</p>
         <span class="model__foot">
-          <span>od <strong>{formatPrice(m.price)}</strong></span>
+          <span>v.a. <strong>{formatPrice(m.price)}</strong></span>
           <span class="model__go"><Icon name="arrow" size={20} /></span>
         </span>
       </div>

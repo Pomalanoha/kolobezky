@@ -6,7 +6,7 @@ interface Props {
 const { items } = Astro.props;
 const all = [{ name: t('breadcrumb.home'), href: '/' }, ...items];
 ---
-<nav class="crumbs" aria-label="Drobečková navigace">
+<nav class="crumbs" aria-label="Kruimelpad">
   <ol>
     {all.map((item, i) => (
       <li>

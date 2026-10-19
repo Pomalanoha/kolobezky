@@ -66,14 +66,14 @@ const first = routes[0]?.id;
           </span>
           <span class={`level level--${r.levelClass}`}>{r.level}</span>
         </button>
-        <a class="route__link" href={r.href} aria-label={`Detail trasy: ${r.name}`}><Icon name="arrow" size={18} /></a>
+        <a class="route__link" href={r.href} aria-label={`Route bekijken: ${r.name}`}><Icon name="arrow" size={18} /></a>
       </li>
     ))}
   </ul>
 
   <figure class="map" id="route-map">
     <div class="map__canvas">
-      <svg viewBox="0 0 600 420" aria-label="Schematická mapa tras v okolí Hoofddorpu">
+      <svg viewBox="0 0 600 420" aria-label="Schematische kaart van de routes rond Hoofddorp">
         <defs>
           <linearGradient id="sea-grad" x1="0" x2="1">
             <stop offset="0" stop-color="#b9dbe7" />
@@ -153,7 +153,7 @@ const first = routes[0]?.id;
             data-route={r.id}
             role="button"
             tabindex="0"
-            aria-label={`Trasa ${r.no}: ${r.name}`}
+            aria-label={`Route ${r.no}: ${r.name}`}
             aria-pressed={r.id === first ? 'true' : 'false'}
             transform={`translate(${r.pin[0]} ${r.pin[1]})`}
           >
@@ -166,7 +166,7 @@ const first = routes[0]?.id;
           </g>
         ))}
 
-        <text class="sea-label" x="14" y="404">Severní moře</text>
+        <text class="sea-label" x="14" y="404">Noordzee</text>
       </svg>
 
       <!-- Vlastní popisek u aktivního bodu (místo systémového tooltipu) -->
@@ -179,11 +179,11 @@ const first = routes[0]?.id;
         >
           <strong>{r.name}</strong>
           <span>{r.distance} · <span class={`level level--${r.levelClass}`}>{r.level}</span></span>
-          <a href={r.href} tabindex={r.id === first ? 0 : -1}>Detail trasy →</a>
+          <a href={r.href} tabindex={r.id === first ? 0 : -1}>Route bekijken →</a>
         </div>
       ))}
     </div>
-    <figcaption>Schematická mapa – trasy upřesníme na lekci. Vyber trasu v seznamu nebo klikni na bod v mapě.</figcaption>
+    <figcaption>Schematische kaart – de precieze route spreken we af tijdens de les. Kies een route in de lijst of klik op een punt op de kaart.</figcaption>
   </figure>
 </div>
 

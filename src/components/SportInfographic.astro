@@ -7,27 +7,27 @@ import road from '../assets/products/crussis-road-4-2-1.jpg';
 // Orientační srovnání (stejné hodnoty jako dřívější tabulka); 1 = nízká, 3 = vysoká.
 const cards = [
   {
-    icon: 'joint', tag: 'oproti běhu', title: 'Šetrnější ke kloubům', bg: '#dcefe5', fg: '#1d5a46',
-    text: 'Žádné tvrdé dopady celou vahou těla. Kolena, kyčle i záda si odpočinou.',
-    metric: 'Zátěž kloubů', note: 'nižší je lepší', levels: { steppen: 1, beh: 3, kolo: 1 },
+    icon: 'joint', tag: 'vs. hardlopen', title: 'Vriendelijker voor je gewrichten', bg: '#dcefe5', fg: '#1d5a46',
+    text: 'Geen harde klappen met je volle lichaamsgewicht. Je knieën, heupen en rug krijgen rust.',
+    metric: 'Belasting gewrichten', note: 'lager is beter', levels: { steppen: 1, beh: 3, kolo: 1 },
   },
   {
-    icon: 'users', tag: 'oproti kolu', title: 'Víc svalů v akci', bg: '#e6eef7', fg: '#1e40af',
-    text: 'Kromě nohou pracuje střed těla, záda i paže – drží tě vzpřímeně a v rovnováze.',
-    metric: 'Zapojení svalů', levels: { steppen: 3, beh: 2, kolo: 2 },
+    icon: 'users', tag: 'vs. fietsen', title: 'Meer spieren aan het werk', bg: '#e6eef7', fg: '#1e40af',
+    text: 'Naast je benen werken ook je core, rug en armen – ze houden je rechtop en in balans.',
+    metric: 'Spiergebruik', levels: { steppen: 3, beh: 2, kolo: 2 },
   },
   {
-    icon: 'heart', tag: 'jako běh', title: 'Kondice naplno', bg: '#ffe6d9', fg: '#c2410c',
-    text: 'Vytrvalostní trénink pro srdce a plíce. Výdej energie je podle tempa srovnatelný s během nebo kolem.',
-    metric: 'Trénink kondice', levels: { steppen: 3, beh: 3, kolo: 2 },
+    icon: 'heart', tag: 'net als hardlopen', title: 'Volop conditie', bg: '#ffe6d9', fg: '#c2410c',
+    text: 'Duurtraining voor hart en longen. Afhankelijk van je tempo verbruik je evenveel energie als bij hardlopen of fietsen.',
+    metric: 'Conditietraining', levels: { steppen: 3, beh: 3, kolo: 2 },
   },
   {
-    icon: 'leaf', tag: 'bonus', title: 'Rovnováha a radost', bg: '#f4ead6', fg: '#8a6116',
-    text: 'Trénuješ rovnováhu a koordinaci – a k tomu park, les, duny a pláž.',
-    metric: 'Trénink rovnováhy', levels: { steppen: 3, beh: 1, kolo: 1 },
+    icon: 'leaf', tag: 'bonus', title: 'Balans en plezier', bg: '#f4ead6', fg: '#8a6116',
+    text: 'Je traint je balans en coördinatie – met het park, het bos, de duinen en het strand als decor.',
+    metric: 'Balanstraining', levels: { steppen: 3, beh: 1, kolo: 1 },
   },
 ] as const;
-const labels = { steppen: 'Steppen', beh: 'Běh', kolo: 'Kolo' } as const;
+const labels = { steppen: 'Steppen', beh: 'Hardlopen', kolo: 'Fietsen' } as const;
 ---
 <div class="info">
   <div class="vs">
@@ -39,7 +39,7 @@ const labels = { steppen: 'Steppen', beh: 'Běh', kolo: 'Kolo' } as const;
         </div>
         <h3>{c.title}</h3>
         <p>{c.text}</p>
-        <div class="bars" role="img" aria-label={`${c.metric}: steppen ${c.levels.steppen} ze 3, běh ${c.levels.beh} ze 3, kolo ${c.levels.kolo} ze 3`}>
+        <div class="bars" role="img" aria-label={`${c.metric}: steppen ${c.levels.steppen} van 3, hardlopen ${c.levels.beh} van 3, fietsen ${c.levels.kolo} van 3`}>
           <span class="bars__metric">{c.metric}{'note' in c && <em> · {c.note}</em>}</span>
           {(Object.keys(labels) as (keyof typeof labels)[]).map((k) => (
             <span class:list={['bar', { 'bar--hl': k === 'steppen' }]}>
@@ -51,13 +51,13 @@ const labels = { steppen: 'Steppen', beh: 'Běh', kolo: 'Kolo' } as const;
       </article>
     ))}
   </div>
-  <p class="info__note">Orientační srovnání podle typu zátěže, ne měření. Každé tělo je jiné – při zdravotních potížích se poraď s lékařem nebo fyzioterapeutem.</p>
+  <p class="info__note">Indicatieve vergelijking op basis van het type belasting, geen meting. Ieder lichaam is anders – overleg bij klachten met je arts of fysiotherapeut.</p>
 
   <div class="duo">
     <div class="duo__head">
-      <span class="eyebrow">Pozor na záměnu</span>
-      <h2>Sportovní ≠ městská koloběžka</h2>
-      <p class="lead">Pod slovem koloběžka si většina lidí představí malou skládací koloběžku do města. Sportovní koloběžka je ale úplně jiný stroj.</p>
+      <span class="eyebrow">Niet te verwarren</span>
+      <h2>Sportstep ≠ stadsstep</h2>
+      <p class="lead">Bij het woord step denken de meeste mensen aan een kleine opvouwbare step voor in de stad. Een sportstep is echter een heel ander apparaat.</p>
     </div>
     <div class="duo__grid">
       <article class="duo__card duo__card--city">
@@ -68,25 +68,25 @@ const labels = { steppen: 'Steppen', beh: 'Běh', kolo: 'Kolo' } as const;
             <path d="M40 112 H150 L176 112 M150 112 L166 24 M150 22 H184" />
           </g>
         </svg>
-        <h3>Městská koloběžka</h3>
+        <h3>Stadsstep</h3>
         <ul>
-          <li>malá kola (cca 15–20 cm)</li>
-          <li>často skládací</li>
-          <li>na krátké přesuny po městě</li>
-          <li>na delší jízdu a trénink se moc nehodí</li>
+          <li>kleine wieltjes (ca. 15–20 cm)</li>
+          <li>vaak opvouwbaar</li>
+          <li>voor korte ritjes in de stad</li>
+          <li>niet echt geschikt voor lange ritten en training</li>
         </ul>
       </article>
       <span class="duo__vs" aria-hidden="true">vs.</span>
       <article class="duo__card duo__card--sport">
-        <Image src={road} alt="Sportovní koloběžka Crussis Road 4.2" widths={[360, 600]} sizes="(min-width: 900px) 30vw, 80vw" class="duo__img" />
-        <h3>Sportovní koloběžka</h3>
+        <Image src={road} alt="Sportstep Crussis Road 4.2" widths={[360, 600]} sizes="(min-width: 900px) 30vw, 80vw" class="duo__img" />
+        <h3>Sportstep</h3>
         <ul>
-          <li>velké přední kolo 26–28", zadní 20"</li>
-          <li>nízký nášlap – úsporný odraz</li>
-          <li>brzdy jako na kole</li>
-          <li>na trénink, dlouhé trasy i terén</li>
+          <li>groot voorwiel 26–28", achterwiel 20"</li>
+          <li>lage treeplank – efficiënt afzetten</li>
+          <li>remmen zoals op een fiets</li>
+          <li>voor training, lange afstanden en terrein</li>
         </ul>
-        <a href="/sportsteps/#anatomie">Prohlédni si ji zblízka →</a>
+        <a href="/sportsteps/#anatomie">Bekijk hem van dichtbij →</a>
       </article>
     </div>
   </div>

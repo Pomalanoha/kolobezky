@@ -15,37 +15,37 @@ import { site, bookingHref, voucher } from '../config';
 import { t } from '../i18n/ui';
 import { breadcrumbSchema, businessId } from '../lib/schema';
 
-const crumbs = [{ name: 'Zkušební jízda & lekce', href: '/proefrit-en-lessen/' }];
+const crumbs = [{ name: 'Proefrit & lessen', href: '/proefrit-en-lessen/' }];
 const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'lekce').map((f) => f.data);
 
 // Nabídka služeb. Ceny (price) doplnit – null = zobrazí se „na dotaz“.
 const offers = [
   {
     id: 'proefrit',
-    title: 'Zkušební jízda',
-    tagline: 'Try – seznámení se steppen',
+    title: 'Proefrit',
+    tagline: 'Try – kennismaken met steppen',
     duration: '± 60 min',
     price: null as number | null,
     highlight: true,
-    features: ['vysvětlení koloběžky a techniky', 'nácvik v klidu v parku', 'vyzkoušení různých typů koloběžek', 'osobní rada k výběru modelu'],
+    features: ['uitleg over de step en de techniek', 'rustig oefenen in het park', 'verschillende steps uitproberen', 'persoonlijk advies over de modelkeuze'],
   },
   {
     id: 'workshop',
     title: 'Workshop sportsteppen',
-    tagline: 'Technika + výjezd do přírody',
-    duration: '± 2–3 hod',
+    tagline: 'Techniek + een tocht door de natuur',
+    duration: '± 2–3 uur',
     price: null,
     highlight: false,
-    features: ['základy techniky v parku', 'vyjížďka např. přes duny k moři', 'přestávka a pitný režim', 'protažení na závěr'],
+    features: ['basistechniek in het park', 'een tocht, bijv. door de duinen naar zee', 'pauze met iets te drinken', 'rekken en strekken tot slot'],
   },
   {
     id: 'prive',
-    title: 'Soukromá lekce',
-    tagline: 'Individuálně podle tvých cílů',
-    duration: 'dle domluvy',
+    title: 'Privéles',
+    tagline: 'Individueel, afgestemd op jouw doelen',
+    duration: 'in overleg',
     price: null,
     highlight: false,
-    features: ['zdokonalení techniky', 'trénink kondice', 'pozvolný návrat po zranění', 'možnost i pro 2–4 osoby'],
+    features: ['techniek verfijnen', 'conditietraining', 'rustig weer opbouwen na een blessure', 'ook voor 2–4 personen'],
   },
 ];
 
@@ -67,24 +67,24 @@ const offerSchema = {
 };
 ---
 <BaseLayout
-  title="Zkušební jízda & lekce sportsteppen v Hoofddorpu"
-  description="Vyzkoušej sportsteppen pod vedením Lindy: zkušební jízda, workshop v dunách nebo soukromá lekce v okolí Hoofddorpu. Koloběžku zapůjčíme."
+  title="Proefrit & lessen sportsteppen in Hoofddorp"
+  description="Probeer sportsteppen onder begeleiding van Linda: een proefrit, een workshop in de duinen of een privéles rond Hoofddorp. Je krijgt een step te leen."
   jsonLd={[breadcrumbSchema(crumbs), offerSchema]}
 >
-  <PageHero eyebrow="Try, Buy & Join" title="Nejdřív vyzkoušej. Pak jezdi sám. A spolu s námi." lead="Než si koloběžku koupíš, doporučuji vyzkoušet si, jaký typ ti sedí. Na zkušební jízdě se zároveň naučíš jezdit bezpečně a efektivně – a zjistíš, jestli je to tvůj pohyb." crumbs={crumbs}>
+  <PageHero eyebrow="Try, Buy & Join" title="Eerst proberen. Dan zelf steppen. En samen op pad!" lead="Voordat je besluit een step aan te schaffen, raad ik je aan eerst te proberen welk type bij je past. Tijdens een proefrit leer je ook hoe je veilig en efficiënt stept – en of dit jouw manier van bewegen is." crumbs={crumbs}>
     <div class="btn-row">
       <a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a>
-      <a class="btn btn--secondary" href="#nabidka">Nabídka a ceny</a>
+      <a class="btn btn--secondary" href="#nabidka">Aanbod en prijzen</a>
     </div>
-    <Photo slot="aside" src={imgDuinen} alt="Klientka na sportovní koloběžce během workshopu v dunách" ratio="4 / 3" priority />
+    <Photo slot="aside" src={imgDuinen} alt="Deelneemster op een sportstep tijdens een workshop in de duinen" ratio="4 / 3" priority />
   </PageHero>
 
   <section class="section section--tint">
     <div class="container">
       <div class="section-head section-head--center">
-        <span class="eyebrow">Jak probíhá první lekce</span>
-        <h2>Žádný stres. Krok za krokem.</h2>
-        <p class="lead">Nemusíš nic umět ani mít vlastní koloběžku. Takhle vypadá tvoje první jízda s Lindou.</p>
+        <span class="eyebrow">Zo verloopt je eerste les</span>
+        <h2>Geen stress. Stap voor stap.</h2>
+        <p class="lead">Je hoeft niets te kunnen en geen eigen step te hebben. Zo ziet je eerste rit met Linda eruit.</p>
       </div>
       <LessonTimeline />
       <p class="tl-cta"><a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a></p>
@@ -94,43 +94,43 @@ const offerSchema = {
   <section class="section" id="nabidka">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Nabídka</span>
-        <h2>Vyber si, jak začneš</h2>
-        <p class="lead">Koloběžku ti na lekce zapůjčíme. Stačí sportovní oblečení a dobrá nálada.</p>
+        <span class="eyebrow">Aanbod</span>
+        <h2>Kies hoe je begint</h2>
+        <p class="lead">Tijdens de lessen krijg je een step te leen. Sportkleding en een goed humeur is alles wat je nodig hebt.</p>
         <Todo>Ceny, délky lekcí a co přesně zahrnují – doplnit od Lindy.</Todo>
       </div>
       <div class="offers">
         {offers.map((o) => (
           <article class:list={['offer', 'card', { 'offer--highlight': o.highlight }]} id={o.id}>
-            {o.highlight && <span class="offer__flag">Nejoblíbenější start</span>}
+            {o.highlight && <span class="offer__flag">Beste start</span>}
             <h3>{o.title}</h3>
             <p class="offer__tagline">{o.tagline}</p>
             <p class="offer__price">
-              {o.price ? `€ ${o.price}` : 'cena na dotaz'}
+              {o.price ? `€ ${o.price}` : 'prijs op aanvraag'}
               <span>{o.duration}</span>
             </p>
             <ul class="checklist">
               {o.features.map((f) => <li>{f}</li>)}
             </ul>
             <a class:list={['btn', o.highlight ? 'btn--primary' : 'btn--secondary']} href={site.bookingUrl || `/contact/?onderwerp=${o.id}`}>
-              {o.highlight ? t('cta.book') : 'Mám zájem'}
+              {o.highlight ? t('cta.book') : 'Ik heb interesse'}
             </a>
           </article>
         ))}
         <article class="offer card offer--gift" id="poukaz">
-          <span class="offer__flag offer__flag--gift">Tip na dárek</span>
-          <h3>Dárkový poukaz</h3>
-          <p class="offer__tagline">Daruj zážitek na koloběžce</p>
+          <span class="offer__flag offer__flag--gift">Cadeautip</span>
+          <h3>Cadeaubon</h3>
+          <p class="offer__tagline">Geef een belevenis op de step cadeau</p>
           <p class="offer__price">
-            od {Math.min(...voucher.amounts)} €
-            <span>platnost {voucher.validityMonths / 12} roky</span>
+            v.a. € {Math.min(...voucher.amounts)}
+            <span>{voucher.validityMonths / 12} jaar geldig</span>
           </p>
           <ul class="checklist">
-            <li>na zkušební jízdu, workshop i lekci</li>
-            <li>obdarovaný si sám vybere termín</li>
-            <li>e-mailem k vytištění</li>
+            <li>voor een proefrit, workshop of les</li>
+            <li>de ontvanger kiest zelf een datum</li>
+            <li>per e-mail, om te printen</li>
           </ul>
-          <a class="btn btn--secondary" href="/cadeaubon/">Darovat poukaz</a>
+          <a class="btn btn--secondary" href="/cadeaubon/">Cadeaubon geven</a>
         </article>
       </div>
     </div>
@@ -139,25 +139,25 @@ const offerSchema = {
   <section class="section section--dark">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Jak to funguje</span>
-        <h2>Koupit sportovní koloběžku je teprve začátek</h2>
-        <p class="lead">Když si po zkušební jízdě koupíš koloběžku přes náš e-shop, získáš:</p>
+        <span class="eyebrow">Zo werkt het</span>
+        <h2>Een sportstep kopen is pas het begin</h2>
+        <p class="lead">Koop je na de proefrit een step via onze webshop? Dan krijg je:</p>
       </div>
       <TryBuyJoin />
       <ul class="perks">
-        <li><Icon name="wrench" /> osobní nastavení na míru</li>
-        <li><Icon name="check" /> vysvětlení údržby</li>
-        <li><Icon name="users" /> klubové jízdy a tréninky zdarma</li>
+        <li><Icon name="wrench" /> persoonlijk afsteladvies</li>
+        <li><Icon name="check" /> uitleg over onderhoud</li>
+        <li><Icon name="users" /> gratis clubritten en trainingen</li>
       </ul>
-      <a class="btn btn--primary" href="/sportsteps/">Prohlédnout koloběžky <Icon name="arrow" size={18} /></a>
+      <a class="btn btn--primary" href="/sportsteps/">Bekijk de steps <Icon name="arrow" size={18} /></a>
     </div>
   </section>
 
   <section class="section section--tint">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Zkušenosti</span>
-        <h2>Jak to vypadá v praxi</h2>
+        <span class="eyebrow">Ervaringen</span>
+        <h2>Zo gaat het in de praktijk</h2>
       </div>
       <Testimonials limit={3} />
     </div>
@@ -166,8 +166,8 @@ const offerSchema = {
   <section class="section">
     <div class="container narrow">
       <div class="section-head">
-        <span class="eyebrow">Praktické</span>
-        <h2>Časté dotazy k lekcím</h2>
+        <span class="eyebrow">Praktisch</span>
+        <h2>Veelgestelde vragen over de lessen</h2>
       </div>
       <FaqList items={faq} />
     </div>
@@ -177,7 +177,7 @@ const offerSchema = {
     <div class="container extras">
       <a class="extra" href="/groepen/">
         <Icon name="users" size={26} />
-        <span><strong>Jezdíte ve skupině?</strong>Firemní akce, rozlučky, oslavy – připravím program na míru.</span>
+        <span><strong>Met een groep?</strong>Bedrijfsuitjes, vrijgezellenfeesten, verjaardagen – ik stel een programma op maat samen.</span>
         <Icon name="arrow" size={20} />
       </a>
     </div>

@@ -17,7 +17,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 const d = post.data;
 const crumbs = [
-  { name: 'Tipy & články', href: '/blog/' },
+  { name: 'Tips & blog', href: '/blog/' },
   { name: d.title, href: `/blog/${post.id}/` },
 ];
 const dateFmt = new Intl.DateTimeFormat(site.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { dateStyle: 'long' });

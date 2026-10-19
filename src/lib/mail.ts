@@ -26,10 +26,10 @@ function linesTable(order: Order) {
   const rows = order.lines
     .map((l) => `<tr><td style="padding:6px 0">${l.qty}× ${esc(l.title)}</td><td style="padding:6px 0;text-align:right">${formatCents(l.totalCents)}</td></tr>`)
     .join('');
-  const shipping = order.shippingCents === null ? 'upřesníme e-mailem' : order.shippingCents === 0 ? 'zdarma' : formatCents(order.shippingCents);
+  const shipping = order.shippingCents === null ? 'volgt per e-mail' : order.shippingCents === 0 ? 'gratis' : formatCents(order.shippingCents);
   return `<table style="width:100%;border-collapse:collapse;font-size:15px">${rows}
     <tr><td style="padding:6px 0;border-top:1px solid #ddd">${esc(order.shippingLabel)}</td><td style="padding:6px 0;border-top:1px solid #ddd;text-align:right">${shipping}</td></tr>
-    <tr><td style="padding:8px 0;font-weight:700">Celkem vč. DPH</td><td style="padding:8px 0;text-align:right;font-weight:700">${formatCents(order.totalCents)}</td></tr></table>`;
+    <tr><td style="padding:8px 0;font-weight:700">Totaal incl. btw</td><td style="padding:8px 0;text-align:right;font-weight:700">${formatCents(order.totalCents)}</td></tr></table>`;
 }
 
 function address(order: Order) {
@@ -39,19 +39,19 @@ function address(order: Order) {
 export async function sendOrderEmails(order: Order, origin: string) {
   if (!mailConfigured()) return;
   const payment = shop.bank.iban
-    ? `<p>Prosíme o převod <strong>${formatCents(order.totalCents)}</strong> do ${shop.paymentDays} dnů na účet <strong>${esc(shop.bank.iban)}</strong> (${esc(shop.bank.accountName)}), variabilní symbol / popis platby: <strong>${order.number}</strong>.</p>`
-    : `<p>Platební údaje pro převod ti pošleme v samostatném e-mailu.</p>`;
+    ? `<p>Wil je <strong>${formatCents(order.totalCents)}</strong> binnen ${shop.paymentDays} dagen overmaken naar <strong>${esc(shop.bank.iban)}</strong> t.n.v. ${esc(shop.bank.accountName)}, onder vermelding van <strong>${order.number}</strong>?</p>`
+    : `<p>De betaalgegevens sturen we je in een aparte e-mail.</p>`;
   const customer = `<div style="font-family:Arial,sans-serif;max-width:560px;color:#17221e">
-    <h1 style="font-size:22px">Děkujeme za objednávku ${order.number}</h1>
-    <p>Ahoj ${esc(order.name)}, tvoje objednávka dorazila. Tady je přehled:</p>
+    <h1 style="font-size:22px">Bedankt voor je bestelling ${order.number}</h1>
+    <p>Hoi ${esc(order.name)}, je bestelling is binnen. Hier is het overzicht:</p>
     ${linesTable(order)}
-    <h2 style="font-size:17px">Platba převodem</h2>${payment}
+    <h2 style="font-size:17px">Betalen per overboeking</h2>${payment}
     ${order.meta.type === 'voucher'
-      ? `<h2 style="font-size:17px">Poukaz</h2><p>Po přijetí platby ti pošleme odkaz na dárkový poukaz k vytištění. Náhled: <a href="${origin}/cadeaubon/bekijken/?nr=${order.number}&t=${order.token}">${origin}/cadeaubon/bekijken/</a></p>`
-      : `<h2 style="font-size:17px">Dodání</h2><p>Dodání ${esc(shop.deliveryTime)} od přijetí platby. Ozveme se ti s termínem.</p>`}
-    <p><strong>Adresa:</strong><br>${address(order)}</p>
-    <p>Objednávku najdeš i zde: <a href="${origin}/bestelling/?nr=${order.number}&t=${order.token}">${origin}/bestelling/</a></p>
-    <p style="font-size:13px;color:#555">Máš právo od smlouvy odstoupit do 14 dnů od převzetí zboží bez udání důvodu. Více v <a href="${origin}/algemene-voorwaarden/">obchodních podmínkách</a>.</p>
+      ? `<h2 style="font-size:17px">Cadeaubon</h2><p>Na ontvangst van de betaling sturen we je een link naar de cadeaubon om te printen. Voorbeeld: <a href="${origin}/cadeaubon/bekijken/?nr=${order.number}&t=${order.token}">${origin}/cadeaubon/bekijken/</a></p>`
+      : `<h2 style="font-size:17px">Levering</h2><p>Levering ${esc(shop.deliveryTime)} na ontvangst van de betaling. We laten je weten wanneer.</p>`}
+    <p><strong>Adres:</strong><br>${address(order)}</p>
+    <p>Je bestelling vind je ook hier: <a href="${origin}/bestelling/?nr=${order.number}&t=${order.token}">${origin}/bestelling/</a></p>
+    <p style="font-size:13px;color:#555">Je hebt het recht om de overeenkomst binnen 14 dagen na ontvangst zonder opgave van redenen te herroepen. Meer in de <a href="${origin}/algemene-voorwaarden/">algemene voorwaarden</a>.</p>
     <p>${esc(site.owner)} · ${esc(site.name)} · ${esc(site.phone)}</p></div>`;
   const admin = `<div style="font-family:Arial,sans-serif;max-width:560px">
     <h1 style="font-size:20px">Nová objednávka ${order.number}</h1>
@@ -59,7 +59,7 @@ export async function sendOrderEmails(order: Order, origin: string) {
     ${order.note ? `<p><strong>Poznámka:</strong> ${esc(order.note)}</p>` : ''}
     <p><a href="${origin}/beheer/bestelling/${order.number}/">Otevřít v administraci</a></p></div>`;
   await Promise.allSettled([
-    send(order.email, `Objednávka ${order.number} – ${site.name}`, customer, secret('MAIL_ADMIN') ?? site.email),
+    send(order.email, `Bestelling ${order.number} – ${site.name}`, customer, secret('MAIL_ADMIN') ?? site.email),
     send(secret('MAIL_ADMIN') ?? site.email, `Nová objednávka ${order.number} (${formatCents(order.totalCents)})`, admin, order.email),
   ]);
 }

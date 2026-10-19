@@ -1,65 +1,65 @@
 [
   {
     "id": "stepstandaard-cobra-road",
-    "title": "Stojánek pro Cobra a Road",
+    "title": "Standaard voor Cobra en Road",
     "price": 54.9,
     "fits": "Crussis Cobra, Road",
     "image": "../assets/accessories/stojanek-cobra.jpg"
   },
   {
     "id": "standaard-cross",
-    "title": "Stojánek pro Cross Hard",
+    "title": "Standaard voor Cross Hard",
     "price": 65.9,
     "fits": "Crussis Cross Hard",
     "image": "../assets/accessories/stojanek-cross.jpg"
   },
   {
     "id": "spatborden",
-    "title": "Sada blatníků (přední 28\", zadní 20\")",
+    "title": "Spatbordenset (voor 28\", achter 20\")",
     "price": 59.9,
     "fits": "Crussis Road",
     "image": "../assets/accessories/spatborden.jpg"
   },
   {
     "id": "bidonhouder",
-    "title": "Košík na láhev Crussis",
+    "title": "Bidonhouder Crussis",
     "price": 16,
     "image": "../assets/accessories/bidonhouder.jpg",
-    "note": "Na současném webu uveden jako černý, na fotce je bílý – ověřit barvu"
+    "note": "Op de huidige website staat zwart, op de foto is hij wit – kleur controleren"
   },
   {
     "id": "fles",
-    "title": "Láhev Crussis 0,5 l – černá",
+    "title": "Bidon Crussis 0,5 l – zwart",
     "price": 9,
     "image": "../assets/accessories/fles.jpg"
   },
   {
     "id": "reparatie-kit",
-    "title": "Sada na opravu duše",
+    "title": "Reparatieset binnenband",
     "price": 5.99,
     "image": "../assets/accessories/reparatie-kit.jpg"
   },
   {
     "id": "helm-geel",
-    "title": "Helma Crussis – žlutá, vel. L (58–62 cm)",
+    "title": "Helm Crussis – geel, maat L (58–62 cm)",
     "price": 54,
     "image": "../assets/accessories/helm-geel.jpg"
   },
   {
     "id": "helm-rood",
-    "title": "Helma Crussis – červená, vel. L (58–62 cm)",
+    "title": "Helm Crussis – rood, maat L (58–62 cm)",
     "price": 54,
     "image": "../assets/accessories/helm-rood.jpg"
   },
   {
     "id": "helm-zwart",
-    "title": "Helma Crussis – antracit/černá, vel. L (58–62 cm)",
+    "title": "Helm Crussis – antraciet/zwart, maat L (58–62 cm)",
     "price": 61,
     "image": "../assets/accessories/helm-zwart.jpg"
   },
   {
     "id": "handschoenen",
-    "title": "Cyklistické rukavice Crussis – černo-růžové, vel. XL",
+    "title": "Fietshandschoenen Crussis – zwart-roze, maat XL",
     "price": 36,
     "image": "../assets/accessories/handschoenen.jpg"
   }

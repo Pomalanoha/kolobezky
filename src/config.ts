@@ -1,6 +1,6 @@
 // Centrální údaje o webu. Při překladu do NL stačí přepnout `lang` na 'nl'.
 export const site = {
-  lang: 'cs' as 'cs' | 'nl',
+  lang: 'nl' as 'cs' | 'nl',
   name: 'Kickbike Club Hille',
   url: 'https://www.kickbikeclubhille.nl',
   owner: 'Linda Pokorná',
@@ -38,7 +38,7 @@ export const bookingHref = site.bookingUrl || '/contact/?onderwerp=proefrit';
 // Nastavení e-shopu (objednávka s platbou převodem).
 export const shop = {
   orderPrefix: 'KCH',
-  deliveryTime: 'cca do 10 pracovních dnů',
+  deliveryTime: 'binnen ca. 10 werkdagen',
   // Splatnost převodu ve dnech
   paymentDays: 7,
   maxQty: 5,
@@ -50,8 +50,8 @@ export const shop = {
   },
   // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem).
   shipping: [
-    { id: 'bezorgen', label: 'Doručení na adresu v Nizozemsku', price: null as number | null, needsAddress: true },
-    { id: 'ophalen', label: 'Vyzvednutí v Hoofddorpu + nastavení koloběžky na míru', price: 0 as number | null, needsAddress: false },
+    { id: 'bezorgen', label: 'Bezorging op een adres in Nederland', price: null as number | null, needsAddress: true },
+    { id: 'ophalen', label: 'Ophalen in Hoofddorp + persoonlijk afsteladvies', price: 0 as number | null, needsAddress: false },
   ],
 };
 
@@ -66,8 +66,8 @@ export const voucher = {
 // Sezónní lišta nahoře na webu (dárkový poukaz). Zobrazí se jen v uvedených obdobích (MM-DD, včetně).
 // Pro náhled mimo sezónu: přidej k adrese ?promo=1
 export const promo = {
-  text: 'Daruj zážitek na koloběžce',
-  cta: 'Dárkový poukaz',
+  text: 'Geef een belevenis op de step cadeau',
+  cta: 'Cadeaubon',
   href: '/cadeaubon/',
   periods: [
     { from: '10-19', to: '12-24', label: 'Sinterklaas a Vánoce' },
