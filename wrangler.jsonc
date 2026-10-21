@@ -17,5 +17,16 @@
       "database_id": "47b69fa1-9025-4308-9123-09641ca72561"
     }
   ],
+  // Náhledy větví (dev-…) propojení nedědí – bez tohoto bloku na nich nefungují objednávky ani formuláře.
+  // Náhledy zapisují do stejné databáze jako ostrý web (testovací objednávky pak smazat v administraci).
+  "previews": {
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "kolobezky-objednavky",
+        "database_id": "47b69fa1-9025-4308-9123-09641ca72561"
+      }
+    ]
+  },
   "observability": { "enabled": true }
 }
