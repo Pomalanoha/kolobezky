@@ -9,11 +9,12 @@
     "directory": "./dist/client",
     "html_handling": "auto-trailing-slash"
   },
-  // Databáze objednávek. Bez database_id ji Wrangler při prvním nasazení sám vytvoří.
+  // Databáze objednávek. database_id musí být uvedené, jinak náhledy větví (dev-…) databázi nenajdou.
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "kolobezky-objednavky"
+      "database_name": "kolobezky-objednavky",
+      "database_id": "47b69fa1-9025-4308-9123-09641ca72561"
     }
   ],
   "observability": { "enabled": true }
