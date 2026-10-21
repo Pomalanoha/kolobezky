@@ -126,7 +126,8 @@ export function priceOrder(input: OrderInput, catalog: CatalogItem[]): { errors:
   if (Object.keys(errors).length > 0 || !ship) return { errors };
 
   const subtotalCents = lines.reduce((sum, l) => sum + l.totalCents, 0);
-  const shippingCents = ship.price === null ? null : toCents(ship.price);
+  const freeShipping = ship.freeFrom !== null && subtotalCents >= toCents(ship.freeFrom);
+  const shippingCents = ship.price === null ? null : freeShipping ? 0 : toCents(ship.price);
   return {
     errors: null,
     order: { lines, subtotalCents, shippingCents, totalCents: subtotalCents + (shippingCents ?? 0), shippingLabel: ship.label },

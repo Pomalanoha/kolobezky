@@ -18,7 +18,7 @@ gallery:
     alt: Crussis Road 4.2-1
   - src: ../../assets/products/crussis-road-4-2-2.jpg
     alt: Crussis Road 4.2-2
-availability: op-bestelling
+availability: op-voorraad
 ---
 
 De Crussis Road is de ideale instap in de wereld van het sportsteppen. Licht, stabiel en comfortabel – perfect voor rustige maar ook sportieve tochten om je conditie op te bouwen.

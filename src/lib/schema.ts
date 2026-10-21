@@ -16,6 +16,8 @@ export function businessSchema() {
     founder: { '@type': 'Person', name: site.owner },
     address: {
       '@type': 'PostalAddress',
+      streetAddress: site.street,
+      postalCode: site.postcode,
       addressLocality: site.city,
       addressRegion: site.region,
       addressCountry: 'NL',

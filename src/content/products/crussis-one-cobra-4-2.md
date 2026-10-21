@@ -19,6 +19,4 @@ gallery:
 availability: op-bestelling
 ---
 
-De sportieve geometrie van de Cobra met de uitrusting van de ONE-serie. Voor wie regelmatig en efficiënt wil trainen.
-
-<!-- TODO: concrete specificaties aanvullen -->
+De sportieve geometrie van de Cobra in de ONE-serie. Het belangrijkste verschil met de gewone Cobra zit in de breedte van de banden. Voor wie regelmatig en efficiënt wil trainen.

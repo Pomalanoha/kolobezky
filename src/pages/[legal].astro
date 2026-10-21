@@ -15,7 +15,7 @@ const { page } = Astro.props;
 const { Content } = await render(page);
 const crumbs = [{ name: page.data.title, href: `/${page.id}/` }];
 ---
-<BaseLayout title={page.data.title} description={`${page.data.title} van Kickbike Club Hille, Hoofddorp.`}>
+<BaseLayout title={page.data.title} description={`${page.data.title} van Kickbike Club Hille, Haarlem.`}>
   <section class="section" style="padding-top:clamp(24px,4vw,48px)">
     <div class="container" style="max-width:860px">
       <Breadcrumbs items={crumbs} />

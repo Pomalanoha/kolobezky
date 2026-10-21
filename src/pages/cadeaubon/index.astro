@@ -16,11 +16,11 @@ const steps = [
 ---
 <BaseLayout
   title="Cadeaubon sportsteppen"
-  description="Geef een belevenis op de sportstep cadeau: een cadeaubon voor een proefrit, workshop in de duinen, les of de aankoop van een step. 2 jaar geldig, om te printen."
+  description="Geef een belevenis op de sportstep cadeau: een cadeaubon voor een workshop in de duinen, privéles, training of de aankoop van een step. 2 jaar geldig, om te printen."
   jsonLd={breadcrumbSchema(crumbs)}
   hideMobileCta
 >
-  <PageHero eyebrow="Cadeaubon" title="Geef een belevenis op de step cadeau" lead="De cadeaubon is te besteden aan een proefrit, een workshop in de duinen, een privéles en aan de aankoop van een step of accessoires. Het ideale cadeau voor een verjaardag, Sinterklaas of Kerst." crumbs={crumbs}>
+  <PageHero eyebrow="Cadeaubon" title="Geef een belevenis op de step cadeau" lead="De cadeaubon is te besteden aan een workshop in de duinen, een privéles of training en aan de aankoop van een step of accessoires. Het ideale cadeau voor een verjaardag, Sinterklaas of Kerst." crumbs={crumbs}>
     <div slot="aside" class="hero-voucher">
       <VoucherCard amount="50" recipient="" />
     </div>
@@ -143,7 +143,7 @@ const steps = [
       set('amount', choice === 'jine' ? customInput.value || '…' : choice);
       set('recipient', (form.querySelector<HTMLInputElement>('#ontvanger')!.value.trim() || 'jou'));
       const msg = form.querySelector<HTMLTextAreaElement>('#boodschap')!.value.trim();
-      set('message', msg || 'Voor een proefrit, workshop, les of aankoop bij Kickbike Club Hille.');
+      set('message', msg || 'Voor een workshop, privéles, training of aankoop bij Kickbike Club Hille.');
     };
     form.addEventListener('input', update);
     form.addEventListener('change', update);

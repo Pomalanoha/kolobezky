@@ -77,7 +77,7 @@ const shippingText = order.shippingCents === null ? 'neurčeno' : order.shipping
         <a href={`mailto:${order.email}?subject=${encodeURIComponent(`Objednávka ${order.number}`)}`}>{order.email}</a><br />
         {order.phone && (<><a href={`tel:${order.phone.replace(/\s/g, '')}`}>{order.phone}</a> · <a href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener">WhatsApp</a></>)}
       </p>
-      <p class="muted">{order.shipping === 'ophalen' ? 'Vyzvednutí v Hoofddorpu' : 'Doručení na adresu'}</p>
+      <p class="muted">{order.shipping === 'ophalen' ? 'Vyzvednutí v Haarlemu' : 'Doručení na adresu'}</p>
       <button type="button" class="btn btn--secondary" data-copy={addressText}>Kopírovat adresu</button>
     </div>
   </div>

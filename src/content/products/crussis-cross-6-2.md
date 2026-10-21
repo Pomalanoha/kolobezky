@@ -17,7 +17,7 @@ gallery:
     alt: Crussis Cross Hard 6.2
   - src: ../../assets/products/crussis-one-cross-hard-6-2.jpg
     alt: Crussis ONE Cross Hard 6.2
-availability: op-bestelling
+availability: op-voorraad
 ---
 
-De Cross is gebouwd voor het terrein. Ideaal voor bospaden en duinroutes, waar je zowel kracht als balans traint. Voor wie serieus wil trainen en van een uitdaging houdt.
+De Cross is gebouwd voor het terrein: met een hogere treeplank en stevige banden. Ideaal voor bospaden en duinroutes, waar je zowel kracht als balans traint. Voor wie serieus wil trainen en van een uitdaging houdt.

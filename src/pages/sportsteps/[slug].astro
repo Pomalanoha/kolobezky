@@ -50,7 +50,7 @@ const productSchema = {
 ---
 <BaseLayout
   title={`${d.title} – ${labels[d.category].toLowerCase()} Crussis`}
-  description={`${d.summary} Prijs ${d.priceFrom ? 'v.a. ' : ''}€ ${d.price} incl. btw. Probeer hem eerst uit tijdens een proefrit in Hoofddorp.`}
+  description={`${d.summary} Prijs ${d.priceFrom ? 'v.a. ' : ''}€ ${d.price} incl. btw. Probeer hem eerst uit tijdens een gratis proefrit in Haarlem.`}
   type="product"
   jsonLd={[breadcrumbSchema(crumbs), productSchema]}
 >
@@ -96,7 +96,7 @@ const productSchema = {
             )}
             <a class="btn btn--secondary" href={bookingHref}>Eerst uitproberen</a>
           </div>
-          <p class="pp__shipping">Betalen per overboeking · levering {shop.deliveryTime} · of ophalen in Hoofddorp met persoonlijk afsteladvies</p>
+          <p class="pp__shipping">Betalen per overboeking · levering {shop.deliveryTime} · of ophalen in Haarlem met persoonlijk afsteladvies</p>
 
           <div class="pp__box card">
             <h2>Twijfel je of deze sportstep bij je past?</h2>

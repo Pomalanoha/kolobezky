@@ -3,7 +3,7 @@ title: Crussis ONE Road 4.2
 category: recreatief
 price: 399
 order: 2
-summary: Recreatieve sportstep uit de ONE-serie – het comfort van de Road met een hoger uitrustingsniveau.
+summary: Recreatieve sportstep uit de ONE-serie – het comfort van de Road, met andere bandenbreedte.
 idealFor:
   - beginners die net iets meer willen
   - langere tochten over asfalt
@@ -19,6 +19,4 @@ gallery:
 availability: op-bestelling
 ---
 
-De ONE-serie van Crussis combineert het comfort van een recreatieve step met hoogwaardigere onderdelen. Ideaal voor iedereen die rustig wil beginnen, maar van plan is regelmatig en verder te steppen.
-
-<!-- TODO: concrete verschillen met de Road 4.2 aanvullen (frame, wielen, gewicht) -->
+De ONE-serie van Crussis lijkt sterk op de basismodellen: het belangrijkste verschil zit in de breedte van de banden. Ideaal voor iedereen die rustig wil beginnen, maar van plan is regelmatig en verder te steppen. Twijfel je tussen de Road en de ONE Road? Probeer ze allebei uit tijdens een gratis proefrit.

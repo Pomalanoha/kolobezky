@@ -13,7 +13,7 @@ image: ../../assets/photos/sportsteppen-in-de-duinen.jpg
 
 De favoriete route van onze klanten: **door de duinen naar het strand**. De heuveltjes in de duinen zijn pittig, maar de beloning is het uitzicht op zee en een pauze op het strand.
 
-> „Al snel had ik de smaak te pakken en durfde ik de uitdaging aan om een mooi rondje te gaan maken door de duinen naar het strand.” – Kirsten
+> „Al snel had ik de smaak te pakken en durfde ik de uitdaging aan om een mooi rondje te gaan maken door de duinen naar het strand.” – K.
 
 ## Waar je op voorbereid moet zijn
 

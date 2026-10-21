@@ -15,13 +15,19 @@
     "id": "eigen-step",
     "topic": "lekce",
     "question": "Heb ik voor de proefrit een eigen step nodig?",
-    "answer": "Nee, je krijgt een step van mij te leen. Tijdens de proefrit kun je ook verschillende types uitproberen (recreatieve Road, sportieve Cobra, terrein-Cross) en ontdekken welke bij je past."
+    "answer": "Nee. De proefrit is gratis en je krijgt een step en helm van mij te leen. Je kunt ook verschillende types uitproberen (recreatieve Road, sportieve Cobra, terrein-Cross) en ontdekken welke bij je past. Een step lenen kan bij de proefrit en bij een privéles of training. Voor groepstrainingen, workshops en clubritten heb je een eigen step nodig."
+  },
+  {
+    "id": "kosten",
+    "question": "Wat kost een proefrit of les?",
+    "answer": "De proefrit (± 45 min) is gratis, inclusief step en helm. Een privéles of training (± 75 min) kost € 45 met een geleende step of € 30 met je eigen step. Een workshop (2–3 uur) kost € 65. Groepstrainingen en clubritten zijn gratis voor clubleden; voor anderen kost een groepstraining € 25 per persoon.",
+    "topic": "lekce"
   },
   {
     "id": "meenemen",
     "topic": "lekce",
     "question": "Wat neem ik mee?",
-    "answer": "Sportkleding die past bij het weer, stevige sportschoenen, een flesje water en het liefst een helm (heb je die niet, dan spreken we iets af). Handschoenen zijn prettig, maar niet nodig."
+    "answer": "Sportkleding die past bij het weer, stevige sportschoenen en een flesje water. Leen je een step van mij, dan krijg je er een helm bij; je mag ook je eigen helm meenemen. Handschoenen zijn prettig, maar niet nodig."
   },
   {
     "id": "regen",

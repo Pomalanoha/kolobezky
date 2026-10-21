@@ -51,7 +51,7 @@ const ui = {
     'cta.bookShort': 'Boek nu',
     'cta.whatsapp': 'App via WhatsApp',
     'cta.more': 'Meer informatie',
-    'footer.tagline': 'Sportsteppen in Hoofddorp en omgeving. Probeer het, ervaar het en step daarna zelf verder – of samen met ons.',
+    'footer.tagline': 'Sportsteppen in Haarlem en omgeving. Probeer het, ervaar het en step daarna zelf verder – of samen met ons.',
     'footer.explore': 'Ontdek',
     'footer.contact': 'Contact',
     'footer.area': 'Actief in',

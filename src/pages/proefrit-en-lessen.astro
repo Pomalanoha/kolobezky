@@ -9,7 +9,6 @@ import TryBuyJoin from '../components/TryBuyJoin.astro';
 import LessonTimeline from '../components/LessonTimeline.astro';
 import Testimonials from '../components/Testimonials.astro';
 import FaqList from '../components/FaqList.astro';
-import Todo from '../components/Todo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { site, bookingHref, voucher } from '../config';
 import { t } from '../i18n/ui';
@@ -18,34 +17,47 @@ import { breadcrumbSchema, businessId } from '../lib/schema';
 const crumbs = [{ name: 'Proefrit & lessen', href: '/proefrit-en-lessen/' }];
 const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'lekce').map((f) => f.data);
 
-// Nabídka služeb. Ceny (price) doplnit – null = zobrazí se „na dotaz“.
+// Nabídka služeb. price: 0 = zdarma, null = zobrazí se „op aanvraag“; priceNote = doplňující řádek pod cenou.
 const offers = [
   {
     id: 'proefrit',
     title: 'Proefrit',
     tagline: 'Try – kennismaken met steppen',
-    duration: '± 60 min',
-    price: null as number | null,
+    duration: '± 45 min',
+    price: 0 as number | null,
+    priceNote: 'step en helm te leen',
     highlight: true,
-    features: ['uitleg over de step en de techniek', 'rustig oefenen in het park', 'verschillende steps uitproberen', 'persoonlijk advies over de modelkeuze'],
+    features: ['uitleg over de step en de juiste houding', 'rustig oefenen in het park', 'verschillende steps uitproberen', 'persoonlijk advies over de modelkeuze'],
+  },
+  {
+    id: 'prive',
+    title: 'Privéles of training',
+    tagline: 'Individueel, afgestemd op jouw doelen',
+    duration: '± 75 min',
+    price: 45,
+    priceNote: 'incl. step en helm · € 30 met je eigen step',
+    highlight: false,
+    features: ['de juiste houding en techniek', 'warming-up en cooling-down', 'conditietraining in de natuur', 'aanmoediging, coaching en advies over voeding'],
   },
   {
     id: 'workshop',
     title: 'Workshop sportsteppen',
-    tagline: 'Techniek + een tocht door de natuur',
+    tagline: 'Een tocht vol bewegen, natuur en tips',
     duration: '± 2–3 uur',
-    price: null,
+    price: 65,
+    priceNote: 'met je eigen step',
     highlight: false,
-    features: ['basistechniek in het park', 'een tocht, bijv. door de duinen naar zee', 'pauze met iets te drinken', 'rekken en strekken tot slot'],
+    features: ['houding en techniek onderweg', 'een tocht, bijv. door de duinen naar zee', 'mindfulness en een gezonde leefstijl', 'picknick met voedingstips en materiaal om mee te nemen'],
   },
   {
-    id: 'prive',
-    title: 'Privéles',
-    tagline: 'Individueel, afgestemd op jouw doelen',
-    duration: 'in overleg',
-    price: null,
+    id: 'groepstraining',
+    title: 'Groepstraining',
+    tagline: 'Samen trainen met de club',
+    duration: '± 75 min',
+    price: 0,
+    priceNote: 'voor clubleden · € 25 voor anderen, met je eigen step',
     highlight: false,
-    features: ['techniek verfijnen', 'conditietraining', 'rustig weer opbouwen na een blessure', 'ook voor 2–4 personen'],
+    features: ['training in een kleine groep', 'techniek en conditie', 'routes rond Haarlem en in de duinen', 'gezellig samen buiten bewegen'],
   },
 ];
 
@@ -61,14 +73,14 @@ const offerSchema = {
       description: o.features.join(', '),
       provider: { '@id': businessId },
       areaServed: site.areaServed,
-      ...(o.price ? { offers: { '@type': 'Offer', price: o.price, priceCurrency: 'EUR' } } : {}),
+      ...(o.price !== null ? { offers: { '@type': 'Offer', price: o.price, priceCurrency: 'EUR' } } : {}),
     },
   })),
 };
 ---
 <BaseLayout
-  title="Proefrit & lessen sportsteppen in Hoofddorp"
-  description="Probeer sportsteppen onder begeleiding van Linda: een proefrit, een workshop in de duinen of een privéles rond Hoofddorp. Je krijgt een step te leen."
+  title="Proefrit & lessen sportsteppen in Haarlem"
+  description="Probeer sportsteppen onder begeleiding van Linda: een proefrit, een workshop in de duinen of een privéles rond Haarlem. Bij de proefrit en privéles krijg je een step te leen."
   jsonLd={[breadcrumbSchema(crumbs), offerSchema]}
 >
   <PageHero eyebrow="Try, Buy & Join" title="Eerst proberen. Dan zelf steppen. En samen op pad!" lead="Voordat je besluit een step aan te schaffen, raad ik je aan eerst te proberen welk type bij je past. Tijdens een proefrit leer je ook hoe je veilig en efficiënt stept – en of dit jouw manier van bewegen is." crumbs={crumbs}>
@@ -96,8 +108,7 @@ const offerSchema = {
       <div class="section-head">
         <span class="eyebrow">Aanbod</span>
         <h2>Kies hoe je begint</h2>
-        <p class="lead">Tijdens de lessen krijg je een step te leen. Sportkleding en een goed humeur is alles wat je nodig hebt.</p>
-        <Todo>Ceny, délky lekcí a co přesně zahrnují – doplnit od Lindy.</Todo>
+        <p class="lead">Bij de proefrit en de privéles krijg je een step en helm van mij te leen. Voor workshops en groepstrainingen heb je een eigen step nodig. Verder alleen sportkleding en een goed humeur!</p>
       </div>
       <div class="offers">
         {offers.map((o) => (
@@ -106,8 +117,8 @@ const offerSchema = {
             <h3>{o.title}</h3>
             <p class="offer__tagline">{o.tagline}</p>
             <p class="offer__price">
-              {o.price ? `€ ${o.price}` : 'prijs op aanvraag'}
-              <span>{o.duration}</span>
+              {o.price === 0 ? 'Gratis' : o.price ? `€ ${o.price}` : 'prijs op aanvraag'}
+              <span>{o.duration}{o.priceNote && ` · ${o.priceNote}`}</span>
             </p>
             <ul class="checklist">
               {o.features.map((f) => <li>{f}</li>)}
@@ -126,7 +137,7 @@ const offerSchema = {
             <span>{voucher.validityMonths / 12} jaar geldig</span>
           </p>
           <ul class="checklist">
-            <li>voor een proefrit, workshop of les</li>
+            <li>voor een workshop, privéles of training</li>
             <li>de ontvanger kiest zelf een datum</li>
             <li>per e-mail, om te printen</li>
           </ul>
@@ -201,8 +212,42 @@ const offerSchema = {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
   }
   .offer--gift {
+    grid-column: 1 / -1;
     background: linear-gradient(160deg, #fff6ef, #ffe8da);
     border-color: #f6c3a8;
+  }
+  /* Poukaz jako široká karta pod nabídkou */
+  @media (min-width: 900px) {
+    .offer.offer--gift {
+      display: grid;
+      grid-template-columns: auto auto 1fr auto;
+      column-gap: clamp(24px, 3vw, 48px);
+      align-items: center;
+    }
+    .offer--gift h3 {
+      grid-area: 1 / 1;
+      align-self: end;
+    }
+    .offer--gift .offer__tagline {
+      grid-area: 2 / 1;
+      align-self: start;
+      margin: 0;
+    }
+    .offer--gift .offer__price {
+      grid-area: 1 / 2 / 3 / 3;
+      margin: 0;
+      padding: 0 0 0 clamp(24px, 3vw, 48px);
+      border-bottom: 0;
+      border-left: 1px solid #f6c3a8;
+    }
+    .offer--gift .checklist {
+      grid-area: 1 / 3 / 3 / 4;
+      margin: 0;
+    }
+    .offer--gift .btn {
+      grid-area: 1 / 4 / 3 / 5;
+      margin: 0;
+    }
   }
   .offer__flag--gift {
     background: var(--forest-900);

@@ -17,11 +17,11 @@ const steps = catalog.filter((c) => c.kind === 'step');
 const accessories = catalog.filter((c) => c.kind === 'acc' && c.available);
 // Ceny pro živý souhrn v prohlížeči (finální cenu vždy počítá server).
 const prices = Object.fromEntries(catalog.map((c) => [c.key, { title: c.title, price: c.price }]));
-const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.price, needsAddress: s.needsAddress }));
+const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.price, freeFrom: s.freeFrom, needsAddress: s.needsAddress }));
 ---
 <BaseLayout
   title="Sportstep bestellen"
-  description="Bestel een Crussis sportstep of accessoires. Betalen per overboeking, levering binnen ca. 10 werkdagen of ophalen in Hoofddorp met persoonlijk afsteladvies."
+  description="Bestel een Crussis sportstep of accessoires. Betalen per overboeking, levering binnen ca. 10 werkdagen of ophalen in Haarlem met persoonlijk afsteladvies."
   jsonLd={breadcrumbSchema(crumbs)} 
   hideMobileCta
 >
@@ -83,7 +83,7 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
                   <input type="radio" name="shipping" value={s.id} checked={i === 0} />
                   <span>
                     <strong>{s.label}</strong>
-                    <small>{s.price === null ? 'verzendkosten bevestigen we per e-mail' : s.price === 0 ? 'gratis' : formatPrice(s.price)}</small>
+                    <small>{s.price === null ? 'verzendkosten bevestigen we per e-mail' : s.price === 0 ? 'gratis' : formatPrice(s.price)}{s.price && s.freeFrom ? ` · gratis vanaf ${formatPrice(s.freeFrom)}` : ''}</small>
                   </span>
                 </label>
               ))}
@@ -172,7 +172,7 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
 <script>
   const form = document.querySelector<HTMLFormElement>('form.order')!;
   const prices: Record<string, { title: string; price: number }> = JSON.parse(form.dataset.prices!);
-  const shipping: { id: string; price: number | null; needsAddress: boolean }[] = JSON.parse(form.dataset.shipping!);
+  const shipping: { id: string; price: number | null; freeFrom: number | null; needsAddress: boolean }[] = JSON.parse(form.dataset.shipping!);
   const fmt = new Intl.NumberFormat(document.documentElement.lang === 'nl' ? 'nl-NL' : 'cs-CZ', { style: 'currency', currency: 'EUR' });
   const stepSelect = form.querySelector<HTMLSelectElement>('#step')!;
   const qtyInput = form.querySelector<HTMLInputElement>('#qty')!;
@@ -216,8 +216,9 @@ const shipping = shop.shipping.map((s) => ({ id: s.id, label: s.label, price: s.
       li.append(name, price);
       summary.append(li);
     }
-    form.querySelector('[data-shipping-price]')!.textContent = !ship ? '—' : ship.price === null ? 'volgt per e-mail' : ship.price === 0 ? 'gratis' : fmt.format(ship.price);
-    form.querySelector('[data-total]')!.textContent = fmt.format(subtotal + (ship?.price ?? 0));
+    const shipPrice = ship && ship.price !== null && ship.freeFrom !== null && subtotal >= ship.freeFrom ? 0 : ship?.price ?? null;
+    form.querySelector('[data-shipping-price]')!.textContent = !ship ? '—' : shipPrice === null ? 'volgt per e-mail' : shipPrice === 0 ? 'gratis' : fmt.format(shipPrice);
+    form.querySelector('[data-total]')!.textContent = fmt.format(subtotal + (shipPrice ?? 0));
     addressBox.hidden = !ship?.needsAddress;
   }
   // Kvíz v okně: výsledek vybere model ve formuláři

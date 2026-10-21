@@ -4,15 +4,18 @@ export const site = {
   name: 'Kickbike Club Hille',
   url: 'https://www.kickbikeclubhille.nl',
   owner: 'Linda Pokorná',
-  email: 'kickbikeclubhille@gmail.com',
+  email: 'info@kickbikeclubhille.nl',
   phone: '+31 6 47737673',
   phoneHref: 'tel:+31647737673',
   whatsapp: 'https://wa.me/31647737673',
   kvk: '98484419',
-  city: 'Hoofddorp',
+  btw: 'NL005335379B57',
+  street: 'Dijkzichtlaan 267',
+  postcode: '2025 EP',
+  city: 'Haarlem',
   region: 'Noord-Holland',
   // Oblast, kde Linda působí – použito v textech i v JSON-LD (areaServed).
-  areaServed: ['Hoofddorp', 'Haarlemmermeer', 'Haarlem', 'Nieuw-Vennep', 'Badhoevedorp', 'Heemstede', 'Zandvoort'],
+  areaServed: ['Haarlem', 'Heemstede', 'Zandvoort', 'Bloemendaal', 'Hoofddorp', 'Haarlemmermeer', 'Velsen'],
   // Odkaz na rezervační systém (Cal.com / Calendly). Prázdné = tlačítka vedou na kontaktní formulář.
   bookingUrl: '',
   social: {
@@ -44,14 +47,14 @@ export const shop = {
   maxQty: 5,
   // Bankovní spojení pro platbu převodem. Prázdný IBAN = v potvrzení se zobrazí „pošleme e-mailem“.
   bank: {
-    accountName: 'Kickbike Club Hille',
-    iban: '',
+    accountName: 'L. Pokorná',
+    iban: 'NL83 INGB 0112 5440 37',
     bic: '',
   },
-  // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem).
+  // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem), freeFrom = doprava zdarma od této částky.
   shipping: [
-    { id: 'bezorgen', label: 'Bezorging op een adres in Nederland', price: null as number | null, needsAddress: true },
-    { id: 'ophalen', label: 'Ophalen in Hoofddorp + persoonlijk afsteladvies', price: 0 as number | null, needsAddress: false },
+    { id: 'bezorgen', label: 'Bezorging op een adres in Nederland', price: 35 as number | null, freeFrom: 1000 as number | null, needsAddress: true },
+    { id: 'ophalen', label: 'Ophalen in Haarlem + persoonlijk afsteladvies', price: 0 as number | null, freeFrom: null as number | null, needsAddress: false },
   ],
 };
 

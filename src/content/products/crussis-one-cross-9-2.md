@@ -13,6 +13,4 @@ image: ../../assets/products/crussis-one-cross-9-2-1.jpg
 availability: op-bestelling
 ---
 
-Het topmodel van de terreinlijn. Voor steppers die ver, snel en in elk terrein willen rijden.
-
-<!-- TODO: specificaties aanvullen (vering, remmen, gewicht) -->
+Het topmodel van de terreinlijn. Net als andere Cross-modellen heeft hij een hogere treeplank, zodat je ook over oneffen paden makkelijk rijdt. Voor steppers die ver, snel en in elk terrein willen rijden.

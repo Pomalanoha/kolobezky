@@ -35,10 +35,10 @@ const serviceSchema = {
 ---
 <BaseLayout
   title="Groepsuitje steppen – bedrijfsuitje, vrijgezellenfeest of verjaardag"
-  description="Sportsteppen met een groep rond Hoofddorp: bedrijfsuitjes en teambuilding, vrijgezellenfeesten, verjaardagen en clubs. Steps te leen, route geregeld."
+  description="Sportsteppen met een groep rond Haarlem: bedrijfsuitjes en teambuilding, vrijgezellenfeesten, verjaardagen en clubs. Route en programma op maat geregeld."
   jsonLd={[breadcrumbSchema(crumbs), serviceSchema]}
 >
-  <PageHero eyebrow="Groepsuitjes" title="Een stepbelevenis voor de hele groep" lead="Een bedrijfsuitje, vrijgezellenfeest of verjaardag – samen op pad op sportsteps. Ik zorg voor de steps en de route, en ervoor dat iedereen het naar zijn zin heeft." crumbs={crumbs}>
+  <PageHero eyebrow="Groepsuitjes" title="Een stepbelevenis voor de hele groep" lead="Een bedrijfsuitje, vrijgezellenfeest of verjaardag – samen op pad op sportsteps. Ik zorg voor de route en het programma, en ervoor dat iedereen het naar zijn zin heeft." crumbs={crumbs}>
     <div class="btn-row">
       <a class="btn btn--primary" href="#poptavka">Vrijblijvende aanvraag</a>
       <a class="btn btn--secondary" href={site.whatsapp} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> WhatsApp</a>
@@ -71,12 +71,13 @@ const serviceSchema = {
           ))}
         </ol>
         <ul class="checklist">
-          <li>steps te leen</li>
+          <li>voor groepen met een eigen step – ik heb er voorlopig 2 te leen</li>
+          <li>neem je eigen helm mee, of koop er een via de webshop</li>
           <li>route en tempo afgestemd op de groep</li>
-          <li>geschikt voor beginners én sporters</li>
           <li>duur ca. 2–3 uur (in overleg)</li>
+          <li>ook tochten verder weg – zelfs een steptocht door Europa, waar we samen voor trainen</li>
         </ul>
-        <Todo>Doplnit s Lindou: maximální velikost skupiny (kolik koloběžek je k dispozici), helmy, cena za osobu / skupinu, možnost spojit s občerstvením.</Todo>
+        <Todo>Doplnit s Lindou: cena za osobu / skupinu a možnost spojit s občerstvením.</Todo>
       </div>
       <Photo src={imgDuinen} alt="Steptocht door de duinen" ratio="4 / 5" />
     </div>
@@ -146,7 +147,7 @@ const serviceSchema = {
       <div>
         <span class="eyebrow">Cadeautip</span>
         <h2>Geen heel uitje? Geef een cadeaubon.</h2>
-        <p class="lead">Een cadeaubon voor een proefrit of workshop – de ontvanger kiest zelf de datum.</p>
+        <p class="lead">Een cadeaubon voor een workshop of privéles – de ontvanger kiest zelf de datum.</p>
       </div>
       <a class="btn btn--primary" href="/cadeaubon/">Cadeaubon <Icon name="arrow" size={18} /></a>
     </div>

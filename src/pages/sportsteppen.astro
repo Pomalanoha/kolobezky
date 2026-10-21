@@ -22,7 +22,7 @@ const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'zdravi'
   description="Sportsteppen (kickbike, footbike) is een effectieve training voor je hele lichaam zonder schokken. Beter voor je conditie, vriendelijk voor je gewrichten en geschikt voor beginners, ouderen en na een blessure."
   jsonLd={[breadcrumbSchema(crumbs), faqSchema(faq)]}
 >
-  <PageHero eyebrow="Sportsteppen" title="Training voor je hele lichaam, vriendelijk voor je gewrichten" lead="Sportsteppen is rijden op een sportstep met een groot voorwiel. Je zet je afwisselend met beide benen af, gebruikt je hele lichaam – en je bent buiten." crumbs={crumbs}>
+  <PageHero eyebrow="Sportsteppen" title="Full-body workout, zacht voor je gewrichten" lead="Sportsteppen is rijden op een sportstep met een groot voorwiel. Je zet je afwisselend met beide benen af, gebruikt je hele lichaam – en je bent buiten." crumbs={crumbs}>
     <div class="btn-row">
       <a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a>
     </div>
