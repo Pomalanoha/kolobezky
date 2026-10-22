@@ -1,28 +1,28 @@
 [
   {
     "id": "kirsten",
-    "name": "Kirsten",
-    "context": "Workshop sportsteppen – park, duny a pláž",
+    "name": "K.",
+    "context": "Workshop sportsteppen – park, duinen en strand",
     "featured": true,
-    "text": "Workshop byl krásně postavený. Po vysvětlení vybavení a správného pohybu mě Linda vzala do parku, kde jsem si mohla pár koleček zkusit, a ve správnou chvíli mi dala ty správné rady. Brzy mě to chytlo a odvážila jsem se na pěkný okruh přes duny až na pláž. Steppen bylo docela náročné, ale zároveň to byl pro mé tělo velmi přátelský pohyb. Linda je skvělá koučka – má oko pro techniku, věnuje osobní pozornost a hlavně je nadšená a motivující.",
+    "text": "De workshop was mooi opgebouwd. Na uitleg over het materiaal en de juiste beweging, nam Linda me mee naar een parkje. Daar kon ik wat rondjes oefenen en gaf zij mij op het juiste moment de juiste aanwijzingen. Al snel had ik de smaak te pakken en durfde ik de uitdaging aan om een mooi rondje te gaan maken door de duinen naar het strand. Ik vond het steppen best inspannend maar het voelde ook als een hele vriendelijke beweging voor mijn lichaam. Linda is een fijne coach, met oog voor techniek en met persoonlijke aandacht. En bovenal is zij enthousiast en motiverend.",
     "original": "De workshop was mooi opgebouwd. Na uitleg over het materiaal en de juiste beweging, nam Linda me mee naar een parkje. Daar kon ik wat rondjes oefenen en gaf zij mij op het juiste moment de juiste aanwijzingen. Al snel had ik de smaak te pakken en durfde ik de uitdaging aan om een mooi rondje te gaan maken door de duinen naar het strand. Ik vond het steppen best inspannend maar het voelde ook als een hele vriendelijke beweging voor mijn lichaam. Linda is een fijne coach, met oog voor techniek en met persoonlijke aandacht. En bovenal is zij enthousiast en motiverend.",
     "order": 1
   },
   {
     "id": "robin",
-    "name": "Robin",
-    "context": "Seznamovací jízda",
+    "name": "R.",
+    "context": "Kennismakingsrit",
     "featured": true,
-    "text": "Zábavná aktivita. Ten pohyb jsem si opravdu užil. Něco jiného než kolo nebo běh – tady děláš od obojího trochu. Čerstvý vzduch, pohyb a krásné okolí.",
+    "text": "Leuke activiteit. Ik heb echt genoten van de beweging. Eens iets anders dan fietsen of rennen hier doe je van allebei een beetje. Frisse lucht, in beweging zijn en genieten van de omgeving.",
     "original": "Leuke activiteit. Ik heb echt genoten van de beweging. Eens iets anders dan fietsen of rennen hier doe je van allebei een beetje. Frisse lucht, in beweging zijn en genieten van de omgeving.",
     "order": 2
   },
   {
     "id": "jeroen",
-    "name": "Jeroen",
-    "context": "Seznamovací jízda",
+    "name": "J.",
+    "context": "Kennismakingsrit",
     "featured": true,
-    "text": "Pěkný výlet v krásném prostředí.",
+    "text": "Leuk tochtje in een mooie omgeving.",
     "original": "Leuk tochtje in een mooie omgeving.",
     "order": 3
   }

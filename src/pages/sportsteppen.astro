@@ -18,40 +18,40 @@ const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'zdravi'
 
 ---
 <BaseLayout
-  title="Co je sportsteppen? Šetrný trénink celého těla"
-  description="Sportsteppen (kickbike, footbike) je účinný trénink celého těla bez nárazů. Zlepší kondici, šetří klouby a hodí se pro začátečníky, starší i po zranění."
+  title="Wat is sportsteppen? Gewrichtsvriendelijke training voor je hele lichaam"
+  description="Sportsteppen (kickbike, footbike) is een effectieve training voor je hele lichaam zonder schokken. Beter voor je conditie, vriendelijk voor je gewrichten en geschikt voor beginners, ouderen en na een blessure."
   jsonLd={[breadcrumbSchema(crumbs), faqSchema(faq)]}
 >
-  <PageHero eyebrow="Sportsteppen" title="Trénink celého těla, který šetří klouby" lead="Sportsteppen je jízda na sportovní koloběžce s velkým předním kolem. Odrážíš se střídavě oběma nohama, zapojuješ celé tělo – a jsi venku." crumbs={crumbs}>
+  <PageHero eyebrow="Sportsteppen" title="Full-body workout, zacht voor je gewrichten" lead="Sportsteppen is rijden op een sportstep met een groot voorwiel. Je zet je afwisselend met beide benen af, gebruikt je hele lichaam – en je bent buiten." crumbs={crumbs}>
     <div class="btn-row">
       <a class="btn btn--primary" href={bookingHref}>{t('cta.book')}</a>
     </div>
-    <Photo slot="aside" src={imgDetail} alt="Detail stupačky a předního kola terénní koloběžky Crussis v lese" ratio="4 / 3" priority />
+    <Photo slot="aside" src={imgDetail} alt="Detail van de treeplank en het voorwiel van een Crussis terreinstep in het bos" ratio="4 / 3" priority />
   </PageHero>
 
   <section class="section">
     <div class="container split">
       <div>
-        <span class="eyebrow">Co ti steppen dá</span>
-        <h2>Účinný pohyb s nízkou prahovou laťkou</h2>
+        <span class="eyebrow">Wat steppen je oplevert</span>
+        <h2>Effectief bewegen, laagdrempelig</h2>
         <ul class="checklist">
-          <li>zlepšíš si kondici</li>
-          <li>zapojíš a zpevníš celé tělo</li>
-          <li>zatížíš klouby méně než při běhu</li>
-          <li>můžeš shodit nějaké to kilo navíc</li>
-          <li>trénuješ rovnováhu a koordinaci</li>
-          <li>a jsi při tom venku na čerstvém vzduchu</li>
+          <li>je verbetert je conditie</li>
+          <li>je gebruikt en verstevigt je hele lichaam</li>
+          <li>je belast je gewrichten minder dan bij hardlopen</li>
+          <li>je kunt overbodige kilo’s kwijtraken</li>
+          <li>je traint je balans en coördinatie</li>
+          <li>en je bent ondertussen lekker buiten</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Pro koho je steppen vhodné?</h3>
+        <h3>Voor wie is steppen geschikt?</h3>
         <ul class="checklist">
-          <li>začátečníky a „restartéry“</li>
-          <li>mladé i starší</li>
-          <li>lidi, kteří se chtějí hýbat bez přetížení</li>
-          <li>lidi po operaci nebo zranění (po konzultaci s lékařem)</li>
-          <li>ty, kdo chtějí zhubnout</li>
-          <li>každého, kdo chce být fit</li>
+          <li>beginners en herstarters</li>
+          <li>jong en oud</li>
+          <li>mensen die willen bewegen zonder overbelasting</li>
+          <li>mensen die revalideren na een operatie of blessure (in overleg met je arts)</li>
+          <li>mensen die graag willen afvallen</li>
+          <li>iedereen die fitter wil worden</li>
         </ul>
       </div>
     </div>
@@ -60,39 +60,39 @@ const faq = (await getCollection('faq')).filter((f) => f.data.topic === 'zdravi'
   <section class="section section--tint">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Srovnání</span>
-        <h2>Steppen vs. běh vs. kolo</h2>
-        <p class="lead">Steppen spojuje to nejlepší z obou světů: intenzitu běhu a šetrnost jízdy na kole – a přidává k tomu práci celého těla.</p>
+        <span class="eyebrow">Vergelijking</span>
+        <h2>Steppen vs. hardlopen vs. fietsen</h2>
+        <p class="lead">Steppen combineert het beste van twee werelden: de intensiteit van hardlopen en de gewrichtsvriendelijkheid van fietsen – en daarbij werkt je hele lichaam mee.</p>
       </div>
       <SportInfographic />
-      <p style="margin-top:20px"><a href="/blog/steppen-vs-hardlopen/">Přečti si víc: Steppen vs. běh →</a></p>
+      <p style="margin-top:20px"><a href="/blog/steppen-vs-hardlopen/">Lees meer: steppen vs. hardlopen →</a></p>
     </div>
   </section>
 
   <section class="section">
     <div class="container split split--reverse">
       <div>
-        <span class="eyebrow">Trocha historie</span>
-        <h2>Z tréninku biatlonistů do parků celé Evropy</h2>
-        <p>Sportsteppen vzniklo z potřeby profesionálních biatlonistů trénovat i v létě. V Česku je dnes velmi populární a čím dál víc ho doporučují i zdravotníci – kvůli přínosům pro zdraví a rehabilitaci.</p>
-        <p>Holandsko je pro steppen jako stvořené: rovinky, cyklostezky, parky a duny. Jen se tu na koloběžku trochu zapomnělo. Pojďme to změnit.</p>
+        <span class="eyebrow">Een beetje geschiedenis</span>
+        <h2>Van biatlontraining naar parken in heel Europa</h2>
+        <p>Sportsteppen is ontstaan uit de behoefte van professionele biatleten om ook in de zomer te trainen. In Tsjechië is het inmiddels erg populair en wordt het steeds vaker aangeraden door zorgprofessionals – vanwege de voordelen voor de gezondheid en bij revalidatie.</p>
+        <p>Nederland is een stepland bij uitstek: vlak, vol fietspaden, parken en duinen. Alleen is het steppen hier wat in de vergetelheid geraakt. Daar brengen we verandering in.</p>
       </div>
-      <Photo src={imgGroep} alt="Společná jízda na sportovních koloběžkách po cyklostezce" ratio="4 / 5" position="50% 60%" />
+      <Photo src={imgGroep} alt="Samen steppen over het fietspad" ratio="4 / 5" position="50% 60%" />
     </div>
   </section>
 
   <section class="section section--tint">
     <div class="container narrow">
       <div class="section-head">
-        <span class="eyebrow">Zdraví & časté dotazy</span>
-        <h2>Co lidi zajímá nejčastěji</h2>
+        <span class="eyebrow">Gezondheid & veelgestelde vragen</span>
+        <h2>Wat mensen het vaakst vragen</h2>
       </div>
       <FaqList items={faq} />
-      <p style="margin-top:20px"><a href="/veelgestelde-vragen/">Všechny dotazy <Icon name="arrow" size={16} class="inline-icon" /></a></p>
+      <p style="margin-top:20px"><a href="/veelgestelde-vragen/">Alle vragen <Icon name="arrow" size={16} class="inline-icon" /></a></p>
     </div>
   </section>
 
-  <CtaBand title="Nemusíš být fit, abys začal/a." text="Začínáš proto, abys fit byl/a. Rezervuj si zkušební jízdu a zjisti, jestli je steppen tvůj pohyb." />
+  <CtaBand title="Je hoeft niet fit te zijn om te beginnen." text="Je begint om fitter te worden. Boek een proefrit en ontdek of sportsteppen bij je past." />
 </BaseLayout>
 
 <style>

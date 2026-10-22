@@ -17,42 +17,42 @@ const { mode = 'page' } = Astro.props;
 type Cat = 'recreatief' | 'sport' | 'cross';
 const questions: { q: string; options: { label: string; hint: string; cat: Cat; points: number }[] }[] = [
   {
-    q: 'Kde budeš nejčastěji jezdit?',
+    q: 'Waar ga je het vaakst steppen?',
     options: [
-      { label: 'Cyklostezky, park, město', hint: 'rovné a zpevněné cesty', cat: 'recreatief', points: 2 },
-      { label: 'Delší trasy po asfaltu', hint: 'kilometry v pohybu', cat: 'sport', points: 2 },
-      { label: 'Les, duny, šotolina', hint: 'nezpevněné cesty', cat: 'cross', points: 2 },
+      { label: 'Fietspaden, park, stad', hint: 'vlakke en verharde paden', cat: 'recreatief', points: 2 },
+      { label: 'Langere tochten over asfalt', hint: 'kilometers maken', cat: 'sport', points: 2 },
+      { label: 'Bos, duinen, grind', hint: 'onverharde paden', cat: 'cross', points: 2 },
     ],
   },
   {
-    q: 'Co je tvůj hlavní cíl?',
+    q: 'Wat is je belangrijkste doel?',
     options: [
-      { label: 'Pohyb a pohoda', hint: 'venku, bez stresu', cat: 'recreatief', points: 2 },
-      { label: 'Kondice a trénink', hint: 'chci se zlepšovat', cat: 'sport', points: 2 },
-      { label: 'Dobrodružství a výzva', hint: 'kopce, terén, adrenalin', cat: 'cross', points: 2 },
+      { label: 'Bewegen en ontspannen', hint: 'buiten, zonder stress', cat: 'recreatief', points: 2 },
+      { label: 'Conditie en training', hint: 'ik wil beter worden', cat: 'sport', points: 2 },
+      { label: 'Avontuur en uitdaging', hint: 'heuvels, terrein, adrenaline', cat: 'cross', points: 2 },
     ],
   },
   {
-    q: 'Jaké máš zkušenosti se sportem?',
+    q: 'Hoeveel sportervaring heb je?',
     options: [
-      { label: 'Začínám nebo se vracím', hint: 'třeba po pauze či zranění', cat: 'recreatief', points: 1 },
-      { label: 'Pravidelně sportuji', hint: 'běh, kolo, fitness…', cat: 'sport', points: 1 },
-      { label: 'Jezdím rád v terénu', hint: 'horské kolo, trail', cat: 'cross', points: 1 },
+      { label: 'Ik begin of pak het weer op', hint: 'bijvoorbeeld na een pauze of blessure', cat: 'recreatief', points: 1 },
+      { label: 'Ik sport regelmatig', hint: 'hardlopen, fietsen, fitness…', cat: 'sport', points: 1 },
+      { label: 'Ik rijd graag in het terrein', hint: 'mountainbike, trail', cat: 'cross', points: 1 },
     ],
   },
 ];
 
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 const results: Record<Cat, { name: string; tag: string; text: string; img: ImageMetadata; bg: string }> = {
-  recreatief: { name: 'Rekreační koloběžka', tag: 'Road', text: 'Pohodlná a stabilní – ideální na cyklostezky, výlety a návrat k pohybu bez přetížení.', img: road, bg: '#f4ead6' },
-  sport: { name: 'Sportovní koloběžka', tag: 'Cobra', text: 'Lehká a svižná – pro pravidelný trénink kondice a delší trasy po asfaltu.', img: cobra, bg: '#e6eef7' },
-  cross: { name: 'Terénní koloběžka', tag: 'Cross', text: 'Robustní a odolná – do lesa, dun i na šotolinu, kde běžná koloběžka končí.', img: cross, bg: '#e2f0e7' },
+  recreatief: { name: 'Recreatieve sportstep', tag: 'Road', text: 'Comfortabel en stabiel – ideaal voor fietspaden, tochtjes en weer in beweging komen zonder overbelasting.', img: road, bg: '#f4ead6' },
+  sport: { name: 'Sportieve step', tag: 'Cobra', text: 'Licht en vlot – voor regelmatige conditietraining en langere tochten over asfalt.', img: cobra, bg: '#e6eef7' },
+  cross: { name: 'Terreinstep', tag: 'Cross', text: 'Robuust en sterk – voor bos, duinen en grind, waar een gewone step ophoudt.', img: cross, bg: '#e2f0e7' },
 };
 const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data.availability !== 'uitverkocht');
 ---
 <div class:list={['quiz', { 'quiz--pick': mode === 'pick' }]} data-quiz>
   <div class="quiz__bar" aria-hidden="true"><span data-progress></span></div>
-  <p class="quiz__count" aria-live="polite"><span data-step-label>Otázka 1 ze {questions.length}</span></p>
+  <p class="quiz__count" aria-live="polite"><span data-step-label>Vraag 1 van {questions.length}</span></p>
 
   {questions.map((q, i) => (
     <fieldset class="q" data-q={i} hidden={i > 0}>
@@ -69,7 +69,7 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
           </label>
         ))}
       </div>
-      {i > 0 && <button type="button" class="q__back" data-back>← Zpět</button>}
+      {i > 0 && <button type="button" class="q__back" data-back>← Terug</button>}
     </fieldset>
   ))}
 
@@ -83,12 +83,12 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
           <Image src={r.img} alt={`${r.name} Crussis ${r.tag}`} widths={[400, 700]} sizes="(min-width: 800px) 40vw, 90vw" class="res__img" />
         </div>
         <div class="res__body">
-          <span class="eyebrow">Tvoje koloběžka</span>
+          <span class="eyebrow">Jouw step</span>
           <h2>{r.name} <span>({r.tag})</span></h2>
           <p class="lead">{r.text}</p>
           {models.length > 0 && (
             <>
-              <p class="res__from">od <strong>{formatPrice(from)}</strong> {t('product.inclVat')}</p>
+              <p class="res__from">v.a. <strong>{formatPrice(from)}</strong> {t('product.inclVat')}</p>
               <ul class="res__models">
                 {models.map((m) => (
                   <li>
@@ -101,23 +101,23 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
               </ul>
               {mode === 'pick' ? (
                 <div class="btn-row">
-                  <button type="button" class="btn btn--primary" data-pick={models[0].id}>Vybrat {models[0].data.title}</button>
+                  <button type="button" class="btn btn--primary" data-pick={models[0].id}>Kies {models[0].data.title}</button>
                 </div>
               ) : (
                 <div class="btn-row">
                   <a class="btn btn--primary" href={`/bestellen/?item=${models[0].id}`}>{t('product.order')}</a>
-                  <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
+                  <a class="btn btn--secondary" href={bookingHref}>Eerst uitproberen</a>
                 </div>
               )}
             </>
           )}
-          <p class="res__alt" data-alt hidden>Hodně ti sedí i <a data-alt-link href="#"></a>.</p>
-          <button type="button" class="q__back" data-restart>↺ Zkusit znovu</button>
+          <p class="res__alt" data-alt hidden>Ook een goede match: <a data-alt-link href="#"></a>.</p>
+          <button type="button" class="q__back" data-restart>↺ Opnieuw doen</button>
         </div>
       </section>
     );
   })}
-  <noscript><p>Kvíz potřebuje zapnutý JavaScript. Projdi si raději <a href="/sportsteps/">všechny modely</a>.</p></noscript>
+  <noscript><p>Voor deze test is JavaScript nodig. Bekijk anders <a href="/sportsteps/">alle modellen</a>.</p></noscript>
 </div>
 
 <script>
@@ -125,13 +125,13 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
     const qs = [...root.querySelectorAll<HTMLFieldSetElement>('[data-q]')];
     const progress = root.querySelector<HTMLElement>('[data-progress]')!;
     const label = root.querySelector<HTMLElement>('[data-step-label]')!;
-    const names: Record<string, string> = { recreatief: 'rekreační koloběžka (Road)', sport: 'sportovní koloběžka (Cobra)', cross: 'terénní koloběžka (Cross)' };
+    const names: Record<string, string> = { recreatief: 'de recreatieve step (Road)', sport: 'de sportieve step (Cobra)', cross: 'de terreinstep (Cross)' };
 
     const show = (i: number) => {
       qs.forEach((q, idx) => (q.hidden = idx !== i));
       root.querySelectorAll<HTMLElement>('[data-result]').forEach((r) => (r.hidden = true));
       progress.style.width = `${(i / qs.length) * 100}%`;
-      label.textContent = `Otázka ${i + 1} ze ${qs.length}`;
+      label.textContent = `Vraag ${i + 1} van ${qs.length}`;
       qs[i].querySelector<HTMLInputElement>('input')?.focus({ preventScroll: true });
     };
 
@@ -147,7 +147,7 @@ const byCat = (c: Cat) => products.filter((p) => p.data.category === c && p.data
       const [winner, second] = ranked;
       qs.forEach((q) => (q.hidden = true));
       progress.style.width = '100%';
-      label.textContent = 'Hotovo!';
+      label.textContent = 'Klaar!';
       root.querySelectorAll<HTMLElement>('[data-result]').forEach((r) => {
         const on = r.dataset.result === winner[0];
         r.hidden = !on;

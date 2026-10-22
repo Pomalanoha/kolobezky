@@ -4,11 +4,11 @@ category: recreatief
 price: 329
 priceFrom: true
 order: 1
-summary: Pohodlná rekreační koloběžka pro začátečníky a ty, kdo se k pohybu vracejí.
+summary: Comfortabele recreatieve sportstep voor beginners en herstarters.
 idealFor:
-  - začátečníky a „restartéry“
-  - pohodové výlety po cyklostezkách
-  - každodenní pohyb bez přetížení kolen a zad
+  - beginners en herstarters
+  - ontspannen tochten over fietspaden
+  - dagelijks bewegen zonder je knieën en rug te overbelasten
 variants:
   - Road 4.2-1
   - Road 4.2-2
@@ -18,16 +18,16 @@ gallery:
     alt: Crussis Road 4.2-1
   - src: ../../assets/products/crussis-road-4-2-2.jpg
     alt: Crussis Road 4.2-2
-availability: op-bestelling
+availability: op-voorraad
 ---
 
-Crussis Road je ideální vstup do světa sportsteppen. Je lehká, stabilní a pohodlná – vhodná na klidné, ale i svižnější vyjížďky pro budování kondice.
+De Crussis Road is de ideale instap in de wereld van het sportsteppen. Licht, stabiel en comfortabel – perfect voor rustige maar ook sportieve tochten om je conditie op te bouwen.
 
-**Proč ti bude sedět:**
+**Waarom deze step bij jou past:**
 
-- velmi vhodná pro začátečníky,
-- pohodlný, vzpřímený postoj,
-- lehká a obratná,
-- vhodná pro každodenní použití.
+- zeer geschikt voor beginners,
+- comfortabele, rechtop staande houding,
+- licht en wendbaar,
+- geschikt voor dagelijks gebruik.
 
-Nejsi si jistý/á, jestli je to tvůj model? Rezervuj si nejdřív zkušební jízdu a vyzkoušej si ji.
+Twijfel je of dit jouw model is? Boek eerst een proefrit en ervaar het zelf.

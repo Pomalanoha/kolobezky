@@ -17,16 +17,16 @@ const { location } = Astro.props;
 const { Content } = await render(location);
 const d = location.data;
 const crumbs = [
-  { name: 'Kde jezdíme', href: '/routes/' },
+  { name: 'Waar we steppen', href: '/routes/' },
   { name: d.place, href: `/routes/${location.id}/` },
 ];
 ---
 <BaseLayout title={d.title} description={d.description} jsonLd={breadcrumbSchema(crumbs)}>
   <PageHero eyebrow={d.place} title={d.title} lead={d.description} crumbs={crumbs}>
     <ul class="facts">
-      {d.distance && <li><span>Délka</span><strong>{d.distance}</strong></li>}
-      {d.surface && <li><span>Povrch</span><strong>{d.surface}</strong></li>}
-      <li><span>Úroveň</span><strong>{d.level}</strong></li>
+      {d.distance && <li><span>Afstand</span><strong>{d.distance}</strong></li>}
+      {d.surface && <li><span>Ondergrond</span><strong>{d.surface}</strong></li>}
+      <li><span>Niveau</span><strong>{d.level}</strong></li>
     </ul>
     <Photo slot="aside" src={d.image} alt={d.title} hint={d.imageHint} ratio="4 / 3" />
   </PageHero>
@@ -36,7 +36,7 @@ const crumbs = [
       <div class="prose"><Content /></div>
     </div>
   </section>
-  <CtaBand title={`Vyzkoušej steppen – ${d.place}`} />
+  <CtaBand title={`Probeer sportsteppen – ${d.place}`} />
 </BaseLayout>
 
 <style>

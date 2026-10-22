@@ -8,7 +8,7 @@ export const prerender = false;
 
 const html = (title: string, body: string, status = 400) =>
   new Response(
-    `<!doctype html><html lang="cs"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${title}</title><body style="font-family:system-ui;max-width:560px;margin:48px auto;padding:0 16px;line-height:1.6"><h1>${title}</h1>${body}<p><a href="javascript:history.back()">← Zpět k objednávce</a></p></body></html>`,
+    `<!doctype html><html lang="nl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${title}</title><body style="font-family:system-ui;max-width:560px;margin:48px auto;padding:0 16px;line-height:1.6"><h1>${title}</h1>${body}<p><a href="javascript:history.back()">← Terug naar je bestelling</a></p></body></html>`,
     { status, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
   );
 
@@ -18,7 +18,7 @@ export const POST: APIRoute = async ({ request, locals, url }) => {
   try {
     form = await request.formData();
   } catch {
-    return wantsJson ? Response.json({ ok: false, message: 'Neplatný požadavek.' }, { status: 400 }) : html('Neplatný požadavek', '');
+    return wantsJson ? Response.json({ ok: false, message: 'Ongeldig verzoek.' }, { status: 400 }) : html('Ongeldig verzoek', '');
   }
 
   // Past na roboty: skryté pole vyplní jen spam.
@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request, locals, url }) => {
   const result = priceOrder(input, await getCatalog());
   if (result.errors) {
     if (wantsJson) return Response.json({ ok: false, errors: result.errors }, { status: 422 });
-    return html('Objednávku je potřeba doplnit', `<ul>${Object.values(result.errors).map((e) => `<li>${e}</li>`).join('')}</ul>`, 422);
+    return html('Je bestelling is nog niet compleet', `<ul>${Object.values(result.errors).map((e) => `<li>${e}</li>`).join('')}</ul>`, 422);
   }
 
   let order;
@@ -38,8 +38,8 @@ export const POST: APIRoute = async ({ request, locals, url }) => {
     order = await createOrder(input, result.order);
   } catch (err) {
     console.error('Order save failed', err);
-    const message = 'Objednávku se nepodařilo uložit. Zkus to prosím za chvíli znovu, nebo napiš Lindě.';
-    return wantsJson ? Response.json({ ok: false, message }, { status: 500 }) : html('Chyba', `<p>${message}</p>`, 500);
+    const message = 'Je bestelling kon niet worden opgeslagen. Probeer het zo opnieuw of neem contact op met Linda.';
+    return wantsJson ? Response.json({ ok: false, message }, { status: 500 }) : html('Er ging iets mis', `<p>${message}</p>`, 500);
   }
 
   // E-maily se odešlou na pozadí, zákazník nečeká.

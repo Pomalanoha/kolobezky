@@ -2,21 +2,25 @@
 title: "Privacybeleid"
 ---
 
-Laatst bijgewerkt: 11.13.2025
+Laatst bijgewerkt: 21 oktober 2026
 
-Kickbike Club Hille, gevestigd in Hoofddorp (Nederland), is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.
+Kickbike Club Hille, gevestigd aan de Dijkzichtlaan 267, 2025 EP Haarlem (Nederland), is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.
 
 ## 1. Contactgegevens
 
 Kickbike Club Hille
 
+Dijkzichtlaan 267, 2025 EP Haarlem
+
 Website: www.kickbikeclubhille.nl
 
-E-mail: kickbikeclubhille@gmail.com
+E-mail: info@kickbikeclubhille.nl
 
 Telefoon: 0647737673
 
 KvK-nummer: 98484419
+
+Btw-identificatienummer: NL005335379B57
 
 ## 2. Persoonsgegevens die wij verwerken
 
@@ -74,11 +78,11 @@ Derden die namens ons gegevens verwerken (zoals boekhoudsoftware, e-mailprovider
 
 ## 7. Cookies en vergelijkbare technieken
 
-Kickbike Club Hille gebruikt alleen technische en functionele cookies en analytische cookies die geen inbreuk maken op jouw privacy.
+Kickbike Club Hille gebruikt alleen technische en functionele cookies. Wij gebruiken geen analytische of tracking cookies en geen Google Analytics.
 
 Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op jouw computer, tablet of smartphone.
 
-Wij gebruiken cookies om de website goed te laten functioneren en om bezoekersgedrag te analyseren via bijvoorbeeld Google Analytics.
+Wij gebruiken deze cookies alleen om de website goed te laten functioneren.
 
 Je kunt je afmelden voor cookies door je internetbrowser zo in te stellen dat deze geen cookies meer opslaat, of door bestaande cookies te verwijderen.
 
@@ -100,13 +104,13 @@ Je hebt het recht om je persoonsgegevens in te zien, te corrigeren of te laten v
 - Bezwaar te maken tegen verwerking van jouw gegevens;
 - Gegevensoverdraagbaarheid te verzoeken (overdracht van gegevens naar jou of een andere organisatie).
 
-Je kunt een verzoek indienen via: [info@kickbikeclubhille.nl]
+Je kunt een verzoek indienen via: info@kickbikeclubhille.nl
 
 Wij reageren binnen vier weken op jouw verzoek.
 
 ## 11. Klachten of vragen
 
-Heb je een klacht over hoe wij met jouw gegevens omgaan? Neem dan eerst contact met ons op via kickbikeclubhille@gmail.com
+Heb je een klacht over hoe wij met jouw gegevens omgaan? Neem dan eerst contact met ons op via info@kickbikeclubhille.nl
 
 Komen we er samen niet uit, dan heb je het recht een klacht in te dienen bij de Autoriteit Persoonsgegevens via www.autoriteitpersoonsgegevens.nl.
 

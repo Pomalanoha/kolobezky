@@ -1,6 +1,6 @@
 # Kickbike Club Hille – nový web (Astro)
 
-Nový web pro [kickbikeclubhille.nl](https://www.kickbikeclubhille.nl/). Zatím **v češtině** (pracovní verze), finálně bude v **holandštině**.
+Nový web pro [kickbikeclubhille.nl](https://www.kickbikeclubhille.nl/). Web je **v holandštině** (`lang: 'nl'` v `src/config.ts`); administrace `/beheer/` a upozornění pro Lindu zůstávají česky.
 
 Analýza současného webu a celý návrh: [docs/ANALYZA-A-NAVRH.md](docs/ANALYZA-A-NAVRH.md)
 

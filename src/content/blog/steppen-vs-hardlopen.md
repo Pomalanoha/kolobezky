@@ -1,33 +1,33 @@
 ---
-title: "Steppen vs. běh: proč je sportovní koloběžka šetrnější ke kloubům"
-description: Běh tě nebaví nebo bolí kolena? Zjisti, v čem je steppen jiné, které svaly zapojuje a proč je vhodné i pro začátečníky a starší sportovce.
+title: "Steppen vs. hardlopen: waarom een sportstep vriendelijker is voor je gewrichten"
+description: Hardlopen is niets voor jou of je knieën protesteren? Ontdek wat steppen anders maakt, welke spieren je gebruikt en waarom het ook geschikt is voor beginners en oudere sporters.
 date: 2026-10-01
-tags: [zdraví, trénink]
+tags: [gezondheid, training]
 image: ../../assets/photos/sportsteppen-in-de-duinen.jpg
 ---
 
-Běh je skvělý sport – ale ne pro každého. Spousta lidí s ním skončí kvůli kolenům, kyčlím nebo zádům. Steppen nabízí podobný trénink kondice, **bez nárazů při dopadu**.
+Hardlopen is een geweldige sport – maar niet voor iedereen. Veel mensen stoppen ermee vanwege hun knieën, heupen of rug. Steppen biedt een vergelijkbare conditietraining, **zonder de klappen bij het neerkomen**.
 
-## Co se při steppen děje
+## Wat er gebeurt tijdens het steppen
 
-Při každém odrazu jedna noha stojí na stupačce a druhá se odráží od země. Odrazová noha pracuje podobně jako při běhu, ale tělo nedopadá celou vahou na zem. Zátěž je tak rozložená plynuleji.
+Bij elke afzet staat het ene been op de treeplank en zet het andere zich af tegen de grond. Het afzetbeen werkt vergelijkbaar met hardlopen, maar je lichaam komt niet met je volle gewicht op de grond neer. De belasting is daardoor veel gelijkmatiger verdeeld.
 
-## Které svaly zapojuješ
+## Welke spieren je gebruikt
 
-- **Nohy a hýždě** – odraz a stabilizace,
-- **střed těla** – udržuješ rovnováhu a vzpřímený postoj,
-- **paže a ramena** – řízení a přenos síly,
-- **srdce a plíce** – vytrvalostní trénink jako při běhu nebo na kole.
+- **benen en billen** – afzetten en stabiliseren,
+- **core** – je houdt je balans en een rechte houding,
+- **armen en schouders** – sturen en krachtoverbrenging,
+- **hart en longen** – duurtraining zoals bij hardlopen of fietsen.
 
-Protože se nohy pravidelně střídají, trénuješ obě strany těla rovnoměrně.
+Omdat je regelmatig van been wisselt, train je beide kanten van je lichaam evenveel.
 
-## Pro koho je steppen ideální
+## Voor wie is steppen ideaal
 
-- pro ty, kdo hledají alternativu k běhu,
-- pro začátečníky a lidi, kteří se k pohybu vracejí,
-- pro starší sportovce, kteří chtějí zůstat fit,
-- pro lidi po zranění (vždy po konzultaci s lékařem nebo fyzioterapeutem).
+- voor wie een alternatief voor hardlopen zoekt,
+- voor beginners en mensen die weer willen gaan bewegen,
+- voor oudere sporters die fit willen blijven,
+- voor mensen na een blessure (altijd in overleg met je arts of fysiotherapeut).
 
-## Jak začít
+## Hoe begin je
 
-Nejlepší je vyzkoušet si to pod vedením. Na **zkušební jízdě** se naučíš správnou techniku odrazu a střídání nohou – a hlavně zjistíš, jestli je to tvůj pohyb.
+Het beste is om het onder begeleiding te proberen. Tijdens een **proefrit** leer je de juiste techniek van afzetten en wisselen – en ontdek je vooral of dit jouw manier van bewegen is.

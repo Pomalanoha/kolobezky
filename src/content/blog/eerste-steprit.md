@@ -1,29 +1,29 @@
 ---
-title: "Tvoje první jízda na sportovní koloběžce: co čekat a co si vzít"
-description: Chystáš se na první zkušební jízdu? Tady je přehled, co tě čeká, co si vzít s sebou a jak se připravit.
+title: "Je eerste rit op een sportstep: wat kun je verwachten en wat neem je mee?"
+description: Ga je voor het eerst een proefrit maken? Hier lees je wat je kunt verwachten, wat je meeneemt en hoe je je voorbereidt.
 date: 2026-08-20
-tags: [začátečníci, praktické]
+tags: [beginners, praktisch]
 image: ../../assets/photos/clubrit-groep.jpg
 ---
 
-Na první jízdu se nemusíš nijak speciálně připravovat. Pár praktických tipů ti ale pomůže, aby sis ji užil/a naplno.
+Voor je eerste rit hoef je je niet speciaal voor te bereiden. Een paar praktische tips helpen je wel om er optimaal van te genieten.
 
-## Jak probíhá zkušební jízda
+## Zo verloopt een proefrit
 
-1. **Seznámení** – krátce probereme tvé cíle a případné zdravotní omezení.
-2. **Vybavení** – vysvětlím koloběžku, brzdy a nastavíme výšku řídítek.
-3. **Technika** – v klidu v parku nacvičíme odraz, střídání nohou a brzdění.
-4. **Vyjížďka** – podle chuti a kondice vyrazíme na kratší okruh.
-5. **Protažení** – na závěr pár cviků na protažení.
+1. **Kennismaking** – we bespreken kort je doelen en eventuele lichamelijke beperkingen.
+2. **Materiaal** – ik leg de step en de remmen uit en we stellen de stuurhoogte in.
+3. **Techniek** – rustig in het park oefenen we de afzet, het wisselen van been en het remmen.
+4. **Rit** – afhankelijk van je zin en conditie maken we een korter rondje.
+5. **Stretchen** – tot slot een paar oefeningen om te rekken en strekken.
 
-## Co si vzít s sebou
+## Wat neem je mee
 
-- sportovní oblečení podle počasí (vrstvy!),
-- pevnou sportovní obuv s plochou podrážkou,
-- láhev s vodou,
-- helmu, pokud máš (jinak se domluvíme),
-- dobrou náladu.
+- sportkleding die past bij het weer (laagjes!),
+- stevige sportschoenen met een vlakke zool,
+- een flesje water,
+- een helm als je die hebt (anders spreken we iets af),
+- een goed humeur.
 
-## Musím být fit?
+## Moet ik fit zijn?
 
-Ne. Nemusíš být fit, abys začal/a – začínáš proto, abys fit byl/a.
+Nee. Je hoeft niet fit te zijn om te beginnen. Je begint om fitter te worden.

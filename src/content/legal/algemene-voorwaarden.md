@@ -10,7 +10,7 @@ In deze voorwaarden wordt verstaan onder:
 
 a. "Klant": de natuurlijk persoon of rechtspersoon die gebruik maakt van diensten of producten van Kickbike Club Hille.
 
-b. "Kickbike Club Hille": de onderneming die optreedt als aanbieder van diensten en producten, gevestigd te Hoofddorp (Nederland).
+b. "Kickbike Club Hille": de onderneming die optreedt als aanbieder van diensten en producten, gevestigd aan de Dijkzichtlaan 267, 2025 EP Haarlem (Nederland), KvK-nummer 98484419, btw-identificatienummer NL005335379B57.
 
 c. "Overeenkomst": elke vorm van afspraak tussen Klant en Kickbike Club Hille betreffende levering van diensten en/of producten.
 

@@ -1,18 +1,21 @@
 // Centrální údaje o webu. Při překladu do NL stačí přepnout `lang` na 'nl'.
 export const site = {
-  lang: 'cs' as 'cs' | 'nl',
+  lang: 'nl' as 'cs' | 'nl',
   name: 'Kickbike Club Hille',
   url: 'https://www.kickbikeclubhille.nl',
   owner: 'Linda Pokorná',
-  email: 'kickbikeclubhille@gmail.com',
+  email: 'info@kickbikeclubhille.nl',
   phone: '+31 6 47737673',
   phoneHref: 'tel:+31647737673',
   whatsapp: 'https://wa.me/31647737673',
   kvk: '98484419',
-  city: 'Hoofddorp',
+  btw: 'NL005335379B57',
+  street: 'Dijkzichtlaan 267',
+  postcode: '2025 EP',
+  city: 'Haarlem',
   region: 'Noord-Holland',
   // Oblast, kde Linda působí – použito v textech i v JSON-LD (areaServed).
-  areaServed: ['Hoofddorp', 'Haarlemmermeer', 'Haarlem', 'Nieuw-Vennep', 'Badhoevedorp', 'Heemstede', 'Zandvoort'],
+  areaServed: ['Haarlem', 'Heemstede', 'Zandvoort', 'Bloemendaal', 'Hoofddorp', 'Haarlemmermeer', 'Velsen'],
   // Odkaz na rezervační systém (Cal.com / Calendly). Prázdné = tlačítka vedou na kontaktní formulář.
   bookingUrl: '',
   social: {
@@ -38,20 +41,20 @@ export const bookingHref = site.bookingUrl || '/contact/?onderwerp=proefrit';
 // Nastavení e-shopu (objednávka s platbou převodem).
 export const shop = {
   orderPrefix: 'KCH',
-  deliveryTime: 'cca do 10 pracovních dnů',
+  deliveryTime: 'binnen ca. 10 werkdagen',
   // Splatnost převodu ve dnech
   paymentDays: 7,
   maxQty: 5,
   // Bankovní spojení pro platbu převodem. Prázdný IBAN = v potvrzení se zobrazí „pošleme e-mailem“.
   bank: {
-    accountName: 'Kickbike Club Hille',
-    iban: '',
+    accountName: 'L. Pokorná',
+    iban: 'NL83 INGB 0112 5440 37',
     bic: '',
   },
-  // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem).
+  // Způsoby předání. price: null = cena zatím není stanovená (upřesní se e-mailem), freeFrom = doprava zdarma od této částky.
   shipping: [
-    { id: 'bezorgen', label: 'Doručení na adresu v Nizozemsku', price: null as number | null, needsAddress: true },
-    { id: 'ophalen', label: 'Vyzvednutí v Hoofddorpu + nastavení koloběžky na míru', price: 0 as number | null, needsAddress: false },
+    { id: 'bezorgen', label: 'Bezorging op een adres in Nederland', price: 35 as number | null, freeFrom: 1000 as number | null, needsAddress: true },
+    { id: 'ophalen', label: 'Ophalen in Haarlem + persoonlijk afsteladvies', price: 0 as number | null, freeFrom: null as number | null, needsAddress: false },
   ],
 };
 
@@ -66,8 +69,8 @@ export const voucher = {
 // Sezónní lišta nahoře na webu (dárkový poukaz). Zobrazí se jen v uvedených obdobích (MM-DD, včetně).
 // Pro náhled mimo sezónu: přidej k adrese ?promo=1
 export const promo = {
-  text: 'Daruj zážitek na koloběžce',
-  cta: 'Dárkový poukaz',
+  text: 'Geef een belevenis op de step cadeau',
+  cta: 'Cadeaubon',
   href: '/cadeaubon/',
   periods: [
     { from: '10-19', to: '12-24', label: 'Sinterklaas a Vánoce' },

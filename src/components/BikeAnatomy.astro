@@ -8,51 +8,51 @@ const points = [
   {
     id: 'kolo',
     x: 86, y: 44,
-    title: 'Velké přední kolo',
-    text: 'Snadno přejede nerovnosti, kořeny i šotolinu a dobře drží rychlost – jízda je plynulá jako na kole.',
-    example: 'Sportovní modely mají přední kolo 26–28". Cross Hard 6.2: 27,5".',
+    title: 'Groot voorwiel',
+    text: 'Rolt makkelijk over oneffenheden, wortels en grind en houdt goed snelheid – je rijdt net zo soepel als op een fiets.',
+    example: 'Sportmodellen hebben een voorwiel van 26–28". Cross Hard 6.2: 27,5".',
   },
   {
     id: 'naslap',
     x: 40, y: 79,
-    title: 'Nízký nášlap',
-    text: 'Stojíš nízko nad zemí, takže se při odrazu méně krčíš. Odraz je úspornější a jízda stabilnější.',
-    example: 'Cross Hard 6.2: světlá výška nášlapu 57 mm, délka 430 mm.',
+    title: 'Lage treeplank',
+    text: 'Je staat laag boven de grond, dus je hoeft minder door je knieën bij het afzetten. Afzetten kost minder energie en je staat stabieler.',
+    example: 'Cross Hard 6.2: bodemvrijheid treeplank 57 mm, lengte 430 mm.',
   },
   {
     id: 'zadni',
     x: 17, y: 58,
-    title: 'Malé zadní kolo',
-    text: 'Díky menšímu zadnímu kolu může být nášlap nízko a koloběžka je obratná i v zatáčkách.',
-    example: 'Všechny sportovní koloběžky Crussis mají zadní kolo 20".',
+    title: 'Klein achterwiel',
+    text: 'Dankzij het kleinere achterwiel kan de treeplank laag liggen en is de step wendbaar in de bocht.',
+    example: 'Alle Crussis sportsteps hebben een achterwiel van 20".',
   },
   {
     id: 'brzdy',
     x: 75, y: 62,
-    title: 'Spolehlivé brzdy',
-    text: 'Brzdy na obou kolech jako u kola. Rekreační modely mají ráfkové brzdy, sportovní a terénní hydraulické kotoučové.',
-    example: 'Cross Hard 6.2: hydraulické kotoučové brzdy, kotouče 180/160 mm.',
+    title: 'Betrouwbare remmen',
+    text: 'Remmen op beide wielen, net als op een fiets. Recreatieve modellen hebben velgremmen, sport- en terreinmodellen hydraulische schijfremmen.',
+    example: 'Cross Hard 6.2: hydraulische schijfremmen, schijven 180/160 mm.',
   },
   {
     id: 'riditka',
     x: 63, y: 15,
-    title: 'Řídítka na míru',
-    text: 'Správná výška řídítek znamená vzpřímený postoj a pohodlné řízení. Při předání ti koloběžku nastavíme.',
-    example: 'Cross Hard 6.2: pro postavu cca 150–195 cm.',
+    title: 'Stuur op maat',
+    text: 'De juiste stuurhoogte zorgt voor een rechte houding en comfortabel sturen. Bij de overdracht stellen we je step voor je af.',
+    example: 'Cross Hard 6.2: voor een lichaamslengte van ca. 150–195 cm.',
   },
   {
     id: 'ram',
     x: 56, y: 42,
-    title: 'Lehký hliníkový rám',
-    text: 'Pevný a lehký rám, který koloběžku snadno uneseš i naložíš do auta.',
-    example: 'Rám z hliníku Alu 6061, hmotnost cca 7,5–9 kg podle modelu (Cross Hard 6.2: 9,08 kg).',
+    title: 'Licht aluminium frame',
+    text: 'Een sterk en licht frame – je tilt de step makkelijk op en zet hem zo in de auto.',
+    example: 'Frame van aluminium (Alu 6061), gewicht ca. 7,5–9 kg afhankelijk van het model (Cross Hard 6.2: 9,08 kg).',
   },
 ];
 ---
 <div class="anatomy" data-anatomy>
   <figure class="anatomy__figure">
     <div class="anatomy__canvas">
-      <Image src={bike} alt="Sportovní koloběžka Crussis Cross Hard 6.2 s vyznačenými částmi" widths={[600, 900, 1300]} sizes="(min-width: 960px) 55vw, 100vw" class="anatomy__img" />
+      <Image src={bike} alt="Sportstep Crussis Cross Hard 6.2 met gemarkeerde onderdelen" widths={[600, 900, 1300]} sizes="(min-width: 960px) 55vw, 100vw" class="anatomy__img" />
       {points.map((p, i) => (
         <button
           type="button"
@@ -67,7 +67,7 @@ const points = [
         </button>
       ))}
     </div>
-    <figcaption>Na fotce Crussis Cross Hard 6.2. Údaje podle výrobce, jednotlivé modely se liší.</figcaption>
+    <figcaption>Op de foto: Crussis Cross Hard 6.2. Gegevens volgens de fabrikant, modellen verschillen onderling.</figcaption>
   </figure>
 
   <ol class="anatomy__list">

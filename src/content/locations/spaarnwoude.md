@@ -1,20 +1,20 @@
 ---
-title: Steppen ve Spaarnwoude
+title: Steppen in Spaarnwoude
 name: Spaarnwoude
 place: Spaarnwoude / Haarlem
-description: Sportsteppen v rekreační oblasti Spaarnwoude mezi Haarlemem a Amsterdamem. Delší okruhy po cyklostezkách pro mírně pokročilé.
+description: Sportsteppen in recreatiegebied Spaarnwoude tussen Haarlem en Amsterdam. Langere rondes over fietspaden voor licht gevorderden.
 distance: 15–30 km
 surface: asfalt
-level: mírně pokročilý
-imageHint: Skupina na koloběžkách na cyklostezce ve Spaarnwoude
+level: gemiddeld
+imageHint: Groep steppers op het fietspad in Spaarnwoude
 verify: true
 order: 2
 ---
 
-Spaarnwoude nabízí dlouhé, rovné cyklostezky kolem jezer a polderů. Ideální místo, když už technika sedí a chceš **budovat kondici** na delších trasách.
+Spaarnwoude biedt lange, vlakke fietspaden langs meren en polders. De ideale plek als de techniek goed zit en je je **conditie wilt opbouwen** op langere afstanden.
 
-## Co tě čeká
+## Wat je kunt verwachten
 
-- delší souvislé úseky – skvělé na vytrvalost,
-- otevřená krajina (počítej s větrem – i to je trénink!),
-- místa na zastávku a občerstvení.
+- lange aaneengesloten stukken – perfect voor je uithoudingsvermogen,
+- open landschap (reken op wind – ook dat is training!),
+- plekken om even te stoppen en iets te drinken.

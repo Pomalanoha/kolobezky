@@ -24,9 +24,9 @@ export function parseVoucherForm(form: FormData):
   const errors: Record<string, string> = {};
   const choice = clean(form.get('bedrag'), 10);
   const amount = choice === 'jine' ? Number.parseInt(clean(form.get('bedrag_vrij'), 6), 10) : Number.parseInt(choice, 10);
-  if (!Number.isFinite(amount)) errors.bedrag = 'Vyber hodnotu poukazu.';
-  else if (choice === 'jine' && (amount < voucher.min || amount > voucher.max)) errors.bedrag_vrij = `Zadej částku mezi ${voucher.min} a ${voucher.max} €.`;
-  else if (choice !== 'jine' && !voucher.amounts.includes(amount)) errors.bedrag = 'Vyber hodnotu poukazu.';
+  if (!Number.isFinite(amount)) errors.bedrag = 'Kies de waarde van de cadeaubon.';
+  else if (choice === 'jine' && (amount < voucher.min || amount > voucher.max)) errors.bedrag_vrij = `Vul een bedrag in tussen € ${voucher.min} en € ${voucher.max}.`;
+  else if (choice !== 'jine' && !voucher.amounts.includes(amount)) errors.bedrag = 'Kies de waarde van de cadeaubon.';
 
   const recipient = clean(form.get('ontvanger'), 60);
   const message = clean(form.get('boodschap'), 200);
@@ -44,10 +44,10 @@ export function parseVoucherForm(form: FormData):
     note: '',
     terms: form.get('terms') === 'on',
   };
-  if (input.name.length < 2) errors.naam = 'Vyplň své jméno a příjmení.';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email)) errors.email = 'Zadej platný e-mail – poukaz ti pošleme na něj.';
-  if (input.phone && !/^[+\d][\d\s()-]{6,}$/.test(input.phone)) errors.telefoon = 'Telefon zadej jen číslicemi.';
-  if (!input.terms) errors.terms = 'Pro objednání je potřeba souhlasit s obchodními podmínkami.';
+  if (input.name.length < 2) errors.naam = 'Vul je voor- en achternaam in.';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email)) errors.email = 'Vul een geldig e-mailadres in – daar sturen we de cadeaubon naartoe.';
+  if (input.phone && !/^[+\d][\d\s()-]{6,}$/.test(input.phone)) errors.telefoon = 'Vul je telefoonnummer in met cijfers.';
+  if (!input.terms) errors.terms = 'Om te bestellen moet je akkoord gaan met de algemene voorwaarden.';
   if (Object.keys(errors).length) return { errors };
 
   const cents = toCents(amount);
@@ -55,11 +55,11 @@ export function parseVoucherForm(form: FormData):
     errors: null,
     input,
     priced: {
-      lines: [{ key: `voucher:${amount}`, title: `Dárkový poukaz ${amount} €`, qty: 1, unitCents: cents, totalCents: cents }],
+      lines: [{ key: `voucher:${amount}`, title: `Cadeaubon € ${amount}`, qty: 1, unitCents: cents, totalCents: cents }],
       subtotalCents: cents,
       shippingCents: 0,
       totalCents: cents,
-      shippingLabel: 'Poukaz e-mailem (k vytištění)',
+      shippingLabel: 'Cadeaubon per e-mail (om te printen)',
     },
     meta: {
       type: 'voucher',

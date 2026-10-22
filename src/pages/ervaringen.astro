@@ -9,21 +9,21 @@ import imgGroep from '../assets/photos/clubrit-groep.jpg';
 import CtaBand from '../components/CtaBand.astro';
 import { breadcrumbSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Reference', href: '/ervaringen/' }];
+const crumbs = [{ name: 'Ervaringen', href: '/ervaringen/' }];
 ---
 <BaseLayout
-  title="Zkušenosti klientů se sportsteppen"
-  description="Přečti si, co říkají klienti o zkušebních jízdách a workshopech sportsteppen s Lindou – v parku, lese i v dunách u moře."
+  title="Ervaringen met sportsteppen"
+  description="Lees wat klanten vinden van de proefritten en workshops sportsteppen met Linda – in het park, het bos en in de duinen aan zee."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Reference" title="Co říkají ti, kdo to zkusili" lead="Zkušební jízdy, workshopy a výlety přes duny až k moři – takhle je zažili naši klienti." crumbs={crumbs} />
+  <PageHero eyebrow="Ervaringen" title="Wat anderen ervan vinden" lead="Proefritten, workshops en tochten door de duinen naar zee – zo hebben onze klanten het beleefd." crumbs={crumbs} />
   <section class="section" style="padding-top:0">
     <div class="container">
       <Todo>Napojit Google recenze (po založení Google Bedrijfsprofiel) a přidat fotky klientů se souhlasem.</Todo>
       <Testimonials />
       <div class="grid grid--2" style="margin-top:28px">
-        <Photo src={imgDuinen} alt="Workshop sportsteppen v dunách" ratio="4 / 3" />
-        <Photo src={imgGroep} alt="Seznamovací jízda na sportovních koloběžkách" ratio="4 / 3" position="50% 65%" />
+        <Photo src={imgDuinen} alt="Workshop sportsteppen in de duinen" ratio="4 / 3" />
+        <Photo src={imgGroep} alt="Kennismakingsrit op sportsteps" ratio="4 / 3" position="50% 65%" />
       </div>
     </div>
   </section>

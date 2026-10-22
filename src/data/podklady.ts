@@ -1,6 +1,6 @@
 // Seznam podkladů a kontrol pro Lindu (stránka /podklady/). Stav odpovědí je v databázi (tabulka checklist).
 // Odkazy v kontrolní části vedou na holandský náhled webu.
-export const CHECKLIST_PREVIEW = 'https://dev-nl-kolobezky.vesely-naj.workers.dev';
+export const CHECKLIST_PREVIEW = 'https://kolobezky.vesely-naj.workers.dev';
 
 export interface ChecklistItem {
   id: string;

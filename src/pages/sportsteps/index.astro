@@ -11,13 +11,13 @@ import { bookingHref, site } from '../../config';
 import { t } from '../../i18n/ui';
 import { breadcrumbSchema } from '../../lib/schema';
 
-const crumbs = [{ name: 'Koloběžky', href: '/sportsteps/' }];
+const crumbs = [{ name: 'Sportsteps', href: '/sportsteps/' }];
 const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
 
 const groups = [
-  { id: 'recreatief', title: 'Rekreační', text: 'Pro začátečníky a pohodové výlety. Pohodlný postoj, stabilita, lehké ovládání.', icon: 'sun' },
-  { id: 'sport', title: 'Sportovní', text: 'Pro trénink kondice a delší trasy. Lepší přenos síly, svižná jízda.', icon: 'bolt' },
-  { id: 'cross', title: 'Terénní', text: 'Do lesa, dun a na šotolinu. Robustní konstrukce pro výzvy.', icon: 'route' },
+  { id: 'recreatief', title: 'Recreatief', text: 'Voor beginners en ontspannen tochten. Comfortabele houding, stabiel en makkelijk te besturen.', icon: 'sun' },
+  { id: 'sport', title: 'Sportief', text: 'Voor conditietraining en langere afstanden. Betere krachtoverbrenging, vlot rijden.', icon: 'bolt' },
+  { id: 'cross', title: 'Terrein', text: 'Voor bos, duinen en grind. Robuust gebouwd voor een uitdaging.', icon: 'route' },
 ] as const;
 
 const listSchema = {
@@ -32,15 +32,15 @@ const listSchema = {
 };
 ---
 <BaseLayout
-  title="Sportovní koloběžky Crussis – Road, Cobra, Cross"
-  description="Sportovní koloběžky Crussis s osobním poradenstvím: rekreační Road, sportovní Cobra a terénní Cross. Vyzkoušej si je nejdřív na zkušební jízdě v Hoofddorpu."
+  title="Sportstep kopen – Crussis Road, Cobra en Cross"
+  description="Crussis sportsteps met persoonlijk advies: de recreatieve Road, de sportieve Cobra en de Cross voor het terrein. Probeer ze eerst uit tijdens een gratis proefrit in Haarlem."
   jsonLd={[breadcrumbSchema(crumbs), listSchema]}
 >
-  <PageHero eyebrow="Koloběžky Crussis" title="Najdi koloběžku, která sedí tobě" lead="Sportovní koloběžky českého výrobce Crussis jsou navržené pro dospělé jezdce – na rovné městské ulice i nezpevněné cesty. Kvalitní zpracování, pevná konstrukce, nízká hmotnost a pohodlná jízda." crumbs={crumbs}>
+  <PageHero eyebrow="Crussis sportsteps" title="Vind de step die bij jou past" lead="De sportsteps van de Tsjechische fabrikant Crussis zijn ontworpen voor volwassen rijders – voor vlakke stadsstraten én onverharde wegen. Hoogwaardige afwerking, een solide constructie, een laag gewicht en comfortabele rijeigenschappen." crumbs={crumbs}>
     <div class="btn-row">
-      <a class="btn btn--primary" href="/bestellen/">Objednat online</a>
-      <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
-      <a class="btn btn--secondary" href="/welke-step/">Kvíz: která je pro mě?</a>
+      <a class="btn btn--primary" href="/bestellen/">Online bestellen</a>
+      <a class="btn btn--secondary" href={bookingHref}>Eerst uitproberen</a>
+      <a class="btn btn--secondary" href="/welke-step/">Test: welke past bij mij?</a>
     </div>
   </PageHero>
 
@@ -70,9 +70,9 @@ const listSchema = {
   <section class="section section--tint" id="anatomie">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Anatomie sportovní koloběžky</span>
-        <h2>Co dělá sportovní koloběžku sportovní</h2>
-        <p class="lead">Klikni na čísla na fotce a zjisti, proč se na velké koloběžce jede tak plynule – a čím se liší od dětské nebo městské koloběžky.</p>
+        <span class="eyebrow">Anatomie van een sportstep</span>
+        <h2>Wat een sportstep zo sportief maakt</h2>
+        <p class="lead">Klik op de nummers op de foto en ontdek waarom je op een grote step zo soepel rijdt – en wat het verschil is met een kinder- of stadsstep.</p>
       </div>
       <BikeAnatomy />
     </div>
@@ -81,27 +81,27 @@ const listSchema = {
   <section class="section">
     <div class="container split">
       <div>
-        <span class="eyebrow">Proč u nás</span>
-        <h2>Ne anonymní e-shop, ale osobní poradenství</h2>
+        <span class="eyebrow">Waarom bij ons</span>
+        <h2>Geen anonieme webshop, maar persoonlijk advies</h2>
         <ul class="checklist">
-          <li>před nákupem si koloběžku vyzkoušíš</li>
-          <li>poradím s modelem podle tvých cílů a tras</li>
-          <li>koloběžku ti nastavím na míru</li>
-          <li>vysvětlím údržbu</li>
-          <li>jako zákazník jezdíš zdarma s klubem</li>
+          <li>je probeert de step uit voordat je hem koopt</li>
+          <li>ik adviseer je over het model op basis van je doelen en routes</li>
+          <li>ik stel de step voor je af</li>
+          <li>ik leg het onderhoud uit</li>
+          <li>als klant step je gratis mee met de club</li>
         </ul>
-        <p>Kromě modelů v nabídce jsou k dispozici i další barevné varianty – <a href="/contact/?onderwerp=sportstep">zeptej se</a>. Objednávka je jednoduchá: vybereš model, vyplníš adresu a zaplatíš převodem.</p>
+        <p>Naast de modellen in het aanbod zijn er nog andere kleurvarianten beschikbaar – <a href="/contact/?onderwerp=sportstep">vraag ernaar</a>. Bestellen is eenvoudig: je kiest een model, vult je adres in en betaalt per overboeking.</p>
       </div>
       <div class="card">
-        <h3>Dobré vědět</h3>
-        <p>Koloběžky Crussis mají rám z hliníku, oceli nebo karbonu a klasické ráfkové brzdy Tektro – dokonce s integrovaným zvonkem. Jako většina sportovních koloběžek nejsou skládací.</p>
-        <p>Stojánek není součástí výbavy – dá se dokoupit spolu s dalším <a href="/accessoires/">příslušenstvím</a>.</p>
+        <h3>Goed om te weten</h3>
+        <p>Crussis-steps hebben een frame van aluminium, staal of carbon en klassieke Tektro-velgremmen – zelfs met een geïntegreerde bel. Zoals de meeste sportsteps zijn ze niet inklapbaar.</p>
+        <p>Een standaard is niet standaard meegeleverd – die kun je apart bestellen, net als andere <a href="/accessoires/">accessoires</a>.</p>
         <a class="btn btn--secondary" href="/accessoires/">{t('footer.accessories')}</a>
       </div>
     </div>
   </section>
 
-  <CtaBand title="Nevíš, který model je pro tebe?" text="Na zkušební jízdě si vyzkoušíš Road, Cobra i Cross a za hodinu budeš vědět, který ti sedí." />
+  <CtaBand title="Twijfel je welk model bij je past?" text="Tijdens een proefrit probeer je de Road, Cobra en Cross uit – en binnen een uur weet je welke bij je past." />
 </BaseLayout>
 
 <style>

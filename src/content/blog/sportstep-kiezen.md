@@ -1,33 +1,33 @@
 ---
-title: "Jak vybrat sportovní koloběžku: Road, Cobra nebo Cross?"
-description: Průvodce výběrem sportovní koloběžky Crussis. Rozdíly mezi rekreačními, sportovními a terénními modely – a proč si ji nejdřív vyzkoušet.
+title: "Welke sportstep kies je: Road, Cobra of Cross?"
+description: Keuzehulp voor een sportstep van Crussis. De verschillen tussen recreatieve, sportieve en terreinsteps – en waarom je er eerst een proefrit op maakt.
 date: 2026-09-15
-tags: [koloběžky, výběr]
+tags: [steps, keuzehulp]
 image: ../../assets/photos/crussis-cross-detail-bos.jpg
 ---
 
-Sportovní koloběžky vypadají na první pohled podobně. Rozdíl ale poznáš hned po prvních metrech. Jak vybrat tu pravou?
+Sportsteps lijken op het eerste gezicht op elkaar. Het verschil merk je echter al na de eerste meters. Hoe kies je de juiste?
 
-## 1. Kde budeš jezdit?
+## 1. Waar ga je steppen?
 
-| Kde jezdíš | Doporučený typ |
+| Waar je rijdt | Aanbevolen type |
 |---|---|
-| Cyklostezky, park, město | **Road** (rekreační) |
-| Delší trasy po asfaltu, trénink | **Cobra** (sportovní) |
-| Les, duny, šotolina | **Cross** (terénní) |
+| Fietspaden, park, stad | **Road** (recreatief) |
+| Langere tochten over asfalt, training | **Cobra** (sportief) |
+| Bos, duinen, grind | **Cross** (terrein) |
 
-## 2. Co je tvůj cíl?
+## 2. Wat is je doel?
 
-- **Pohyb a pohoda** → Road. Pohodlný postoj, stabilita, snadné ovládání.
-- **Kondice a trénink** → Cobra. Lepší přenos síly, svižnější jízda.
-- **Výzva a dobrodružství** → Cross. Robustní konstrukce do terénu.
+- **Bewegen en ontspannen** → Road. Comfortabele houding, stabiel, makkelijk te besturen.
+- **Conditie en training** → Cobra. Betere krachtoverbrenging, vlotter rijden.
+- **Uitdaging en avontuur** → Cross. Robuust gebouwd voor het terrein.
 
-## 3. Na čem záleží při nastavení
+## 3. Waar het op aankomt bij het afstellen
 
-Správná výška řídítek a správný postoj rozhodují o tom, jestli tě jízda bude bavit i po hodině. Proto ke každé koloběžce koupené u nás patří **osobní nastavení na míru**.
+De juiste stuurhoogte en een goede houding bepalen of je na een uur nog steeds plezier hebt. Daarom hoort bij elke step die je bij ons koopt een **persoonlijk afsteladvies**.
 
-## Tip: nejdřív vyzkoušej
+## Tip: probeer eerst
 
-Než si koloběžku koupíš, vyzkoušej si na zkušební jízdě různé typy. Za hodinu budeš přesně vědět, který ti sedí.
+Probeer voordat je een step koopt tijdens een proefrit verschillende types uit. Binnen een uur weet je precies welke bij je past.
 
-A pokud chceš rychlé doporučení hned teď, udělej si náš [30sekundový kvíz „Která koloběžka je pro mě?“](/welke-step/).
+Wil je meteen een advies? Doe onze [keuzetest van 30 seconden: „Welke step past bij mij?”](/welke-step/).

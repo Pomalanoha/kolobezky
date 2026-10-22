@@ -6,25 +6,24 @@ import imgGroep from '../assets/photos/clubrit-groep.jpg';
 import imgDuinen from '../assets/photos/sportsteppen-in-de-duinen.jpg';
 import Icon from '../components/Icon.astro';
 import Testimonials from '../components/Testimonials.astro';
-import Todo from '../components/Todo.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { breadcrumbSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Klub', href: '/club/' }];
+const crumbs = [{ name: 'Club', href: '/club/' }];
 const points = [
-  { icon: 'users', title: 'Společné jízdy', text: 'Pravidelné klubové vyjížďky v okolí Hoofddorpu, Haarlemu a v dunách.' },
-  { icon: 'bolt', title: 'Tréninky', text: 'Vyhlášené tréninky techniky a kondice pro všechny úrovně.' },
-  { icon: 'route', title: 'Nové trasy', text: 'Objevuj nová místa, kam by ses sám/sama nevydal/a.' },
-  { icon: 'heart', title: 'Parta', text: 'Potkáš další sportsteppers, sdílíš zkušenosti a motivuješ se navzájem.' },
+  { icon: 'users', title: 'Samen steppen', text: 'Clubritten en tochten rond Haarlem, Heemstede en in de duinen.' },
+  { icon: 'bolt', title: 'Trainingen', text: 'Aangekondigde trainingen in techniek en conditie voor elk niveau.' },
+  { icon: 'route', title: 'Nieuwe routes', text: 'Ontdek nieuwe plekken – en train samen voor een steptocht door Europa.' },
+  { icon: 'heart', title: 'Gezelligheid', text: 'Je ontmoet andere sportsteppers, deelt ervaringen en motiveert elkaar.' },
 ] as const;
 ---
 <BaseLayout
-  title="Klub sportsteppen – společné jízdy v Haarlemmermeer"
-  description="Kickbike Club Hille: společné klubové jízdy a tréninky sportsteppen v okolí Hoofddorpu, Haarlemu a v dunách. Pro zákazníky zdarma."
+  title="Stepclub – samen sportsteppen rond Haarlem"
+  description="Kickbike Club Hille: clubritten en trainingen sportsteppen rond Haarlem, Heemstede en in de duinen. Gratis voor clubleden."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Kickbike Club Hille" title="Tvoje koloběžka. Tvoje tempo. Tvůj klub." lead="Koupí koloběžky to nekončí. Jako zákazník se můžeš zdarma přidat ke klubovým jízdám a vyhlášeným tréninkům – potkáš další sportsteppers, nasbíráš zkušenosti a objevíš nové trasy." crumbs={crumbs}>
-    <Photo slot="aside" src={imgGroep} alt="Klubová jízda na sportovních koloběžkách" ratio="4 / 5" position="50% 60%" priority />
+  <PageHero eyebrow="Kickbike Club Hille" title="Jouw step. Jouw tempo. Jouw club." lead="Een sportstep kopen is pas het begin. Als klant doe je gratis mee aan clubritten en aangekondigde trainingen – zo ontmoet je andere sportsteppers, doe je ervaring op en ontdek je nieuwe routes." crumbs={crumbs}>
+    <Photo slot="aside" src={imgGroep} alt="Clubrit op sportsteps" ratio="4 / 5" position="50% 60%" priority />
   </PageHero>
 
   <section class="section" style="padding-top:0">
@@ -44,25 +43,26 @@ const points = [
   <section class="section section--tint">
     <div class="container split">
       <div>
-        <span class="eyebrow">Jak se přidat</span>
-        <h2>Kdy a kde jezdíme</h2>
-        <Todo>Doplnit: jak často jsou klubové jízdy (např. 1× týdně / 2× měsíčně), den a čas, místo srazu, úrovně, jak se přihlásit (WhatsApp skupina?). Zvážit i placené členství pro ty, kdo koloběžku koupili jinde.</Todo>
+        <span class="eyebrow">Meedoen</span>
+        <h2>Wanneer en waar we steppen</h2>
         <ul class="checklist">
-          <li>klubové jízdy a vyhlášené tréninky jsou pro zákazníky e-shopu zdarma</li>
-          <li>potkáš další sportsteppers a nasbíráš zkušenosti</li>
-          <li>objevíš nové trasy v okolí</li>
+          <li>koop je een step via de webshop, dan word je clublid en kom je in onze clubgroep, waarin we ritten en trainingen aankondigen</li>
+          <li>clubritten en groepstrainingen zijn gratis voor clubleden – bij tochten verder weg betaal je alleen eventueel vervoer of overnachting</li>
+          <li>geen clublid? Doe mee aan een groepstraining voor € 25 per persoon, met je eigen step</li>
+          <li>heb je je step ergens anders gekocht? Kom naar een privéles of workshop en leer ons kennen</li>
         </ul>
-        <a class="btn btn--primary" href="/contact/?onderwerp=club">Chci se přidat</a>
+        <p>We spreken per rit af waar we starten – meestal in en rond Haarlem, Heemstede of Zandvoort.</p>
+        <a class="btn btn--primary" href="/contact/?onderwerp=club">Ik wil meedoen</a>
       </div>
-      <Photo src={imgDuinen} alt="Sportsteppen v dunách" ratio="4 / 3" />
+      <Photo src={imgDuinen} alt="Sportsteppen in de duinen" ratio="4 / 3" />
     </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Ze sedla</span>
-        <h2>Zážitky členů a klientů</h2>
+        <span class="eyebrow">Ervaringen</span>
+        <h2>Ervaringen van leden en klanten</h2>
       </div>
       <Testimonials />
     </div>

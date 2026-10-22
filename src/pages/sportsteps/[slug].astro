@@ -20,13 +20,13 @@ export const getStaticPaths = (async () => {
 const { product } = Astro.props;
 const { Content } = await render(product);
 const d = product.data;
-const labels = { recreatief: 'Rekreační koloběžka', sport: 'Sportovní koloběžka', cross: 'Terénní koloběžka' } as const;
+const labels = { recreatief: 'Recreatieve sportstep', sport: 'Sportieve step', cross: 'Terreinstep' } as const;
 const tones = { recreatief: 'sand', sport: 'forest', cross: 'orange' } as const;
 
 const related = (await getCollection('products')).filter((p) => p.id !== product.id && p.data.category === d.category).slice(0, 3);
 
 const crumbs = [
-  { name: 'Koloběžky', href: '/sportsteps/' },
+  { name: 'Sportsteps', href: '/sportsteps/' },
   { name: d.title, href: `/sportsteps/${product.id}/` },
 ];
 
@@ -36,7 +36,7 @@ const productSchema = {
   name: d.title,
   description: d.summary,
   brand: { '@type': 'Brand', name: 'Crussis' },
-  category: 'Sportovní koloběžka',
+  category: 'Sportstep',
   ...(d.image ? { image: new URL(d.image.src, site.url).href } : {}),
   offers: {
     '@type': 'Offer',
@@ -50,7 +50,7 @@ const productSchema = {
 ---
 <BaseLayout
   title={`${d.title} – ${labels[d.category].toLowerCase()} Crussis`}
-  description={`${d.summary} Cena ${d.priceFrom ? 'od ' : ''}${d.price} € vč. DPH. Vyzkoušej si ji nejdřív na zkušební jízdě v Hoofddorpu.`}
+  description={`${d.summary} Prijs ${d.priceFrom ? 'v.a. ' : ''}€ ${d.price} incl. btw. Probeer hem eerst uit tijdens een gratis proefrit in Haarlem.`}
   type="product"
   jsonLd={[breadcrumbSchema(crumbs), productSchema]}
 >
@@ -59,9 +59,9 @@ const productSchema = {
       <Breadcrumbs items={crumbs} />
       <div class="pp">
         <div class="pp__media">
-          <Photo src={d.image} alt={`${d.title} – sportovní koloběžka Crussis`} hint={d.imageHint} ratio="4 / 3" fit="contain" tone={tones[d.category]} priority />
+          <Photo src={d.image} alt={`${d.title} – Crussis sportstep`} hint={d.imageHint} ratio="4 / 3" fit="contain" tone={tones[d.category]} priority />
           {d.gallery.length > 1 && (
-            <ul class="pp__gallery" aria-label="Varianty">
+            <ul class="pp__gallery" aria-label="Varianten">
               {d.gallery.map((g) => (
                 <li>
                   <Photo src={g.src} alt={g.alt} ratio="4 / 3" fit="contain" sizes="200px" widths={[200, 400]} />
@@ -85,7 +85,7 @@ const productSchema = {
           </div>
 
           {d.variants.length > 0 && (
-            <p class="pp__variants"><strong>Varianty:</strong> {d.variants.join(' · ')}</p>
+            <p class="pp__variants"><strong>Varianten:</strong> {d.variants.join(' · ')}</p>
           )}
 
           <div class="btn-row">
@@ -94,36 +94,36 @@ const productSchema = {
             ) : (
               <a class="btn btn--primary" href={`/bestellen/?item=${product.id}`}>{t('product.order')}</a>
             )}
-            <a class="btn btn--secondary" href={bookingHref}>Nejdřív vyzkoušet</a>
+            <a class="btn btn--secondary" href={bookingHref}>Eerst uitproberen</a>
           </div>
-          <p class="pp__shipping">Platba převodem · dodání {shop.deliveryTime} · nebo vyzvednutí v Hoofddorpu s nastavením na míru</p>
+          <p class="pp__shipping">Betalen per overboeking · levering {shop.deliveryTime} · of ophalen in Haarlem met persoonlijk afsteladvies</p>
 
           <div class="pp__box card">
-            <h2>Váháš, jestli je to ta pravá?</h2>
+            <h2>Twijfel je of deze sportstep bij je past?</h2>
             <ul class="checklist">
-              <li>Nemusíš vybírat naslepo – vyzkoušej si steppen nejdřív sám/sama.</li>
-              <li>Získáš osobní radu k výběru modelu.</li>
-              <li>Po nákupu tě rádi přivítáme na klubových jízdách.</li>
+              <li>Je hoeft niet op goed geluk te kiezen – probeer sportsteppen eerst zelf.</li>
+              <li>Je krijgt persoonlijk advies over de modelkeuze.</li>
+              <li>Na aankoop ben je welkom bij de clubactiviteiten.</li>
             </ul>
-            <a class="pp__quiz" href="/welke-step/"><span aria-hidden="true">?</span> Udělej 30sekundový kvíz – který typ ti sedí <Icon name="arrow" size={16} /></a>
+            <a class="pp__quiz" href="/welke-step/"><span aria-hidden="true">?</span> Doe de test van 30 seconden – welk type past bij je <Icon name="arrow" size={16} /></a>
           </div>
         </div>
       </div>
 
       <div class="pp__details">
         <div class="prose">
-          <h2>O modelu</h2>
+          <h2>Over dit model</h2>
           <Content />
         </div>
         <aside>
           {d.idealFor.length > 0 && (
             <div class="card">
-              <h3>Ideální pro</h3>
+              <h3>Ideaal voor</h3>
               <ul class="checklist">{d.idealFor.map((i) => <li>{i}</li>)}</ul>
             </div>
           )}
           <div class="card">
-            <h3>Parametry</h3>
+            <h3>Specificaties</h3>
             {Object.keys(d.specs).length > 0 ? (
               <dl class="specs">
                 {Object.entries(d.specs).map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
@@ -140,11 +140,11 @@ const productSchema = {
   {related.length > 0 && (
     <section class="section section--tint">
       <div class="container">
-        <h2>Podobné modely</h2>
+        <h2>Vergelijkbare modellen</h2>
         <div class="grid grid--3">
           {related.map((p) => <ProductCard product={p} />)}
         </div>
-        <p style="margin-top:24px"><a href="/sportsteps/">Všechny koloběžky <Icon name="arrow" size={16} class="inline-icon" /></a></p>
+        <p style="margin-top:24px"><a href="/sportsteps/">Alle sportsteps <Icon name="arrow" size={16} class="inline-icon" /></a></p>
       </div>
     </section>
   )}

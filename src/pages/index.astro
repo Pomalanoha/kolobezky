@@ -20,24 +20,24 @@ import { businessSchema } from '../lib/schema';
 const faq = (await getCollection('faq')).filter((f) => ['fit-zijn', 'eigen-step', 'knieen', 'welk-model'].includes(f.id));
 
 const pains = [
-  'posilovna ti nesedí',
-  'běh není úplně ono',
-  'chceš si vybudovat nebo udržet kondici',
-  'vracíš se k pohybu po zranění',
-  'rád/a se hýbeš venku',
+  'de sportschool past niet bij je',
+  'hardlopen is het net niet',
+  'je wilt conditie opbouwen of behouden',
+  'je bent aan het revalideren',
+  'je houdt van bewegen in de buitenlucht',
 ];
 
 const benefits = [
-  { icon: 'heart', title: 'Lepší kondice', text: 'Vytrvalostní trénink pro srdce a plíce – jako běh nebo kolo.', bg: '#ffe6d9', fg: '#c2410c' },
-  { icon: 'users', title: 'Celé tělo', text: 'Nohy, hýždě, střed těla i paže. Tělo se zpevní rovnoměrně.', bg: '#e6eef7', fg: '#1e40af' },
-  { icon: 'joint', title: 'Šetrné ke kloubům', text: 'Žádné nárazy jako při běhu. Pro kolena, kyčle i záda.', bg: '#dcefe5', fg: '#1d5a46' },
-  { icon: 'leaf', title: 'Venku v přírodě', text: 'Park, les, duny, pláž – místo klimatizované posilovny.', bg: '#f4ead6', fg: '#8a6116' },
+  { icon: 'heart', title: 'Betere conditie', text: 'Duurtraining voor hart en longen – net als hardlopen of fietsen.', bg: '#ffe6d9', fg: '#c2410c' },
+  { icon: 'users', title: 'Je hele lichaam', text: 'Benen, billen, core en armen. Je hele lichaam wordt sterker.', bg: '#e6eef7', fg: '#1e40af' },
+  { icon: 'joint', title: 'Gewrichtsvriendelijk', text: 'Geen schokken zoals bij hardlopen. Fijn voor knieën, heupen en rug.', bg: '#dcefe5', fg: '#1d5a46' },
+  { icon: 'leaf', title: 'Buiten in de natuur', text: 'Park, bos, duinen, strand – in plaats van een sportschool met airco.', bg: '#f4ead6', fg: '#8a6116' },
 ] as const;
 ---
 <BaseLayout
-  title="Sportsteppen v Hoofddorpu – zkušební jízda & koloběžky | Kickbike Club Hille"
+  title="Sportsteppen in Haarlem – proefrit, lessen & sportsteps | Kickbike Club Hille"
   fullTitle
-  description="Sportsteppen v Hoofddorpu a okolí (Haarlemmermeer, Haarlem, duny). Vyzkoušej sportovní koloběžku na zkušební jízdě s Lindou, vyber si model Crussis a jezdi s klubem."
+  description="Sportsteppen in Haarlem en omgeving (Heemstede, Zandvoort, de duinen). Probeer een sportstep tijdens een gratis proefrit met Linda, kies je Crussis-model en step mee met de club."
   jsonLd={businessSchema()}
 >
   <HomeHero />
@@ -46,12 +46,12 @@ const benefits = [
   <section class="section section--tint intro">
     <div class="container split">
       <div>
-        <span class="eyebrow">Poznáváš se?</span>
-        <h2>Hledáš pohyb, který tě bude bavit?</h2>
+        <span class="eyebrow">Herken je dit?</span>
+        <h2>Op zoek naar een workout die je leuk vindt?</h2>
         <ul class="checklist">
           {pains.map((p) => <li>{p}</li>)}
         </ul>
-        <p class="lead">Pak je <a href="/sportsteppen/">sportsteppen</a> překvapivě dobré řešení. Nemusíš být fit, abys začal/a – začínáš proto, abys fit byl/a.</p>
+        <p class="lead">Dan is <a href="/sportsteppen/">sportsteppen</a> een verrassend goede oplossing. Je hoeft niet fit te zijn om te beginnen – je begint om fitter te worden.</p>
       </div>
       <div class="benefits">
         {benefits.map((b, i) => (
@@ -72,11 +72,11 @@ const benefits = [
     <div class="container">
       <div class="section-head head-row">
         <div>
-          <span class="eyebrow">Koloběžky Crussis</span>
-          <h2>Tři styly, jedna radost z jízdy</h2>
-          <p class="lead">Kvalitní sportovní koloběžky českého výrobce. Poradím ti, která sedí tobě – a nastavím ji na míru.</p>
+          <span class="eyebrow">Crussis sportsteps</span>
+          <h2>Drie stijlen, één en al rijplezier</h2>
+          <p class="lead">Kwalitatieve sportsteps van een Tsjechische fabrikant. Ik adviseer je welke bij je past – en stel hem op maat af.</p>
         </div>
-        <a href="/sportsteps/" class="btn btn--secondary">Všechny modely</a>
+        <a href="/sportsteps/" class="btn btn--secondary">Alle modellen</a>
       </div>
       <ModelPicker />
     </div>
@@ -86,8 +86,8 @@ const benefits = [
   <section class="section section--tint">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Takhle to vypadá venku</span>
-        <h2>Čerstvý vzduch, vítr ve vlasech a parta</h2>
+        <span class="eyebrow">Zo ziet het eruit</span>
+        <h2>Frisse lucht, wind door je haren en gezelligheid</h2>
       </div>
       <Bento />
     </div>
@@ -98,12 +98,12 @@ const benefits = [
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Try, Buy &amp; Join</span>
-        <h2>Nejdřív vyzkoušej. Pak jezdi sám. A pak spolu.</h2>
-        <p class="lead">Žádný nákup naslepo. Koloběžku si nejdřív vyzkoušíš s osobním vedením – a po nákupu nejsi sám.</p>
+        <h2>Eerst proberen. Dan zelf steppen. En samen op pad!</h2>
+        <p class="lead">Geen aankoop op goed geluk. Je probeert de step eerst uit met persoonlijke begeleiding – en na de aankoop sta je er niet alleen voor.</p>
       </div>
       <TryBuyJoin />
       <div class="btn-row" style="margin-top:32px">
-        <a class="btn btn--primary" href="/proefrit-en-lessen/">Zkušební jízda & lekce <Icon name="arrow" size={18} /></a>
+        <a class="btn btn--primary" href="/proefrit-en-lessen/">Proefrit & lessen <Icon name="arrow" size={18} /></a>
       </div>
     </div>
   </section>
@@ -112,9 +112,9 @@ const benefits = [
   <section class="section">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Kde jezdíme</span>
-        <h2>Od parku v Hoofddorpu až k moři</h2>
-        <p class="lead">Začínáme v klidu v parku. Když technika sedí, vyrazíme na delší trasy – třeba přes duny až na pláž v Zandvoortu.</p>
+        <span class="eyebrow">Waar we steppen</span>
+        <h2>Van het park tot aan zee</h2>
+        <p class="lead">We beginnen rustig in het park. Zit de techniek goed, dan gaan we voor langere routes – bijvoorbeeld door de duinen naar het strand van Zandvoort.</p>
       </div>
       <RouteMap />
     </div>
@@ -124,25 +124,25 @@ const benefits = [
   <section class="section section--tint">
     <div class="container">
       <div class="section-head">
-        <span class="eyebrow">Zkušenosti</span>
-        <h2>Co říkají ti, kdo to zkusili</h2>
+        <span class="eyebrow">Ervaringen</span>
+        <h2>Wat anderen ervan vinden</h2>
       </div>
       <Testimonials featuredOnly limit={3} />
-      <p style="margin-top:24px"><a href="/ervaringen/">Všechny reference →</a></p>
+      <p style="margin-top:24px"><a href="/ervaringen/">Alle ervaringen →</a></p>
     </div>
   </section>
 
   <!-- O LINDĚ -->
   <section class="section">
     <div class="container split">
-      <Photo src={imgLinda} alt="Linda Pokorná se svou koloběžkou Crussis Cobra" ratio="4 / 3" />
+      <Photo src={imgLinda} alt="Linda Pokorná met haar Crussis Cobra" ratio="4 / 3" />
       <div>
-        <span class="eyebrow">Kdo tě povede</span>
-        <h2>Ahoj, jsem Linda</h2>
-        <p class="lead">Narodila jsem se v Česku, vyrostla v Holandsku. V Česku je steppen populární sport – a tak jsem svou koloběžku přivezla s sebou.</p>
-        <p>Brzy jsem zjistila, že Holandsko je pro steppen jako stvořené, jen se na něj tady trochu zapomnělo. Mým cílem je dostat Holandsko na koloběžku – zábavně, zdravě a v každém věku.</p>
+        <span class="eyebrow">Wie je begeleidt</span>
+        <h2>Hoi, ik ben Linda</h2>
+        <p class="lead">In Tsjechië geboren, in Nederland getogen. In Tsjechië is steppen een populaire sport – dus mijn step heb ik natuurlijk meegenomen.</p>
+        <p>Al snel ontdekte ik dat Nederland een stepland bij uitstek is, maar dat het steppen hier in de vergetelheid is geraakt. Mijn missie: Nederland op de step krijgen – leuk, gezond en op elke leeftijd.</p>
         <p class="motto">„I will not let age change me, I will change the way I age.“</p>
-        <a class="btn btn--secondary" href="/over-linda/">Můj příběh</a>
+        <a class="btn btn--secondary" href="/over-linda/">Mijn verhaal</a>
       </div>
     </div>
   </section>
@@ -158,10 +158,10 @@ const benefits = [
   <section class="section">
     <div class="container faq-wrap">
       <div class="section-head">
-        <span class="eyebrow">Časté dotazy</span>
-        <h2>Než vyrazíš</h2>
-        <p class="lead">Nenašel/la jsi odpověď? <a href={site.whatsapp} target="_blank" rel="noopener">Napiš mi na WhatsApp</a>.</p>
-        <a href="/veelgestelde-vragen/">Všechny dotazy →</a>
+        <span class="eyebrow">Veelgestelde vragen</span>
+        <h2>Voordat je op pad gaat</h2>
+        <p class="lead">Staat je vraag er niet tussen? <a href={site.whatsapp} target="_blank" rel="noopener">Stuur me een WhatsApp</a>.</p>
+        <a href="/veelgestelde-vragen/">Alle vragen →</a>
       </div>
       <FaqList items={faq.map((f) => f.data)} />
     </div>

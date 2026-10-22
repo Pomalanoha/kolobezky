@@ -6,21 +6,21 @@ import FaqList from '../components/FaqList.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { breadcrumbSchema, faqSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Časté dotazy', href: '/veelgestelde-vragen/' }];
+const crumbs = [{ name: 'Veelgestelde vragen', href: '/veelgestelde-vragen/' }];
 const all = await getCollection('faq');
 const topics = [
-  { id: 'start', title: 'Začínáme' },
-  { id: 'lekce', title: 'Zkušební jízda & lekce' },
-  { id: 'zdravi', title: 'Zdraví' },
-  { id: 'steps', title: 'Koloběžky' },
+  { id: 'start', title: 'Beginnen' },
+  { id: 'lekce', title: 'Proefrit & lessen' },
+  { id: 'zdravi', title: 'Gezondheid' },
+  { id: 'steps', title: 'Sportsteps' },
 ] as const;
 ---
 <BaseLayout
-  title="Časté dotazy ke sportsteppen"
-  description="Odpovědi na nejčastější otázky: musím být fit? Je steppen vhodné pro kolena? Co si vzít na zkušební jízdu? Jakou koloběžku vybrat?"
+  title="Veelgestelde vragen over sportsteppen"
+  description="Antwoorden op de meest gestelde vragen: moet ik fit zijn? Is steppen goed voor je knieën? Wat neem ik mee naar een proefrit? Welke step kies ik?"
   jsonLd={[breadcrumbSchema(crumbs), faqSchema(all.map((f) => f.data))]}
 >
-  <PageHero eyebrow="FAQ" title="Časté dotazy" lead="Nenašel/la jsi odpověď? Napiš mi – ráda poradím." crumbs={crumbs} />
+  <PageHero eyebrow="FAQ" title="Veelgestelde vragen" lead="Staat je vraag er niet tussen? Stuur me een bericht – ik help je graag." crumbs={crumbs} />
   <section class="section" style="padding-top:0">
     <div class="container faq-page">
       {topics.map((topic) => (

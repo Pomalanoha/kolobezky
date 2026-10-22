@@ -20,70 +20,70 @@ Astro.response.headers.set('Cache-Control', 'no-store');
 const isVoucher = order?.meta.type === 'voucher';
 const voucherPaid = order ? ['betaald', 'besteld', 'verzonden'].includes(order.status) : false;
 const voucherUrl = order ? `/cadeaubon/bekijken/?nr=${encodeURIComponent(order.number)}&t=${order.token}` : '';
-const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-mailem' : cents === 0 ? 'zdarma' : formatCents(cents));
+const shippingText = (cents: number | null) => (cents === null ? 'volgt per e-mail' : cents === 0 ? 'gratis' : formatCents(cents));
 ---
-<BaseLayout title={order ? `Objednávka ${order.number}` : 'Objednávka nenalezena'} description="Potvrzení objednávky." noindex hideMobileCta>
+<BaseLayout title={order ? `Bestelling ${order.number}` : 'Bestelling niet gevonden'} description="Bevestiging van je bestelling." noindex hideMobileCta>
   <section class="section">
     <div class="container confirm">
       {order ? (
         <>
           <div class="confirm__head">
             <span class="confirm__icon"><Icon name="check" size={32} /></span>
-            <span class="eyebrow">Objednávka přijata</span>
-            <h1>Děkujeme, {order.name.split(' ')[0]}!</h1>
+            <span class="eyebrow">Bestelling ontvangen</span>
+            <h1>Bedankt, {order.name.split(' ')[0]}!</h1>
             <p class="lead">
-              Tvoje objednávka <strong>{order.number}</strong> dorazila.
-              {mailConfigured() ? ` Potvrzení posíláme také na ${order.email}.` : ' Ulož si prosím tuto stránku – Linda se ti brzy ozve e-mailem.'}
+              Je bestelling <strong>{order.number}</strong> is ontvangen.
+              {mailConfigured() ? ` We sturen de bevestiging ook naar ${order.email}.` : ' Bewaar deze pagina – Linda neemt binnenkort per e-mail contact met je op.'}
             </p>
           </div>
 
           <div class="confirm__grid">
             <div class="card">
-              <h2>Platba převodem</h2>
+              <h2>Betalen per overboeking</h2>
               {shop.bank.iban ? (
                 <dl class="pay">
-                  <dt>Částka</dt><dd><strong>{formatCents(order.totalCents)}</strong></dd>
-                  <dt>Účet (IBAN)</dt><dd>{shop.bank.iban}</dd>
-                  <dt>Na jméno</dt><dd>{shop.bank.accountName}</dd>
+                  <dt>Bedrag</dt><dd><strong>{formatCents(order.totalCents)}</strong></dd>
+                  <dt>Rekening (IBAN)</dt><dd>{shop.bank.iban}</dd>
+                  <dt>Ten name van</dt><dd>{shop.bank.accountName}</dd>
                   {shop.bank.bic && (<><dt>BIC</dt><dd>{shop.bank.bic}</dd></>)}
-                  <dt>Popis platby</dt><dd><strong>{order.number}</strong></dd>
-                  <dt>Splatnost</dt><dd>{shop.paymentDays} dní</dd>
+                  <dt>Omschrijving</dt><dd><strong>{order.number}</strong></dd>
+                  <dt>Betaaltermijn</dt><dd>{shop.paymentDays} dagen</dd>
                 </dl>
               ) : (
                 <>
-                  <p>Platební údaje (IBAN) ti pošleme e-mailem. Jako popis platby uveď číslo objednávky <strong>{order.number}</strong>.</p>
+                  <p>De betaalgegevens (IBAN) sturen we je per e-mail. Vermeld bij de betaling je bestelnummer <strong>{order.number}</strong>.</p>
                   <Todo>Doplnit IBAN do src/config.ts (shop.bank).</Todo>
                 </>
               )}
               {order.shippingCents === null && (
-                <p class="note">Cenu dopravy ti potvrdíme e-mailem – teprve pak prosím plať celou částku.</p>
+                <p class="note">De verzendkosten bevestigen we per e-mail – betaal pas daarna het volledige bedrag.</p>
               )}
             </div>
 
             <div class="card">
-              <h2>Co bude dál</h2>
+              <h2>Hoe gaat het verder?</h2>
               {isVoucher ? (
                 <ol class="next">
-                  <li>Po přijetí platby poukaz aktivujeme.</li>
-                  <li>Pošleme ti e-mailem odkaz na poukaz – vytiskneš ho, nebo pošleš dál.</li>
-                  <li>Obdarovaný si domluví termín s Lindou a uvede kód poukazu.</li>
+                  <li>Na ontvangst van de betaling activeren we de cadeaubon.</li>
+                  <li>Je ontvangt per e-mail een link naar de bon – om te printen of door te sturen.</li>
+                  <li>De ontvanger maakt een afspraak met Linda en vermeldt de code van de bon.</li>
                 </ol>
               ) : (
                 <ol class="next">
-                  <li>Po přijetí platby objednáme koloběžku u výrobce.</li>
-                  <li>Dodání {shop.deliveryTime} – ozveme se ti s termínem.</li>
-                  <li>{order.shipping === 'ophalen' ? 'Při vyzvednutí ti koloběžku nastavíme na míru a vysvětlíme údržbu.' : 'Po doručení se ti ozveme a poradíme s nastavením.'}</li>
-                  <li>Jako zákazník se můžeš zdarma přidat ke <a href="/club/">klubovým jízdám</a>.</li>
+                  <li>Na ontvangst van de betaling bestellen we de step bij de fabrikant.</li>
+                  <li>Levering {shop.deliveryTime} – we laten je weten wanneer.</li>
+                  <li>{order.shipping === 'ophalen' ? 'Bij het ophalen stellen we je step af en leggen we het onderhoud uit.' : 'Na de levering nemen we contact op en helpen we je met het afstellen.'}</li>
+                  <li>Als klant doe je gratis mee aan de <a href="/club/">clubritten</a>.</li>
                 </ol>
               )}
               {isVoucher && (
-                <p class="voucher-link"><a class="btn btn--secondary" href={voucherUrl}>{voucherPaid ? 'Otevřít poukaz k tisku' : 'Náhled poukazu'}</a></p>
+                <p class="voucher-link"><a class="btn btn--secondary" href={voucherUrl}>{voucherPaid ? 'Cadeaubon openen om te printen' : 'Voorbeeld van de bon'}</a></p>
               )}
             </div>
           </div>
 
           <div class="card summary">
-            <h2>Přehled objednávky</h2>
+            <h2>Overzicht van je bestelling</h2>
             <table>
               <tbody>
                 {order.lines.map((l) => (
@@ -92,30 +92,30 @@ const shippingText = (cents: number | null) => (cents === null ? 'upřesníme e-
                 <tr><td>{order.shippingLabel}</td><td>{shippingText(order.shippingCents)}</td></tr>
               </tbody>
               <tfoot>
-                <tr><th>Celkem vč. DPH</th><th>{formatCents(order.totalCents)}</th></tr>
+                <tr><th>Totaal incl. btw</th><th>{formatCents(order.totalCents)}</th></tr>
               </tfoot>
             </table>
             {isVoucher && (
-              <p class="addr"><strong>Na poukazu:</strong> {order.meta.amount} € pro {order.meta.recipient || '–'}{order.meta.message && <><br /><em>„{order.meta.message}“</em></>}</p>
+              <p class="addr"><strong>Op de bon:</strong> € {order.meta.amount} voor {order.meta.recipient || '–'}{order.meta.message && <><br /><em>„{order.meta.message}”</em></>}</p>
             )}
             <p class="addr">
-              <strong>{isVoucher ? 'Kupující' : order.shipping === 'ophalen' ? 'Kontakt' : 'Doručovací adresa'}:</strong><br />
+              <strong>{isVoucher ? 'Koper' : order.shipping === 'ophalen' ? 'Contactgegevens' : 'Bezorgadres'}:</strong><br />
               {order.name}<br />
               {order.street && (<>{order.street}<br />{order.postcode} {order.city}<br /></>)}
               {order.phone && (<>{order.phone}<br /></>)}
               {order.email}
             </p>
             {!isVoucher && (
-              <p class="gift-tip">🎁 Víš o někom, koho by steppen bavilo? <a href="/cadeaubon/">Daruj mu dárkový poukaz →</a></p>
+              <p class="gift-tip">🎁 Ken je iemand die steppen leuk zou vinden? <a href="/cadeaubon/">Geef een cadeaubon →</a></p>
             )}
-            <p class="small">Od smlouvy můžeš odstoupit do 14 dnů od převzetí zboží bez udání důvodu – viz <a href="/algemene-voorwaarden/">obchodní podmínky</a>. Dotazy: <a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a>, <a href={site.phoneHref}>{site.phone}</a> nebo <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+            <p class="small">Je hebt het recht om binnen 14 dagen na ontvangst zonder opgave van redenen de overeenkomst te herroepen – zie de <a href="/algemene-voorwaarden/">algemene voorwaarden</a>. Vragen: <a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a>, <a href={site.phoneHref}>{site.phone}</a> of <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
           </div>
         </>
       ) : (
         <div class="confirm__head">
-          <h1>Objednávka nenalezena</h1>
-          <p class="lead">Odkaz je neplatný nebo neúplný. Použij prosím odkaz z potvrzovacího e-mailu, nebo se ozvi Lindě.</p>
-          <a class="btn btn--primary" href={site.whatsapp} target="_blank" rel="noopener">Napsat na WhatsApp</a>
+          <h1>Bestelling niet gevonden</h1>
+          <p class="lead">De link is ongeldig of onvolledig. Gebruik de link uit de bevestigingsmail of neem contact op met Linda.</p>
+          <a class="btn btn--primary" href={site.whatsapp} target="_blank" rel="noopener">WhatsApp sturen</a>
         </div>
       )}
     </div>

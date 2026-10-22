@@ -2,67 +2,73 @@
   {
     "id": "fit-zijn",
     "topic": "start",
-    "question": "Musím být fit, abych mohl/a začít?",
-    "answer": "Ne. Nemusíš být fit, abys začal/a – začínáš proto, abys fit byl/a. Tempo i délku jízdy přizpůsobíme tobě. Na zkušební jízdě začínáme v klidu v parku a technika se dá naučit za pár desítek minut."
+    "question": "Moet ik fit zijn om te kunnen beginnen?",
+    "answer": "Nee. Je hoeft niet fit te zijn om te beginnen – je begint om fitter te worden. Tempo en afstand passen we aan jou aan. Tijdens de proefrit beginnen we rustig in het park en de techniek leer je in een paar kwartier."
   },
   {
     "id": "wat-is",
     "topic": "start",
-    "question": "Čím se sportovní koloběžka liší od dětské koloběžky?",
-    "answer": "Sportovní koloběžka (sportstep, kickbike) má velké přední kolo (obvykle 20–28\"), menší zadní kolo, nízkou stupačku a kvalitní brzdy. Jede se na ní plynule a rychle i po delších trasách – jako na kole, ale zapojuješ celé tělo."
+    "question": "Wat is het verschil tussen een sportstep en een kinderstep?",
+    "answer": "Een sportstep (kickbike) heeft een groot voorwiel (meestal 20–28\"), een kleiner achterwiel, een lage treeplank en goede remmen. Je rijdt er soepel en snel mee, ook over langere afstanden – net als op een fiets, maar je gebruikt je hele lichaam."
   },
   {
     "id": "eigen-step",
     "topic": "lekce",
-    "question": "Potřebuji na zkušební jízdu vlastní koloběžku?",
-    "answer": "Ne, koloběžku ti zapůjčíme. Na zkušební jízdě si můžeš vyzkoušet i různé typy (rekreační Road, sportovní Cobra, terénní Cross) a zjistit, který ti sedí."
+    "question": "Heb ik voor de proefrit een eigen step nodig?",
+    "answer": "Nee. De proefrit is gratis en je krijgt een step en helm van mij te leen. Je kunt ook verschillende types uitproberen (recreatieve Road, sportieve Cobra, terrein-Cross) en ontdekken welke bij je past. Een step lenen kan bij de proefrit en bij een privéles of training. Voor groepstrainingen, workshops en clubritten heb je een eigen step nodig."
+  },
+  {
+    "id": "kosten",
+    "question": "Wat kost een proefrit of les?",
+    "answer": "De proefrit (± 45 min) is gratis, inclusief step en helm. Een privéles of training (± 75 min) kost € 45 met een geleende step of € 30 met je eigen step. Een workshop (2–3 uur) kost € 65. Groepstrainingen en clubritten zijn gratis voor clubleden; voor anderen kost een groepstraining € 25 per persoon.",
+    "topic": "lekce"
   },
   {
     "id": "meenemen",
     "topic": "lekce",
-    "question": "Co si mám vzít s sebou?",
-    "answer": "Sportovní oblečení podle počasí, pevnou sportovní obuv, láhev s vodou a ideálně helmu (pokud nemáš, domluvíme se). Rukavice jsou příjemné, ale nejsou nutné."
+    "question": "Wat neem ik mee?",
+    "answer": "Sportkleding die past bij het weer, stevige sportschoenen en een flesje water. Leen je een step van mij, dan krijg je er een helm bij; je mag ook je eigen helm meenemen. Handschoenen zijn prettig, maar niet nodig."
   },
   {
     "id": "regen",
     "topic": "lekce",
-    "question": "Co když prší?",
-    "answer": "Při lehkém dešti jezdíme – jsme v Holandsku. Při bouřce, silném větru nebo náledí termín bezplatně přesuneme. Rušení z tvé strany je zdarma nejpozději 1 den předem."
+    "question": "Wat als het regent?",
+    "answer": "Bij lichte regen gaan we gewoon – we zijn tenslotte in Nederland. Bij onweer, harde wind of gladheid verzetten we de afspraak kosteloos. Zelf kun je tot uiterlijk 1 dag van tevoren kosteloos annuleren."
   },
   {
     "id": "knieen",
     "topic": "zdravi",
-    "question": "Je steppen vhodné, když mám problémy s koleny nebo zády?",
-    "answer": "Steppen je pohyb bez nárazů – na rozdíl od běhu nedopadáš celou vahou na kloub. Proto ho mnoho lidí s citlivými koleny snáší dobře. Každé tělo je ale jiné: při zdravotních potížích se nejdřív poraď se svým lékařem nebo fyzioterapeutem a dej mi vědět, ať jízdu přizpůsobíme."
+    "question": "Is steppen geschikt als ik last heb van mijn knieën of rug?",
+    "answer": "Steppen is een beweging zonder schokken – anders dan bij hardlopen kom je niet met je volle gewicht op je gewrichten neer. Daarom verdragen veel mensen met gevoelige knieën het goed. Ieder lichaam is anders: overleg bij klachten eerst met je arts of fysiotherapeut en laat het mij weten, zodat we de rit kunnen aanpassen."
   },
   {
     "id": "revalidatie",
     "topic": "zdravi",
-    "question": "Můžu steppen využít při rehabilitaci po zranění nebo operaci?",
-    "answer": "Ano, mnoho lidí ho využívá jako šetrný návrat k pohybu. Podmínkou je souhlas tvého lékaře nebo fyzioterapeuta. Na lekci pak začínáme velmi pozvolna a zaměřujeme se na techniku a rovnováhu."
+    "question": "Kan ik steppen gebruiken bij revalidatie na een blessure of operatie?",
+    "answer": "Ja, veel mensen gebruiken het als een vriendelijke manier om weer in beweging te komen. Voorwaarde is toestemming van je arts of fysiotherapeut. Tijdens de les beginnen we dan heel rustig en richten we ons op techniek en balans."
   },
   {
     "id": "afvallen",
     "topic": "zdravi",
-    "question": "Pomáhá steppen při hubnutí?",
-    "answer": "Steppen je vytrvalostní pohyb, který zapojuje nohy, hýždě, střed těla i paže. Pravidelná jízda zvyšuje výdej energie a zlepšuje kondici. Nejlepší výsledky přináší v kombinaci s vyváženým jídelníčkem – i s tím umí Linda poradit."
+    "question": "Helpt steppen bij afvallen?",
+    "answer": "Steppen is een duursport waarbij je benen, billen, core en armen gebruikt. Regelmatig steppen verhoogt je energieverbruik en verbetert je conditie. De beste resultaten haal je in combinatie met gezond eten – ook daarover kan Linda je adviseren."
   },
   {
     "id": "welk-model",
     "topic": "steps",
-    "question": "Jakou koloběžku si mám vybrat?",
-    "answer": "Na rovné cesty, cyklostezky a pohodové výlety stačí rekreační model (Road). Pro sportovní trénink a delší trasy je ideální Cobra. Do lesa a na nezpevněné cesty Cross. Nejlepší je vyzkoušet si je na zkušební jízdě – pak poradím s modelem i nastavením."
+    "question": "Welke step moet ik kiezen?",
+    "answer": "Voor vlakke wegen, fietspaden en ontspannen tochten is een recreatief model (Road) genoeg. Voor sportieve training en langere afstanden is de Cobra ideaal. Voor bos en onverharde paden de Cross. Het beste is om ze tijdens een proefrit uit te proberen – daarna adviseer ik je over het model en de afstelling. Een snel advies? Doe de keuzetest op de pagina „Welke step past bij mij?”."
   },
   {
     "id": "na-aankoop",
     "topic": "steps",
-    "question": "Co dostanu, když si koloběžku koupím u vás?",
-    "answer": "Osobní nastavení koloběžky na míru, vysvětlení údržby a jako zákazník se můžeš zdarma přidat ke klubovým jízdám a vyhlášeným tréninkům."
+    "question": "Wat krijg ik als ik een step bij jullie koop?",
+    "answer": "Persoonlijk afsteladvies, uitleg over onderhoud en als klant kun je gratis meedoen aan clubritten en aangekondigde trainingen."
   },
   {
     "id": "leeftijd",
     "topic": "start",
-    "question": "Je steppen vhodné i pro starší lidi?",
-    "answer": "Rozhodně. Steppen je šetrný pohyb, který trénuje rovnováhu, sílu i kondici – vlastnosti, které jsou s věkem čím dál důležitější. Lindino motto: „I will not let age change me, I will change the way I age.“"
+    "question": "Is steppen ook geschikt voor ouderen?",
+    "answer": "Zeker. Steppen is een vriendelijke beweging die je balans, kracht en conditie traint – eigenschappen die met het ouder worden steeds belangrijker worden. Het motto van Linda: „I will not let age change me, I will change the way I age.”"
   }
 ]

@@ -8,54 +8,56 @@ import CtaBand from '../components/CtaBand.astro';
 import { site } from '../config';
 import { breadcrumbSchema, businessId } from '../lib/schema';
 
-const crumbs = [{ name: 'O Lindě', href: '/over-linda/' }];
+const crumbs = [{ name: 'Over Linda', href: '/over-linda/' }];
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: site.owner,
-  jobTitle: 'Trenérka sportsteppen',
+  jobTitle: 'Sportstep-coach',
   worksFor: { '@id': businessId },
   knowsLanguage: ['nl', 'cs'],
 };
 ---
 <BaseLayout
-  title="O Lindě – trenérka sportsteppen v Hoofddorpu"
-  description="Linda Pokorná přivezla sportsteppen z Česka do Holandska. Jejím posláním je dostat Holandsko na koloběžku – zábavně, zdravě a v každém věku."
+  title="Over Linda – sportstep-coach in Haarlem"
+  description="Linda Pokorná nam het sportsteppen mee van Tsjechië naar Nederland. Haar missie: Nederland op de step krijgen – leuk, gezond en op elke leeftijd."
   jsonLd={[breadcrumbSchema(crumbs), personSchema]}
 >
-  <PageHero eyebrow="Kdo tě povede" title="Ahoj, jsem Linda" lead="Narodila jsem se v Česku a vyrostla v Holandsku. Po dlouhé době v Česku jsem zpátky – i se svou koloběžkou." crumbs={crumbs}>
-    <Photo slot="aside" src={imgLinda} alt="Linda Pokorná se svou koloběžkou Crussis Cobra" ratio="4 / 3" priority />
+  <PageHero eyebrow="Wie je begeleidt" title="Hoi, ik ben Linda" lead="In Tsjechië geboren, in Nederland getogen. Na een lange tijd weer in Tsjechië gewoond te hebben, ben ik terug in Nederland – samen met mijn step." crumbs={crumbs}>
+    <Photo slot="aside" src={imgLinda} alt="Linda Pokorná met haar Crussis Cobra" ratio="4 / 3" priority />
   </PageHero>
 
   <section class="section" style="padding-top:0">
     <div class="container story">
       <div class="prose">
-        <h2>Jak jsem se dostala ke steppen</h2>
-        <p>V Česku je steppen velmi populární a získává si stále víc příznivců – i mezi zdravotníky, kvůli mnoha přínosům pro zdraví a potenciálu v rehabilitaci. Sportsteppen se přitom původně zrodilo z potřeby profesionálních biatlonistů trénovat i v létě.</p>
-        <p>Svou koloběžku jsem samozřejmě vzala s sebou do Holandska. Brzy jsem zjistila, že Holandsko je pro steppen jako stvořené – jen se tu na něj trochu zapomnělo. Rozhodla jsem se to změnit. :)</p>
-        <p>Techniku sportsteppen jsem se naučila hlavně spoustou tréninku – s pomocí a radami předních českých jezdců. Sama jezdím už léta na své Crussis Cobra a ze steppen se postupně stala moje vášeň.</p>
+        <h2>Hoe ik bij het steppen kwam</h2>
+        <p>In Tsjechië is steppen erg populair en wint het steeds meer aan populariteit, ook onder zorgprofessionals – vanwege de vele voordelen voor de gezondheid en het potentieel bij revalidatie. Sportsteppen is oorspronkelijk ontstaan uit de behoefte van professionele biatleten om ook in de zomer te trainen.</p>
+        <p>Mijn step heb ik uiteraard meegenomen naar Nederland. Al snel ontdekte ik dat Nederland een stepland bij uitstek is, maar dat het steppen hier in de vergetelheid is geraakt. Ik heb besloten om daar verandering in te brengen. :)</p>
+        <p>De techniek van het sportsteppen heb ik vooral door veel oefenen geleerd, met hulp en instructies van koplopers op stepgebied in Tsjechië. Zelf rijd ik al jaren op mijn Crussis Cobra en het steppen is een steeds grotere passie geworden.</p>
 
-        <h2>Moje mise</h2>
-        <p>Chci zůstat zdravá a fit i ve vyšším věku – a k tomu chci pomoct i ostatním. Mým mottem je:</p>
+        <h2>Mijn missie</h2>
+        <p>Mijn streven is om op een leuke manier gezond en fit te blijven tot op hoge leeftijd – en anderen daarbij te helpen. Mijn motto:</p>
         <blockquote><p>„I will not let age change me, I will change the way I age.“</p></blockquote>
-        <p><strong>Mise: dostat Holandsko na koloběžku.</strong> Čas na novou výzvu? Uvidíme se na koloběžce!</p>
+        <p><strong>De missie: Nederland op de step krijgen.</strong> Tijd voor een nieuwe uitdaging? Tot ziens op de step!</p>
         <p>— Linda</p>
       </div>
       <aside class="card quals">
-        <h3>Zkušenosti & vzdělání</h3>
+        <h3>Ervaring & opleiding</h3>
         <ul class="checklist">
-          <li>Kurz sportsteppen</li>
-          <li>Holistický životní styl & výživové poradenství</li>
-          <li>Roky vlastní praxe na koloběžce Crussis Cobra</li>
+          <li>Op de step sinds mijn zesde</li>
+          <li>Zo'n 60 km per week op de step</li>
+          <li>Instructie door koplopers op stepgebied in Tsjechië</li>
+          <li>Opleiding verpleegkunde, incl. EHBO</li>
+          <li>Holistische leefstijl & voedingsbegeleiding</li>
         </ul>
-        <Todo>Doplnit přesný název a místo kurzu sportsteppen, rok, případné certifikáty (EHBO/první pomoc?). Dodat 3–6 dalších fotek Lindy (les, technika, s klienty) pro galerii.</Todo>
-        <h3>Jazyky</h3>
-        <p>Nederlands · Čeština</p>
+        <Todo>Dodat další fotky Lindy (les, technika, s klienty) pro galerii.</Todo>
+        <h3>Talen</h3>
+        <p>Nederlands · Tsjechisch</p>
       </aside>
     </div>
   </section>
 
-  <CtaBand title="Čas na novou výzvu?" text="Rezervuj si zkušební jízdu – uvidíme se na koloběžce!" />
+  <CtaBand title="Tijd voor een nieuwe uitdaging?" text="Boek een proefrit – tot ziens op de step!" />
 </BaseLayout>
 
 <style>

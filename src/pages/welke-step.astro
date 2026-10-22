@@ -5,18 +5,18 @@ import Quiz from '../components/Quiz.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { breadcrumbSchema } from '../lib/schema';
 
-const crumbs = [{ name: 'Která koloběžka je pro mě?', href: '/welke-step/' }];
+const crumbs = [{ name: 'Welke step past bij mij?', href: '/welke-step/' }];
 ---
 <BaseLayout
-  title="Která sportovní koloběžka je pro mě? Kvíz"
-  description="Tři otázky a víš, jestli ti sedí rekreační Road, sportovní Cobra nebo terénní Cross. Kvíz k výběru sportovní koloběžky Crussis."
+  title="Welke sportstep past bij mij? Doe de test"
+  description="Drie vragen en je weet of de recreatieve Road, de sportieve Cobra of de Cross voor het terrein bij je past. Keuzetest voor een Crussis sportstep."
   jsonLd={breadcrumbSchema(crumbs)}
 >
-  <PageHero eyebrow="Kvíz · 30 sekund" title="Která koloběžka je pro mě?" lead="Odpověz na tři rychlé otázky a doporučíme ti typ koloběžky i konkrétní modely." crumbs={crumbs} />
+  <PageHero eyebrow="Test · 30 seconden" title="Welke step past bij mij?" lead="Beantwoord drie snelle vragen en we adviseren je het type step én de concrete modellen." crumbs={crumbs} />
   <section class="section" style="padding-top:0">
     <div class="container">
       <Quiz />
     </div>
   </section>
-  <CtaBand title="Nejistý/á? Vyzkoušej všechny tři." text="Na zkušební jízdě si projedeš Road, Cobru i Cross a hned budeš vědět, která ti sedí." />
+  <CtaBand title="Twijfel je nog? Probeer ze alle drie." text="Tijdens een proefrit rijd je op de Road, Cobra en Cross – en weet je meteen welke bij je past." />
 </BaseLayout>
