@@ -8,13 +8,13 @@ title: "Algemene voorwaarden"
 
 In deze voorwaarden wordt verstaan onder:
 
-a. "Klant": de natuurlijk persoon of rechtspersoon die gebruik maakt van diensten of producten van Kickbike Club Hille.
+a. "Klant": de natuurlijke persoon of rechtspersoon die gebruikmaakt van diensten of producten van Kickbike Club Hille.
 
 b. "Kickbike Club Hille": de onderneming die optreedt als aanbieder van diensten en producten, gevestigd aan de Dijkzichtlaan 267, 2025 EP Haarlem (Nederland), KvK-nummer 98484419, btw-identificatienummer NL005335379B57.
 
 c. "Overeenkomst": elke vorm van afspraak tussen Klant en Kickbike Club Hille betreffende levering van diensten en/of producten.
 
-d. "Diensten": alle trainingen, instructielessen, workshops, voedings- en therapie-advies, etc. die Kickbike Club Hille aanbiedt.
+d. "Diensten": alle trainingen, instructielessen, workshops, voedings- en therapieadvies enz. die Kickbike Club Hille aanbiedt.
 
 e. "Producten": fysieke producten zoals sportsteps, accessoires, voedingssupplementen, besteld via de webshop van Kickbike Club Hille.
 
@@ -34,11 +34,11 @@ f. "Website": de website van Kickbike Club Hille (www.kickbikeclubhille.nl) en d
 
 3.2 Een overeenkomst komt tot stand op het moment dat Klant de aanbieding aanvaardt en Kickbike Club Hille deze aanvaarding schriftelijk of elektronisch bevestigt.
 
-3.3 Indien Klant een offerte aanwijst, geldt deze gedurende de in de offerte aangegeven termijn, tenzij anders vermeld.
+3.3 Indien Klant een offerte ontvangt, geldt deze gedurende de in de offerte aangegeven termijn, tenzij anders vermeld.
 
 4. Prijs en betaling
 
-4.1 Alle prijzen op de website zijn in euro's en exclusief (of inclusief) BTW – dit wordt vermeld – en inclusief andere door de overheid opgelegde heffingen, tenzij anders aangegeven.
+4.1 Alle prijzen op de website zijn in euro's en exclusief (of inclusief) btw – dit wordt vermeld – en inclusief andere door de overheid opgelegde heffingen, tenzij anders aangegeven.
 
 4.2 Voor diensten geldt de bij de dienst vermelde prijs, tenzij schriftelijk anders is overeengekomen.
 
@@ -62,7 +62,7 @@ f. "Website": de website van Kickbike Club Hille (www.kickbikeclubhille.nl) en d
 
 6.3 Klant is verplicht de producten direct bij ontvangst te inspecteren op zichtbare gebreken en deze – indien aanwezig – binnen 24 of 48 uur schriftelijk (per e-mail) te melden aan Kickbike Club Hille.
 
-6.4 Restitutie, retour en garantie-voorwaarden zoals vermeld op de Website gelden.
+6.4 Restitutie, retour en garantievoorwaarden zoals vermeld op de Website gelden.
 
 6.5 Klant heeft het recht om binnen 14 dagen (of anders indien wettelijk verplicht) de productovereenkomst zonder opgave van redenen te herroepen – zie het herroepingsrecht op de Website.
 
@@ -70,7 +70,7 @@ f. "Website": de website van Kickbike Club Hille (www.kickbikeclubhille.nl) en d
 
 7.1 Voor diensten geldt dat Klant of Kickbike Club Hille de overeenkomst kan annuleren of wijzigen in overleg. Vooraf gemaakte kosten of vooruitbetalingen kunnen (gedeeltelijk) behouden blijven afhankelijk van de gemaakte kosten.
 
-7.2 Voor producten geldt dat annulering na verzending niet mogelijk is; Klant kan gebruik maken van het herroepingsrecht indien van toepassing.
+7.2 Voor producten geldt dat annulering na verzending niet mogelijk is; Klant kan gebruikmaken van het herroepingsrecht indien van toepassing.
 
 8. Aansprakelijkheid
 
@@ -88,15 +88,15 @@ f. "Website": de website van Kickbike Club Hille (www.kickbikeclubhille.nl) en d
 
 9.1 Voor diensten geldt een inspanningsverbintenis, geen resultaatgarantie, tenzij uitdrukkelijk anders is overeengekomen.
 
-9.2 Voor producten gelden de aan- en door de fabrikant verstrekte garanties, voor zover op de website vermeld.
+9.2 Voor producten gelden de door de fabrikant verstrekte garanties, voor zover op de website vermeld.
 
 9.3 Het vervullen van de garantieverplichting door Kickbike Club Hille ontslaat Klant niet van haar verplichting om de producten zorgvuldig te gebruiken en de aanwijzingen van Kickbike Club Hille en/of fabrikant op te volgen.
 
-10. Intellectuele Eigendom
+10. Intellectueel eigendom
 
 10.1 Alle intellectuele eigendomsrechten (zoals auteursrechten, merkenrechten, databankrechten) met betrekking tot de Website, de diensten en de producten van Kickbike Club Hille berusten bij Kickbike Club Hille of de licentiegever.
 
-10.2 Klant mag zonder voorafgaande schriftelijke toestemming geen gebruik maken van deze rechten, behoudens het enkel voor persoonlijk gebruik van producten of diensten zoals bedoeld in de overeenkomst.
+10.2 Klant mag zonder voorafgaande schriftelijke toestemming geen gebruikmaken van deze rechten, behoudens het enkel voor persoonlijk gebruik van producten of diensten zoals bedoeld in de overeenkomst.
 
 11. Privacy en gegevensbescherming
 
@@ -124,8 +124,8 @@ f. "Website": de website van Kickbike Club Hille (www.kickbikeclubhille.nl) en d
 
 15. Slotbepalingen
 
-15.1 Indien een of meer bepalingen van deze voorwaarden ongeldig of afdwingbaar zijn, blijft het overige gedeelte onverminderd van kracht.
+15.1 Indien een of meer bepalingen van deze voorwaarden ongeldig of niet afdwingbaar zijn, blijft het overige gedeelte onverminderd van kracht.
 
-15.2 Door geldigheid of afdwingbaarheid van een bepaling wordt de overeenkomst niet automatisch vernietigd; Kickbike Club Hille en Klant zullen in dat geval een rechtsgeldige vervangende bepaling overeenkomen die het doel en de strekking van de oorspronkelijke bepaling benadert.
+15.2 Door ongeldigheid of niet-afdwingbaarheid van een bepaling wordt de overeenkomst niet automatisch vernietigd; Kickbike Club Hille en Klant zullen in dat geval een rechtsgeldige vervangende bepaling overeenkomen die het doel en de strekking van de oorspronkelijke bepaling benadert.
 
 15.3 Deze voorwaarden zijn gedeponeerd (indien van toepassing) en/of beschikbaar gesteld op de Website en worden op verzoek kosteloos beschikbaar gesteld aan Klant.

@@ -23,7 +23,7 @@ const fmtDate = (iso: string) => (iso ? new Intl.DateTimeFormat(site.lang === 'n
       <span>{site.name}</span>
     </div>
     <p class="voucher__kicker">Cadeaubon</p>
-    <p class="voucher__amount"><span data-v="amount">{amount}</span> €</p>
+    <p class="voucher__amount">€ <span data-v="amount">{amount}</span></p>
     <p class="voucher__for">
       voor <strong data-v="recipient">{recipient || 'jou'}</strong>
     </p>

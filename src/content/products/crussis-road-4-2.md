@@ -26,7 +26,7 @@ De Crussis Road is de ideale instap in de wereld van het sportsteppen. Licht, st
 **Waarom deze step bij jou past:**
 
 - zeer geschikt voor beginners,
-- comfortabele, rechtop staande houding,
+- comfortabele, rechtopstaande houding,
 - licht en wendbaar,
 - geschikt voor dagelijks gebruik.
 

@@ -52,7 +52,7 @@ const steps = [
             {voucher.amounts.map((a, i) => (
               <label class="amount">
                 <input type="radio" name="bedrag" value={a} checked={i === 1} />
-                <span>{a} €</span>
+                <span>€ {a}</span>
               </label>
             ))}
             <label class="amount amount--custom">

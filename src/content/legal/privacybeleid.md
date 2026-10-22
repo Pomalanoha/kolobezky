@@ -24,7 +24,7 @@ Btw-identificatienummer: NL005335379B57
 
 ## 2. Persoonsgegevens die wij verwerken
 
-Kickbike Club Hille verwerkt je persoonsgegevens omdat je gebruik maakt van onze diensten, onze website bezoekt, of omdat je deze zelf aan ons verstrekt.
+Kickbike Club Hille verwerkt je persoonsgegevens omdat je gebruikmaakt van onze diensten, onze website bezoekt, of omdat je deze zelf aan ons verstrekt.
 
 Wij verwerken mogelijk de volgende gegevens:
 
@@ -33,16 +33,16 @@ Wij verwerken mogelijk de volgende gegevens:
 - Telefoonnummer
 - E-mailadres
 - Geboortedatum (indien relevant voor deelname aan trainingen)
-- Betalings Gegevens
+- Betalingsgegevens
 - Gezondheidsinformatie die jij vrijwillig deelt ten behoeve van coaching of voedingsadvies (optioneel en alleen met expliciete toestemming)
-- IP-adres, internetbrowser en apparaat-type
+- IP-adres, internetbrowser en apparaattype
 - Overige persoonsgegevens die jij actief verstrekt (bijvoorbeeld bij een contactformulier of inschrijving voor een programma)
 
 ## 3. Doelen van de gegevensverwerking
 
 Kickbike Club Hille verwerkt jouw persoonsgegevens voor de volgende doeleinden:
 
-- Het afhandelen van betalingen (bij webshop bestellingen, abonnementen of coaching diensten)
+- Het afhandelen van betalingen (bij webshopbestellingen, abonnementen of coachingsdiensten)
 - Het plannen van afspraken, lessen en trainingen
 - Het verzenden van nieuwsbrieven of informatie over onze diensten (alleen na aanmelding)
 - Om contact met je op te nemen indien dit nodig is voor onze dienstverlening
@@ -55,7 +55,7 @@ Kickbike Club Hille verwerkt jouw persoonsgegevens voor de volgende doeleinden:
 
 Wij verwerken jouw gegevens op basis van de volgende rechtsgronden:
 
-- Toestemming – wanneer je vrijwillig gegevens verstrekt via een formulier of nieuwsbrief inschrijving.
+- Toestemming – wanneer je vrijwillig gegevens verstrekt via een formulier of een inschrijving voor de nieuwsbrief.
 - Overeenkomst – om uitvoering te geven aan een overeenkomst, zoals het leveren van een product of dienst.
 - Wettelijke verplichting – bijvoorbeeld gegevens die nodig zijn voor fiscale bewaarplicht.
 - Gerechtvaardigd belang – zoals het verbeteren van onze website en dienstverlening.
@@ -78,7 +78,7 @@ Derden die namens ons gegevens verwerken (zoals boekhoudsoftware, e-mailprovider
 
 ## 7. Cookies en vergelijkbare technieken
 
-Kickbike Club Hille gebruikt alleen technische en functionele cookies. Wij gebruiken geen analytische of tracking cookies en geen Google Analytics.
+Kickbike Club Hille gebruikt alleen technische en functionele cookies. Wij gebruiken geen analytische cookies of trackingcookies en geen Google Analytics.
 
 Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op jouw computer, tablet of smartphone.
 
