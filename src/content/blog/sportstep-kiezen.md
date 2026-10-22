@@ -24,7 +24,7 @@ Sportsteps lijken op het eerste gezicht op elkaar. Het verschil merk je echter a
 
 ## 3. Waar het op aankomt bij het afstellen
 
-De juiste stuurhoogte en een goede houding bepalen of je na een uur nog steeds plezier hebt. Daarom hoort bij elke step die je bij ons koopt een **persoonlijk afsteladvies**.
+Het stuur van een sportstep is niet in hoogte verstelbaar: de stuurhoogte hangt af van het model. Een model dat bij je lichaamslengte past en een goede houding bepalen of je na een uur nog steeds plezier hebt. Daarom hoort bij elke step die je bij ons koopt **persoonlijk advies**.
 
 ## Tip: probeer eerst
 

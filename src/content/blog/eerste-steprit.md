@@ -11,7 +11,7 @@ Voor je eerste rit hoef je je niet speciaal voor te bereiden. Een paar praktisch
 ## Zo verloopt een proefrit
 
 1. **Kennismaking** – we bespreken kort je doelen en eventuele lichamelijke beperkingen.
-2. **Materiaal** – ik leg de step en de remmen uit en we stellen de stuurhoogte in.
+2. **Materiaal** – ik leg de step en de remmen uit en laat zien hoe je goed op de step staat.
 3. **Techniek** – rustig in het park oefenen we de afzet, het wisselen van been en het remmen.
 4. **Rit** – afhankelijk van je zin en conditie maken we een korter rondje.
 5. **Stretchen** – tot slot een paar oefeningen om te rekken en strekken.
