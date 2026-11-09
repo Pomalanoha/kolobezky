@@ -25,7 +25,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(image, site.url).href;
 const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const locale = site.lang === 'nl' ? 'nl_NL' : 'cs_CZ';
-// Ukázková verze se nemá indexovat. Na ostrém webu nastavit proměnnou prostředí PUBLIC_INDEXABLE=true.
+// Indexovat se smí jen ostrý web (build větve main, viz astro.config.mjs); náhledy větví ne.
 const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
 ---
 <!doctype html>
