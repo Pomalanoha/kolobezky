@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 
 export default defineConfig({
-  site: 'https://www.kickbikeclubhille.nl',
+  site: 'https://kickbikeclubhille.nl',
   trailingSlash: 'always',
   // Stránky jsou statické; jen e-shop (API, potvrzení objednávky, administrace) běží na serveru (prerender = false).
   adapter: cloudflare({

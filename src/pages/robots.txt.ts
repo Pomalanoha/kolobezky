@@ -13,7 +13,7 @@ Disallow: /api/
 Disallow: /cadeaubon/bekijken/
 Disallow: /podklady/
 
-Sitemap: https://www.kickbikeclubhille.nl/sitemap-index.xml
+Sitemap: https://kickbikeclubhille.nl/sitemap-index.xml
 `;
 
 const preview = `# Ukázková verze – neprocházet, neindexovat

@@ -4,7 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCta from '../components/MobileCta.astro';
 import PromoBar from '../components/PromoBar.astro';
-import { site } from '../config';
+import { site, analytics } from '../config';
 
 interface Props {
   title: string;
@@ -65,5 +65,9 @@ const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
     </main>
     <Footer />
     {!hideMobileCta && <MobileCta />}
+    {/* Návštěvnost bez cookies; neměří se neveřejné stránky (potvrzení objednávky, podklady…) */}
+    {analytics.cloudflareToken && !noindex && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: analytics.cloudflareToken })}></script>
+    )}
   </body>
 </html>

@@ -2,7 +2,7 @@
 title: "Privacybeleid"
 ---
 
-Laatst bijgewerkt: 21 oktober 2026
+Laatst bijgewerkt: 9 november 2026
 
 Kickbike Club Hille, gevestigd aan de Dijkzichtlaan 267, 2025 EP Haarlem (Nederland), is verantwoordelijk voor de verwerking van persoonsgegevens zoals weergegeven in deze privacyverklaring.
 
@@ -48,7 +48,7 @@ Kickbike Club Hille verwerkt jouw persoonsgegevens voor de volgende doeleinden:
 - Om contact met je op te nemen indien dit nodig is voor onze dienstverlening
 - Om je te informeren over wijzigingen in onze diensten of voorwaarden
 - Om producten of diensten bij je af te leveren
-- Om jouw gedrag op de website te analyseren ter verbetering van onze website en dienstverlening
+- Om het gebruik van de website anoniem te analyseren ter verbetering van onze website en dienstverlening
 - Het naleven van wettelijke verplichtingen (zoals belastingadministratie)
 
 ## 4. Grondslagen van de verwerking
@@ -74,11 +74,13 @@ Voorbeelden:
 
 Kickbike Club Hille verkoopt jouw gegevens niet aan derden en deelt deze alleen wanneer dit noodzakelijk is voor de uitvoering van onze overeenkomst of om te voldoen aan een wettelijke verplichting.
 
-Derden die namens ons gegevens verwerken (zoals boekhoudsoftware, e-mailproviders, of webshop-hosting) sluiten een verwerkersovereenkomst af om de beveiliging van jouw gegevens te waarborgen.
+Derden die namens ons gegevens verwerken (zoals boekhoudsoftware, e-mailproviders, of hosting van de website en webshop via Cloudflare) sluiten een verwerkersovereenkomst af om de beveiliging van jouw gegevens te waarborgen.
 
 ## 7. Cookies en vergelijkbare technieken
 
 Kickbike Club Hille gebruikt alleen technische en functionele cookies. Wij gebruiken geen analytische cookies of trackingcookies en geen Google Analytics.
+
+Om te zien hoe onze website wordt gebruikt, maken wij gebruik van Cloudflare Web Analytics. Deze dienst plaatst geen cookies, gebruikt geen lokale opslag in je browser en volgt je niet over andere websites. Wij zien alleen anonieme, samengevoegde gegevens, zoals het aantal bezoeken per pagina, de website waar je vandaan komt, het land en het type apparaat.
 
 Een cookie is een klein tekstbestand dat bij het eerste bezoek aan deze website wordt opgeslagen op jouw computer, tablet of smartphone.
 
