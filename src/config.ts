@@ -30,7 +30,7 @@ export const site = {
 // Cloudflare Web Analytics (bez cookies). Token: Cloudflare → Web Analytics → kickbikeclubhille.nl → Manage site.
 // Prázdný token = měření vypnuté.
 export const analytics = {
-  cloudflareToken: '',
+  cloudflareToken: '1f007cc179a5497fb70d16ecc4846257',
 };
 
 export const nav = [
