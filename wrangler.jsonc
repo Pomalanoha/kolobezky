@@ -4,6 +4,10 @@
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-09-01",
   "compatibility_flags": ["nodejs_compat"],
+  // Ostrý web běží na kickbikeclubhille.nl – adresa kolobezky.<účet>.workers.dev je vypnutá
+  // (jinak by na ní byla administrace bez Cloudflare Access). Náhledy větví (dev-…) zůstávají zapnuté.
+  "workers_dev": false,
+  "preview_urls": true,
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist/client",
