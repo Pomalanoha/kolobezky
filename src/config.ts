@@ -2,7 +2,7 @@
 export const site = {
   lang: 'nl' as 'cs' | 'nl',
   name: 'Kickbike Club Hille',
-  url: 'https://www.kickbikeclubhille.nl',
+  url: 'https://kickbikeclubhille.nl',
   owner: 'Linda Pokorná',
   email: 'info@kickbikeclubhille.nl',
   phone: '+31 6 47737673',
@@ -25,6 +25,12 @@ export const site = {
   },
   // Výchozí obrázek pro sdílení na sociálních sítích (1200×630, vložit do /public).
   ogImage: '/og-default.jpg',
+};
+
+// Cloudflare Web Analytics (bez cookies). Token: Cloudflare → Web Analytics → kickbikeclubhille.nl → Manage site.
+// Prázdný token = měření vypnuté.
+export const analytics = {
+  cloudflareToken: '1f007cc179a5497fb70d16ecc4846257',
 };
 
 export const nav = [
